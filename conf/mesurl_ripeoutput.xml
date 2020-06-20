@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mesurl>
+    <point name="集团" url="http://192.168.10.28:8888/webservice/ReportData.asmx/GetAtRipe"/>
+</mesurl>

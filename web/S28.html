@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="css/S28day_Style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jxga_28day_flush.js"></script>
+
+    <title>高安熟料28天强度</title>
+</head>
+<body class="visionbody" onload="datatable_flush()">
+
+<div class="titlediv">
+    <p class="title_label"><img class="title_left" src="img/title-left.png" >高安熟料28天强度<img class="title_right" src="img/title-right.png" ></p>
+</div>
+
+
+<div id="data_box1">
+    <i class="topL"></i><i class="topR"></i><i class="bottomL"></i><i class="bottomR"></i>
+    <div class="data_title">
+        <b class="data_title_left">[</b>
+        <span>实时值</span>
+        <b class="data_title_right">]</b>
+    </div>
+ <div class="realdata_table_div">
+    <table class="realdata_table">
+        <thead style="font-size: 1vm">
+        <tr>
+            <th class="td1">编号</th>
+            <th class="td2">LOSS</th>
+            <th class="td2">SIO2</th>
+            <th class="td2">AL2O3</th>
+            <th class="td2">FE2O3</th>
+            <th class="td2">CAO</th>
+            <th class="td2">MGO</th>
+            <th class="td2">FCAO</th>
+            <th class="td2">KH</th>
+            <th class="td2">KH1</th>
+            <th class="td2">N</th>
+            <th class="td2">P</th>
+            <th class="td2">C3S</th>
+            <th class="td2">C2S</th>
+            <th class="td2">C3A</th>
+            <th class="td2">C4AF</th>
+            <th class="td3">28天强度(实时预测)</th>
+        </tr>
+        </thead>
+        <tbody id="real28data_tbody">
+
+        </tbody>
+    </table>
+ </div>
+</div>
+
+<div id="data_box2">
+    <i class="topL"></i><i class="topR"></i><i class="bottomL"></i><i class="bottomR"></i>
+    <div class="data_title">
+        <b class="data_title_left">[</b>
+        <span>历史预测值</span>
+        <b class="data_title_right">]</b>
+    </div>
+
+    <div class="historydata_table_div">
+    <table class="historydata_table">
+        <thead style="font-size: 1vm">
+        <tr>
+            <th class="td4">编号</th>
+            <th class="td5">LOSS</th>
+            <th class="td5">SIO2</th>
+            <th class="td5">AL2O3</th>
+            <th class="td5">FE2O3</th>
+            <th class="td5">CAO</th>
+            <th class="td5">MGO</th>
+            <th class="td5">FCAO</th>
+            <th class="td5">KH</th>
+            <th class="td5">KH1</th>
+            <th class="td5">N</th>
+            <th class="td5">P</th>
+            <th class="td5">C3S</th>
+            <th class="td5">C2S</th>
+            <th class="td5">C3A</th>
+            <th class="td5">C4AF</th>
+            <th class="td3">28天强度(实测)</th>
+            <th class="td3">28天强度(预测)</th>
+            <th class="td5">偏差</th>
+
+        </tr>
+        </thead>
+        <tbody id="hispre28data_tbody">
+        <tr>
+        <td class="td4"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td5"></td>
+        <td class="td3"></td>
+        <td class="td3"></td>
+        <td class="td5"></td>
+
+
+        </tr>
+        </tbody>
+    </table>
+
+    </div>
+</div>
+
+</body>
+</html>

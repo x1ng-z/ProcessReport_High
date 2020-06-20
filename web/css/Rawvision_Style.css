@@ -1,0 +1,326 @@
+.visionbody{
+    width:100%;
+    height:100%;
+    /*background-color: #000c3b;*/
+    background-color: rgb(13, 23, 89);
+}
+
+.titlediv{
+    position: absolute;
+    width: 98%;height: 8%;
+    top:0%;left: 1%;
+}
+
+.title_left{
+    position: absolute;
+    left:10%;top:18%;
+    width: 30%;height: 90%;
+}
+.title_label{
+    position: absolute;
+    left:43%;top:36%;
+    text-align: center;
+    line-height: 1.8rem;
+    font-size:1.8rem; font-weight: bolder;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+}
+.title_right{
+    position: absolute;
+    right:10%;top:18%;
+    width: 30%;height: 90%;
+}
+
+
+.btndiv{
+    position: absolute;
+    right:1%;top:3.5%;
+}
+#tablebtn{
+    font-family: 微软雅黑;
+    font-size:1rem;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;
+    z-index: 99;
+}
+
+
+#data_box1{
+    position: absolute;
+    width: 25%;height:43%;
+    left:1%;top:10%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+#data_box2{
+    position: absolute;
+    width: 25%;height:43%;
+    left:1%;top:55%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+#data_box3{
+    position: absolute;
+    width: 25%;height:43%;
+    right:1%;top:10%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+#data_box4{
+    position: absolute;
+    width: 25%;height:43%;
+    right:1%;top:55%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+#data_box5{
+     position: absolute;
+     width: 44%;height:52%;
+     left:28%;top:10%;
+     border: 2px solid #032d60;
+     -webkit-box-shadow: #07417a 0px 0px 10px;
+     -moz-box-shadow: #07417a 0px 0px 10px;
+     box-shadow: inset 0 0 30px #07417a;
+ }
+
+#data_box6{
+    position: absolute;
+    width: 44%;height:32%;
+    left:28%;top:66%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+#morebtn{
+    position: absolute;
+    width: 100%;
+    left:0%;bottom:0%;
+    font-family: 微软雅黑;
+    font-size:1rem;
+    background-color: #000c3b;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.chartbox{
+    position: absolute;
+    width: 99%;height: 83%;
+    left: 0.5%;top:16%;
+}
+
+.table_div{
+    position:absolute;
+    width: 99%;height: 90%;
+    left:0.5%;top:8%;
+}
+
+.raw_table {
+    display: block;
+    width: 100%; height: 100%;
+    border-collapse:collapse;
+    cellspacing:0px;
+}
+
+.raw_table thead{
+    width: 100%;
+    font-size: 0.8rem;font-family: 宋体;color:white;
+    text-align: center;
+}
+
+.raw_table tbody{
+    width: 100%; height: 90%;
+}
+
+.raw_table td{
+    font-size: 0.95rem;font-family: 宋体;color:white;
+    text-align: center;
+    line-height: 1.7rem;
+}
+
+.td1{width: 5%}
+.td2{width: 20%}
+.td3{width: 12%}
+.td4{width: 12%}
+.td5{width: 19%}
+.td6{width: 10%}
+.td7{width: 12%}
+.td8{width: 10%}
+
+.mapdiv{
+    position:absolute;
+    top:8%;left:1%;
+    width: 98%;height: 90%;
+}
+.runNum{
+    position: absolute;
+    left: 2.5%;top:5%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.jt_dayout{
+    position: absolute;
+    left: 65%;top:5%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.jt_monout{
+    position: absolute;
+    left: 65%;top:10%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.ratebox{
+    position: absolute;
+    width: 34%;height: 34%;
+    left: 0%;top:5%;
+}
+
+.rawimg{
+    position: absolute;
+    width: 20%; height: 30%;
+    right:4%; bottom: 11%;
+}
+
+.data_title {
+    position: absolute;
+    left: 34%;top:-10px;
+    background-color: #000c3b;
+    color: #83c7e3;
+    font-size: 1.15rem;
+}
+
+.data_title_left,
+.data_title_right {
+    color: #105eda;
+    font-family: "微软雅黑";
+    font-size: 1.25rem;
+}
+
+.topL {
+    width: 20px;height: 20px;
+    border-top-width: 2px;
+    border-top-color: #26c6f0;
+    border-top-style: solid;
+    border-left-width: 2px;
+    border-left-color: #26c6f0;
+    border-left-style: solid;
+    position: absolute;
+    top: -2px;left: -2px;
+}
+
+.topR {
+    width: 20px;
+    height: 20px;
+    border-top-width: 2px;
+    border-top-color: #26c6f0;
+    border-top-style: solid;
+    border-right-width: 2px;
+    border-right-color: #26c6f0;
+    border-right-style: solid;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+}
+
+.bottomL {
+    width: 20px;
+    height: 20px;
+    border-bottom-width: 2px;
+    border-bottom-color: #26c6f0;
+    border-bottom-style: solid;
+    border-left-width: 2px;
+    border-left-color: #26c6f0;
+    border-left-style: solid;
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+}
+
+.bottomR {
+    width: 20px;
+    height: 20px;
+    border-bottom-width: 2px;
+    border-bottom-color: #26c6f0;
+    border-bottom-style: solid;
+    border-right-width: 2px;
+    border-right-color: #26c6f0;
+    border-right-style: solid;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+}
+
+.jt_data{
+    position: absolute;
+    left: 4%;top:8%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.leftL3{
+    position: absolute;
+    left:20%;top:16%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+.rightL3{
+    position: absolute;
+    left:65%;top:16%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.topL3{
+    position: absolute;
+    left:2%;top:23%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+.bottomL3{
+    position: absolute;
+    left:2%;top:59%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+.TopL6{
+    position: absolute;
+    left:40%;top:16%;
+    font-size:1rem;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+    z-index: 99;
+}

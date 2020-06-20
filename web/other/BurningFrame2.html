@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/Rawframe_Style.css" rel="stylesheet" type="text/css" />
+
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/jquery-3.0.0.js"></script>
+    <script src="js/jquery.table2excel.js"></script>
+    <!--<script src="js/jsonread.js"></script>-->
+    <!--<script src="js/rawdataflush.js"></script>-->
+
+    <title>烧成系统运行详情</title>
+</head>
+<body class="bodystyle" onload="jsonread()">
+
+<div class="p1">烧成系统运行情况</div>
+
+<button class="outputBtn">导出excel</button>
+<div style="position: absolute;top:10px;width:1600px;overflow-x: visible">
+    <table class="layui-table"  id="proBurningtable"></table>
+</div>
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        var jsonObj={
+            "data":[
+                {
+                    "cofield":"浙江",
+                    "proline":"兰溪一线",
+                    "staout_set":"180.0",
+                    "staout":"180.0",
+                    "ratory_kiln_elec":"00",
+                    "ratory_kiln_rate":"00",
+                    "hitem_fan_outpre":"00",
+                    "hitem_fan_elec":"00",
+                    "hitem_fan_rate":"00",
+                    "tokiln_hoplift_elec":"00",
+                    "kilnhead_coal_value":"00",
+                    "kilnhead_coal_lzpre":"00",
+                    "kilnhead_coal_rate":"00",
+                    "kilnend_coal_value":"00",
+                    "second_fan":"00",
+                    "third_fan_temp":"00",
+                    "third_fan_pres":"00",
+                    "first_fan_pres":"00",
+                    "first_fan_rate":"00",
+                    "first_fan_elec":"00",
+                    "grate_cool_rate":"00",
+                    "bucket_chain_elec":"00"
+                },
+                {
+                    "cofield":"浙江",
+                    "proline":"兰溪二线",
+                    "staout_set":"180",
+                    "staout":"180",
+                    "ratory_kiln_elec":"00",
+                    "ratory_kiln_rate":"00",
+                    "hitem_fan_outpre":"00",
+                    "hitem_fan_elec":"00",
+                    "hitem_fan_rate":"00",
+                    "tokiln_hoplift_elec":"00",
+                    "kilnhead_coal_value":"00",
+                    "kilnhead_coal_lzpre":"00",
+                    "kilnhead_coal_rate":"00",
+                    "kilnend_coal_value":"00",
+                    "second_fan":"00",
+                    "third_fan_temp":"00",
+                    "third_fan_pres":"00",
+                    "first_fan_pres":"00",
+                    "first_fan_rate":"00",
+                    "first_fan_elec":"00",
+                    "grate_cool_rate":"00",
+                    "bucket_chain_elec":"00"
+                },
+                {
+                    "cofield":"浙江",
+                    "proline":"兰溪三线",
+                    "staout_set":"380",
+                    "staout":"380",
+                    "ratory_kiln_elec":"00",
+                    "ratory_kiln_rate":"00",
+                    "hitem_fan_outpre":"00",
+                    "hitem_fan_elec":"00",
+                    "hitem_fan_rate":"00",
+                    "tokiln_hoplift_elec":"00",
+                    "kilnhead_coal_value":"00",
+                    "kilnhead_coal_lzpre":"00",
+                    "kilnhead_coal_rate":"00",
+                    "kilnend_coal_value":"00",
+                    "second_fan":"00",
+                    "third_fan_temp":"00",
+                    "third_fan_pres":"00",
+                    "first_fan_pres":"00",
+                    "first_fan_rate":"00",
+                    "first_fan_elec":"00",
+                    "grate_cool_rate":"00",
+                    "bucket_chain_elec":"00"
+                },
+                {
+                    "cofield":"杭州",
+                    "proline":"建德一线",
+                    "staout_set":"380",
+                    "staout":"380",
+                    "ratory_kiln_elec":"00",
+                    "ratory_kiln_rate":"00",
+                    "hitem_fan_outpre":"00",
+                    "hitem_fan_elec":"00",
+                    "hitem_fan_rate":"00",
+                    "tokiln_hoplift_elec":"00",
+                    "kilnhead_coal_value":"00",
+                    "kilnhead_coal_lzpre":"00",
+                    "kilnhead_coal_rate":"00",
+                    "kilnend_coal_value":"00",
+                    "second_fan":"00",
+                    "third_fan_temp":"00",
+                    "third_fan_pres":"00",
+                    "first_fan_pres":"00",
+                    "first_fan_rate":"00",
+                    "first_fan_elec":"00",
+                    "grate_cool_rate":"00",
+                    "bucket_chain_elec":"00"
+                },
+                {
+                    "cofield":"杭州",
+                    "proline":"建德二线",
+                    "staout_set":"380",
+                    "staout":"380",
+                    "ratory_kiln_elec":"00",
+                    "ratory_kiln_rate":"00",
+                    "hitem_fan_outpre":"00",
+                    "hitem_fan_elec":"00",
+                    "hitem_fan_rate":"00",
+                    "tokiln_hoplift_elec":"00",
+                    "kilnhead_coal_value":"00",
+                    "kilnhead_coal_lzpre":"00",
+                    "kilnhead_coal_rate":"00",
+                    "kilnend_coal_value":"00",
+                    "second_fan":"00",
+                    "third_fan_temp":"00",
+                    "third_fan_pres":"00",
+                    "first_fan_pres":"00",
+                    "first_fan_rate":"00",
+                    "first_fan_elec":"00",
+                    "grate_cool_rate":"00",
+                    "bucket_chain_elec":"00"
+                }
+            ]
+        }
+        table.render({
+            elem: '#proBurningtable',
+            // url: 'js/data.json',
+            data: jsonObj.data,
+            toolbar: '#toolbarDemo',
+            title: '用户数据表',
+            cols: [[
+                {align:'center',field:'cofield', title:'区域', width:60, fixed: 'left',rowspan:2},
+                {align:'center',field:'proline', title:'生产线', width:90,fixed: 'left',rowspan:2},
+                {align:'center',field:'staout_set', title:'设计台时', width:70,rowspan:2},
+                {align:'center',field:'staout', title:'台时', width:70, rowspan:2},
+                {align:'center',field:'ratory_kiln',title:'回转窑',colspan:2},
+                {align:'center',field:'hitem_fan', title:'高温风机',colspan:3},
+                {align:'center',field:'tokiln_hoplift_elec',title:'入窑斗提电流',width:90,rowspan:2},
+                {align:'center',field:'kilnhead_coal',title:'窑头喂煤',colspan:3},
+                {align:'center',field:'kilnend_coal_value', title:'窑尾喂煤',width:90,rowspan:2},
+                {align:'center',field:'second_fan', title:'二次风温',width:90, rowspan:2},
+                {align:'center',field:'third_fan',title:'三次风档',colspan:2},
+                {align:'center',field:'first_fan',title:'一次风机',colspan:3},
+                {align:'center',field:'grate_cool_rate', title:'篦冷机篦速',width:75,rowspan:2},
+                {align:'center',field:'bucket_chain_elec', title:'斜拉链电流',width:75,rowspan:2}
+
+            ],[
+                {align:'center',field:'ratory_kiln_elec', title:'电流', width:60},
+                {align:'center',field:'ratory_kiln_rate', title:'转速', width:60},
+                {align:'center',field:'hitem_fan_outpre', title:'出口风压', width:90},
+                {align:'center',field:'hitem_fan_elec', title:'电流', width:60},
+                {align:'center',field:'hitem_fan_rate', title:'转速', width:60},
+                {align:'center',field:'kilnhead_coal_value', title:'喂煤量', width:75},
+                {align:'center',field:'kilnhead_coal_lzpre', title:'风机压力', width:90},
+                {align:'center',field:'kilnhead_coal_rate', title:'转速', width:60},
+                {align:'center',field:'third_fan_temp', title:'温度', width:60},
+                {align:'center',field:'third_fan_pres', title:'压力', width:60},
+                {align:'center',field:'first_fan_pres', title:'压力', width:60},
+                {align:'center',field:'first_fan_rate', title:'转速', width:60},
+                {align:'center',field:'first_fan_elec', title:'电流', width:60}
+            ]],
+            done: function(res,curr,count){
+                layuiRowspan("cofield",1);   // 在此处合并单元格,我在这里要合并fileid为areaName的列
+            }
+        });
+        function layuiRowspan(fieldName,index){
+            // 左侧列为冻结的情况
+            var tbodyNode = document.getElementsByClassName("layui-table-fixed-l")[index-1];
+            // 左侧导航栏不冻结的情况
+            // var fixedNode = document.getElementsByClassName("layui-table-body")[index - 1];
+            var child = tbodyNode.getElementsByTagName("td");
+            var childFilterArr = [];
+            // 获取data-field属性为fieldName的td
+            for(var i = 0; i < child.length; i++){
+                if(child[i].getAttribute("data-field") == fieldName){
+                    childFilterArr.push(child[i]);
+                }
+            }
+            // 获取td的个数和种类
+            var childFilterTextObj = {};
+            for(var i = 0; i < childFilterArr.length; i++){
+                var childText = childFilterArr[i].textContent;
+                if(childFilterTextObj[childText] == undefined){
+                    childFilterTextObj[childText] = 1;
+                }else{
+                    var num = childFilterTextObj[childText];
+                    childFilterTextObj[childText] = num*1 + 1;
+                }
+            }
+
+            // 给获取到的td设置合并单元格属性
+            for(var key in childFilterTextObj){
+
+                var tdNum = childFilterTextObj[key];
+                var canRowspan = true;
+                for(var i = 0; i < childFilterArr.length; i++){
+                    // if(childFilterArr[i].getAttribute("data-content") == key){
+                    if(childFilterArr[i].textContent == key){
+                        if(canRowspan){
+                            childFilterArr[i].setAttribute("rowspan",tdNum);
+                            canRowspan = false;
+                        }else{
+                            childFilterArr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    $('button').click(function(){
+        $("#proRawtable").table2excel({
+            exclude: ".noExl",//不被导出的表格行的CSS class类
+            name: "Excel Document Name",//name：导出的Excel文档的名称。
+            filename: "RawdataFile",//filename：Excel文件的名称。
+            exclude_img: true,//exclude_img：是否导出图片。
+            exclude_links: true,//exclude_links：是否导出超链接
+            exclude_inputs: true//exclude_inputs：是否导出输入框中的内容。
+        });
+    })
+</script>
+</body>
+</html>

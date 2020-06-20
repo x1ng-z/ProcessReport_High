@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="js/raw_data.js"></script>
+
+    <title>生料系统设置</title>
+</head>
+<body style=" width:90%;height:90%;background-color: rgb(13, 23, 89);" onload="data_onload()">
+<div id = "maindiv">
+
+<div style="position: absolute;left: 1%;top:30%;color: white">
+    <span>语音播报间隔时间：</span><input type="text" id="interval_time" style="width: 40px;background-color:#a2a2a2" readonly="readonly">
+    <span style="color: white">分</span>
+</div>
+<div style="position: absolute;left: 1%;top:50%;color: white">
+    <span>库位报警下限：</span><input type="text" id="siloLevel_limit" style="width: 40px;background-color:#a2a2a2 " readonly="readonly">
+    <span style="color: white">米</span>
+</div>
+
+    <div style="position: absolute;right: 18%;top:80%;">
+        <button onclick="raw_syetem_set_Edit()">编辑</button>
+    </div>
+    <div style="position: absolute;right: 2%;top:80%;">
+        <button onclick="raw_syetem_set_OK()">确定</button>
+    </div>
+
+</div>
+
+</body>
+</html>

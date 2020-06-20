@@ -1,0 +1,108 @@
+<?xml version="1.0" ?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.supcon.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="FaultInfoRelevantServiceImplService" targetNamespace="http://ws.supcon.com">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.supcon.com" elementFormDefault="unqualified" targetNamespace="http://ws.supcon.com" version="1.0">
+<xs:element name="genFaultInfoByItemNo" type="tns:genFaultInfoByItemNo"></xs:element>
+<xs:element name="genFaultInfoByItemNoResponse" type="tns:genFaultInfoByItemNoResponse"></xs:element>
+<xs:element name="simulationMap" type="tns:simulationMap"></xs:element>
+<xs:complexType name="genFaultInfoByItemNo">
+<xs:sequence>
+<xs:element minOccurs="0" name="eamCode" type="xs:string"></xs:element>
+<xs:element minOccurs="0" name="sourceType" type="xs:string"></xs:element>
+<xs:element minOccurs="0" name="faultInfoType" type="xs:string"></xs:element>
+<xs:element minOccurs="0" name="priority" type="xs:string"></xs:element>
+<xs:element minOccurs="0" name="findStaffCode" type="xs:string"></xs:element>
+<xs:element minOccurs="0" name="describe" type="xs:string"></xs:element>
+<xs:element minOccurs="0" name="findTime" type="xs:long"></xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="genFaultInfoByItemNoResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="jwsResult" type="xs:string"></xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="pageValueDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="data" nillable="true" type="xs:anyType"></xs:element>
+<xs:element minOccurs="0" name="pagination" type="tns:paginationDTO"></xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="paginationDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="first" type="xs:string"></xs:element>
+<xs:element name="hasNext" type="xs:boolean"></xs:element>
+<xs:element name="hasPre" type="xs:boolean"></xs:element>
+<xs:element minOccurs="0" name="no" type="xs:int"></xs:element>
+<xs:element minOccurs="0" name="size" type="xs:int"></xs:element>
+<xs:element minOccurs="0" name="totalCount" type="xs:long"></xs:element>
+<xs:element minOccurs="0" name="totalPages" type="xs:long"></xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="simulationMap">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="list" nillable="true" type="xs:anyType"></xs:element>
+<xs:element minOccurs="0" name="name" type="xs:string"></xs:element>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="hashMap">
+<xs:complexContent>
+<xs:extension base="tns:abstractMap">
+<xs:sequence></xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractMap">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+<xs:complexType name="arrayList">
+<xs:complexContent>
+<xs:extension base="tns:abstractList">
+<xs:sequence></xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractList">
+<xs:complexContent>
+<xs:extension base="tns:abstractCollection">
+<xs:sequence></xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractCollection">
+<xs:sequence></xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="genFaultInfoByItemNoResponse">
+    <wsdl:part element="tns:genFaultInfoByItemNoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="genFaultInfoByItemNo">
+    <wsdl:part element="tns:genFaultInfoByItemNo" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="FaultInfoRelevantService">
+    <wsdl:operation name="genFaultInfoByItemNo">
+      <wsdl:input message="tns:genFaultInfoByItemNo" name="genFaultInfoByItemNo">
+    </wsdl:input>
+      <wsdl:output message="tns:genFaultInfoByItemNoResponse" name="genFaultInfoByItemNoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FaultInfoRelevantServiceImplServiceSoapBinding" type="tns:FaultInfoRelevantService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+    <wsdl:operation name="genFaultInfoByItemNo">
+      <soap:operation soapAction="" style="document"></soap:operation>
+      <wsdl:input name="genFaultInfoByItemNo">
+        <soap:body use="literal"></soap:body>
+      </wsdl:input>
+      <wsdl:output name="genFaultInfoByItemNoResponse">
+        <soap:body use="literal"></soap:body>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FaultInfoRelevantServiceImplService">
+    <wsdl:port binding="tns:FaultInfoRelevantServiceImplServiceSoapBinding" name="FaultInfoRelevantServiceImplPort">
+      <soap:address location="http://192.168.13.114:8181/services/ws/BEAM2/faultInfoRelevantService"></soap:address>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

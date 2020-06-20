@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/RawteTable_Style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+    <script type="text/javascript" src="js/raw_table.js"></script>
+
+    <title>参数变化及报警记录</title>
+</head>
+<body class="visionbody">
+<div id = "maindiv">
+    <i class="topL"></i><i class="topR"></i>
+    <!--<i class="bottomL"></i><i class="bottomR">-->
+</i>
+
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label dateselectText1">起始时间：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="startdate" placeholder="yyyy-MM-dd" name="startdate">
+                    <input type="text" class="layui-input" id="starttime" placeholder="HH:mm:ss" name="starttime">
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label dateselectText2">终止时间：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="enddate" placeholder="yyyy-MM-dd" name="enddate">
+                    <input type="text" class="layui-input" id="endtime" placeholder="HH:mm:ss" name="endtime">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <span class="operatefileText">操作记录：</span><input type="checkbox" id="opratefilebox" name="opratefile" checked>
+    </div>
+
+    <div>
+        <span class="alarmfileText">报警记录：</span><input type="checkbox" id="alarmfilebox" name="alarmfile" checked>
+    </div>
+
+    <div>
+        <span class="prolineText">产线名：</span><input type="text" id="proline" name="proline">
+    </div>
+    <div>
+        <span class="praNameText">设备名：</span><input type="text" id="praName" name="praName">
+    </div>
+
+    <div>
+        <input type="button" id="queryBtn" value="查询" onclick="submit()">
+    </div>
+
+    <div id="tablediv">
+        <table class="raw_table">
+            <thead style="font-size: 1rem">
+            <tr>
+                <th class="td1">序号</th>
+                <th class="td2">时间</th>
+                <th class="td3">产线名称</th>
+                <th class="td4">设备</th>
+                <th class="td5">工艺参数</th>
+                <th class="td6">变化前值</th>
+                <th class="td7">当前值</th>
+                <th class="td8">报警类型</th>
+            </tr>
+            </thead>
+            <tbody id="rawHDtbody">
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+<script src="layui/layui.js"></script>
+<script src="js/jquery-3.0.0.js"></script>
+<script>
+    layui.use('laydate', function(){
+        var d=new Date();
+        var year=d.getFullYear();
+        var month=d.getMonth() + 1;
+        var day=d.getDate();
+
+        var hour=d.getHours();
+        var minute=d.getMinutes();
+        var second=d.getSeconds();
+
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (day >= 0 && day <= 9) {
+            day = "0" + day;
+        }
+        if (hour >= 0 && hour <= 9) {
+            hour = "0" + hour;
+        }
+        if (minute >= 0 && minute <= 9) {
+            minute = "0" + minute;
+        }
+        if (second >= 0 && second <= 9) {
+            second = "0" + second;
+        }
+
+        var startdate=year+"-"+month+"-"+day;
+        var starttime=(hour-3)+":"+minute+":"+second;
+
+        var enddate=year+"-"+month+"-"+day;
+        var endtime=hour+":"+minute+":"+second;
+
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#startdate',
+            format: 'yyyy-MM-dd',
+            theme: '#393D49',
+            value:''+startdate+''
+        });
+
+        laydate.render({
+            elem: '#enddate',
+            format: 'yyyy-MM-dd',
+            theme: '#393D49',
+            value:''+enddate+''
+        });
+
+        laydate.render({
+            elem: '#starttime',
+            type: 'time',
+            format: 'HH:mm:ss',
+            theme: '#393D49',
+            value:''+starttime+''
+        });
+
+        laydate.render({
+            elem: '#endtime',
+            type: 'time',
+            format: 'HH:mm:ss',
+            theme: '#393D49',
+            value:''+endtime+''
+        });
+    });
+
+    setTimeout(function () {
+        startdate = document.getElementById("startdate").value;
+        starttime = document.getElementById("starttime").value;
+        enddate = document.getElementById("enddate").value;
+        endtime = document.getElementById("endtime").value;
+        proline = document.getElementById("proline").value;
+        praName = document.getElementById("praName").value;
+        submit();
+    },500)
+
+</script>
+</body>
+</html>

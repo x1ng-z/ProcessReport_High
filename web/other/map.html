@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HULU</title>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/china.js"></script>
+</head>
+<body>
+
+<h1 style="text-align: center">HULU全国带宽分布</h1>
+
+<div id="province" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+
+<script>
+
+    var myChart = echarts.init(document.getElementById('province'));
+    var option = {
+        title : {
+            text: 'HULU全国带宽',
+            subtext: '数据来自HBase',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter:function(params){
+                //定义一个res变量来保存最终返回的字符结果,并且先把地区名称放到里面
+                var res=params.name+'<br />';
+                //定义一个变量来保存series数据系列
+                var myseries=option.series;
+                //循环遍历series数据系列
+                for(var i=0;i<myseries.length;i++){
+                    //在内部继续循环series[i],从data中判断：当地区名称等于params.name的时候就将当前数据和名称添加到res中供显示
+                    for(var k=0;k<myseries[i].data.length;k++){
+                        //console.log(myseries[i].data[k].name);
+                        //如果data数据中的name和地区名称一样
+                        if(myseries[i].data[k].name==params.name){
+                            //将series数据系列每一项中的name和数据系列中当前地区的数据添加到res中
+                            res+=myseries[i].name+':'+myseries[i].data[k].value+'<br />';
+                        }
+                    }
+                }
+                return res;
+            }
+        },
+        legend: {
+            orient: 'vertical',
+            x:'left',
+            data:['TV端下载','PC端下载','移动端下载']
+        },
+        dataRange: {
+            x: 'left',
+            y: 'bottom',
+            splitList: [
+                {start: 1500},
+                {start: 900, end: 1500},
+                {start: 310, end: 1000},
+                {start: 200, end: 300},
+                {start: 10, end: 200, label: '10 到 200（自定义label）'},
+                {start: 5, end: 5, label: '5（自定义特殊颜色）', color: 'black'},
+                {end: 10}
+            ],
+            color: ['#E0022B', '#E09107', '#A3E00B']
+        },
+        toolbox: {
+            show: true,
+            orient : 'vertical',
+            x: 'right',
+            y: 'center',
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        roamController: {
+            show: true,
+            x: 'right',
+            mapTypeControl: {
+                'china': true
+            }
+        },
+        series : [
+            {
+                name: 'TV端下载',
+                type: 'map',
+                mapType: 'china',
+                // 控制地图大小
+                mapLocation: {
+                    x: '240',
+                    y: 'center',
+                    height: '75%'
+                },
+                roam: false,
+                itemStyle:{
+                    normal:{
+                        label:{
+                            show:true,
+                            textStyle: {
+                                color: "rgb(249, 249, 249)"
+                            }
+                        }
+                    },
+                    emphasis:{label:{show:true}}
+                },
+                data:[
+                    {name: '北京',value: Math.round(Math.random()*2000)},
+                    {name: '天津',value: Math.round(Math.random()*2000)},
+                    {name: '上海',value: Math.round(Math.random()*2000)},
+                    {name: '重庆',value: Math.round(Math.random()*2000)},
+                    {name: '河北',value: 0},
+                    {name: '河南',value: Math.round(Math.random()*2000)},
+                    {name: '云南',value: 5},
+                    {name: '辽宁',value: 100},
+                    {name: '黑龙江',value: Math.round(Math.random()*2000)},
+                    {name: '湖南',value: 200},
+                    {name: '安徽',value: Math.round(Math.random()*2000)},
+                    {name: '山东',value: Math.round(Math.random()*2000)},
+                    {name: '新疆',value: Math.round(Math.random()*2000)},
+                    {name: '江苏',value: Math.round(Math.random()*2000)},
+                    {name: '浙江',value: Math.round(Math.random()*2000)},
+                    {name: '江西',value: Math.round(Math.random()*2000)},
+                    {name: '湖北',value: Math.round(Math.random()*2000)},
+                    {name: '广西',value: Math.round(Math.random()*2000)},
+                    {name: '甘肃',value: Math.round(Math.random()*2000)},
+                    {name: '山西',value: Math.round(Math.random()*2000)},
+                    {name: '内蒙古',value: Math.round(Math.random()*2000)},
+                    {name: '陕西',value: Math.round(Math.random()*2000)},
+                    {name: '吉林',value: Math.round(Math.random()*2000)},
+                    {name: '福建',value: Math.round(Math.random()*2000)},
+                    {name: '贵州',value: Math.round(Math.random()*2000)},
+                    {name: '广东',value: Math.round(Math.random()*2000)},
+                    {name: '青海',value: Math.round(Math.random()*2000)},
+                    {name: '西藏',value: Math.round(Math.random()*2000)},
+                    {name: '四川',value: Math.round(Math.random()*2000)},
+                    {name: '宁夏',value: Math.round(Math.random()*2000)},
+                    {name: '海南',value: Math.round(Math.random()*2000)},
+                    {name: '台湾',value: Math.round(Math.random()*2000)},
+                    {name: '香港',value: Math.round(Math.random()*2000)},
+                    {name: '澳门',value: Math.round(Math.random()*2000)}
+                ]
+            },
+            {
+                name: 'PC端下载',
+                type: 'map',
+                mapType: 'china',
+                // 控制地图大小
+                mapLocation: {
+                    x: '240',
+                    y: 'center',
+                    height: '75%'
+                },
+                roam: false,
+                itemStyle:{
+                    normal:{
+                        label:{
+                            show:true,
+                            textStyle: {
+                                color: "rgb(249, 249, 249)"
+                            }
+                        }
+                    },
+                    emphasis:{label:{show:true}}
+                },
+                data:[
+                    {name: '北京',value: Math.round(Math.random()*2000)},
+                    {name: '天津',value: Math.round(Math.random()*2000)},
+                    {name: '上海',value: Math.round(Math.random()*2000)},
+                    {name: '重庆',value: Math.round(Math.random()*2000)},
+                    {name: '河北',value: 0},
+                    {name: '河南',value: Math.round(Math.random()*2000)},
+                    {name: '云南',value: 5},
+                    {name: '辽宁',value: 200},
+                    {name: '黑龙江',value: Math.round(Math.random()*2000)},
+                    {name: '湖南',value: 200},
+                    {name: '安徽',value: Math.round(Math.random()*2000)},
+                    {name: '山东',value: Math.round(Math.random()*2000)},
+                    {name: '新疆',value: Math.round(Math.random()*2000)},
+                    {name: '江苏',value: Math.round(Math.random()*2000)},
+                    {name: '浙江',value: Math.round(Math.random()*2000)},
+                    {name: '江西',value: Math.round(Math.random()*2000)},
+                    {name: '湖北',value: Math.round(Math.random()*2000)},
+                    {name: '广西',value: Math.round(Math.random()*2000)},
+                    {name: '甘肃',value: Math.round(Math.random()*2000)},
+                    {name: '山西',value: Math.round(Math.random()*2000)},
+                    {name: '内蒙古',value: Math.round(Math.random()*2000)},
+                    {name: '陕西',value: Math.round(Math.random()*2000)},
+                    {name: '吉林',value: Math.round(Math.random()*2000)},
+                    {name: '福建',value: Math.round(Math.random()*2000)},
+                    {name: '贵州',value: Math.round(Math.random()*2000)},
+                    {name: '广东',value: Math.round(Math.random()*2000)},
+                    {name: '青海',value: Math.round(Math.random()*2000)},
+                    {name: '西藏',value: Math.round(Math.random()*2000)},
+                    {name: '四川',value: Math.round(Math.random()*2000)},
+                    {name: '宁夏',value: Math.round(Math.random()*2000)},
+                    {name: '海南',value: Math.round(Math.random()*2000)},
+                    {name: '台湾',value: Math.round(Math.random()*2000)},
+                    {name: '香港',value: Math.round(Math.random()*2000)},
+                    {name: '澳门',value: Math.round(Math.random()*2000)}
+                ]
+            },
+            {
+                name: '移动端下载',
+                type: 'map',
+                mapType: 'china',
+                // 控制地图大小
+                mapLocation: {
+                    x: '240',
+                    y: 'center',
+                    height: '75%'
+                },
+                roam: false,
+                itemStyle:{
+                    normal:{
+                        label:{
+                            show:true,
+                            textStyle: {
+                                color: "rgb(249, 249, 249)"
+                            }
+                        }
+                    },
+                    emphasis:{label:{show:true}}
+                },
+                data:[
+                    {name: '北京',value: Math.round(Math.random()*2000)},
+                    {name: '天津',value: Math.round(Math.random()*2000)},
+                    {name: '上海',value: Math.round(Math.random()*2000)},
+                    {name: '重庆',value: Math.round(Math.random()*2000)},
+                    {name: '河北',value: 0},
+                    {name: '河南',value: Math.round(Math.random()*2000)},
+                    {name: '云南',value: 5},
+                    {name: '辽宁',value: 300},
+                    {name: '黑龙江',value: Math.round(Math.random()*2000)},
+                    {name: '湖南',value: 200},
+                    {name: '安徽',value: Math.round(Math.random()*2000)},
+                    {name: '山东',value: Math.round(Math.random()*2000)},
+                    {name: '新疆',value: Math.round(Math.random()*2000)},
+                    {name: '江苏',value: Math.round(Math.random()*2000)},
+                    {name: '浙江',value: Math.round(Math.random()*2000)},
+                    {name: '江西',value: Math.round(Math.random()*2000)},
+                    {name: '湖北',value: Math.round(Math.random()*2000)},
+                    {name: '广西',value: Math.round(Math.random()*2000)},
+                    {name: '甘肃',value: Math.round(Math.random()*2000)},
+                    {name: '山西',value: Math.round(Math.random()*2000)},
+                    {name: '内蒙古',value: Math.round(Math.random()*2000)},
+                    {name: '陕西',value: Math.round(Math.random()*2000)},
+                    {name: '吉林',value: Math.round(Math.random()*2000)},
+                    {name: '福建',value: Math.round(Math.random()*2000)},
+                    {name: '贵州',value: Math.round(Math.random()*2000)},
+                    {name: '广东',value: Math.round(Math.random()*2000)},
+                    {name: '青海',value: Math.round(Math.random()*2000)},
+                    {name: '西藏',value: Math.round(Math.random()*2000)},
+                    {name: '四川',value: Math.round(Math.random()*2000)},
+                    {name: '宁夏',value: Math.round(Math.random()*2000)},
+                    {name: '海南',value: Math.round(Math.random()*2000)},
+                    {name: '台湾',value: Math.round(Math.random()*2000)},
+                    {name: '香港',value: Math.round(Math.random()*2000)},
+                    {name: '澳门',value: Math.round(Math.random()*2000)}
+                ]
+            }
+        ]
+    };
+    myChart.setOption(option);
+
+</script>
+
+
+</body>
+</html>

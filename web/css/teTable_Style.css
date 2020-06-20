@@ -1,0 +1,175 @@
+.visionbody{
+    width:90%;
+    height:90%;
+    background-color: rgb(13, 23, 89);
+}
+
+.topL {
+    width: 20px;height: 20px;
+    border-top-width: 2px;
+    border-top-color: #26c6f0;
+    border-top-style: solid;
+    border-left-width: 2px;
+    border-left-color: #26c6f0;
+    border-left-style: solid;
+    position: absolute;
+    top: 0px; left: 0px;
+}
+
+.topR {
+    width: 20px;
+    height: 20px;
+    border-top-width: 2px;
+    border-top-color: #26c6f0;
+    border-top-style: solid;
+    border-right-width: 2px;
+    border-right-color: #26c6f0;
+    border-right-style: solid;
+    position: absolute;
+    top: 0px; right: 0px;
+}
+
+.bottomL {
+    width: 20px;
+    height: 20px;
+    border-bottom-width: 2px;
+    border-bottom-color: #26c6f0;
+    border-bottom-style: solid;
+    border-left-width: 2px;
+    border-left-color: #26c6f0;
+    border-left-style: solid;
+    position: absolute;
+    bottom: 0px; left: 0px;
+}
+
+.bottomR {
+    width: 20px;
+    height: 20px;
+    border-bottom-width: 2px;
+    border-bottom-color: #26c6f0;
+    border-bottom-style: solid;
+    border-right-width: 2px;
+    border-right-color: #26c6f0;
+    border-right-style: solid;
+    position: absolute;
+    bottom: 0px; right: 0px;
+}
+
+.dateselectText1{
+    position:absolute;
+    font-size: 1rem;
+    left:-1%;top:1px;
+    color: #26c6f0;
+}
+
+.dateselectText2{
+    position:absolute;
+    font-size: 1rem;
+    left:-1%;top:1px;
+    color: #26c6f0;
+}
+
+#startdate{
+    position:absolute;
+    font-size: 1rem;
+    left:-10%;top:6px;
+    width: 110px;height: 30px;
+
+}
+
+#enddate{
+    position:absolute;
+    font-size: 1rem;
+    left:-10%;top:6px;
+    width: 110px;height: 30px;
+}
+
+#starttime{
+    position:absolute;
+    font-size: 1rem;
+    left:50%;top:6px;
+    width: 100px;height: 30px;
+}
+
+#endtime{
+    position:absolute;
+    font-size: 1rem;
+    left:50%;top:6px;
+    width: 100px;height: 30px;
+}
+
+.prolineText{
+    position:absolute;
+    font-size: 1rem;
+    left:50%;top:10px;
+    color: #26c6f0;
+}
+
+#proline{
+    position:absolute;
+    width:100px;height:26px;
+    left:58%;top:6px;
+    border-radius: 2px;
+}
+
+.praNameText{
+    position:absolute;
+    font-size: 1rem;
+    left:50%;top:53px;
+    color: #26c6f0;
+}
+
+#praName{
+    position:absolute;
+    width:100px;height:26px;
+    left:58%;top:48px;
+    border-radius: 2px;
+}
+
+#queryBtn{
+    position:absolute;
+    width: 60px;height: 30px;
+    left:80%;top:50px;
+    color: #26c6f0;
+    background-color: #0e2147;
+}
+
+#tablediv{
+    position:absolute;
+    width: 98%; height: 84%;
+    top:15%;left:1%;
+}
+
+.raw_table {
+    display: block;
+    width: 100%; height: 100%;
+    /*border: 1px solid rgb(38,198,240);*/
+}
+
+.raw_table thead{
+    width: 100%;
+    font-size: 0.9rem;font-family: 宋体;color:#26c6f0;
+    text-align: center;
+    border: 1px solid rgb(38,198,240);
+}
+
+.raw_table tbody{
+    width: 100%; height: 90%;
+    overflow:scroll;overflow-x:hidden;
+}
+
+.raw_table td{
+    font-size: 1rem;font-family: 宋体;color:white;
+    text-align: center;
+    line-height: 1.8rem;
+}
+
+.td1{width: 5%}
+.td2{width: 18%}
+.td3{width: 13%}
+.td3_1{width: 12.5%}
+.td4{width: 18%}
+.td5{width: 8.5%}
+.td6{width: 8.5%}
+.td7{width: 8.5%}
+.td8{width: 8.5%}

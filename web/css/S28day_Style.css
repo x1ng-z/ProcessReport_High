@@ -1,0 +1,262 @@
+/*.visionbody{*/
+    /*position:absolute;*/
+    /*left: 0px;top: 0px;*/
+    /*width:1600px;*/
+    /*height:758px;*/
+    /*background-color: #000c3b;*/
+/*}*/
+
+.visionbody{
+width:100%;
+height:100%;
+background-color: #000c3b;
+}
+
+.titlediv{
+    position: absolute;
+    width: 98%;
+    top:0%;height: 0%;
+}
+.title_left{
+    position: absolute;
+    left:19%;top:1rem;
+}
+.title_label{
+    text-align: center;
+    line-height: 2rem;
+    font-size:1.5rem; font-weight: bolder;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+}
+.title_right{
+    position: absolute;
+    right:19%;top:1rem;
+}
+
+.btndiv{
+    position: absolute;
+    right:1%;top:3.5%;
+}
+#tablebtn{
+    font-family: 微软雅黑;
+    font-size:1rem;
+    background-color: #000c3b;
+    color: #65c4f1;
+    z-index: 99;
+}
+
+#data_box1{
+    position: absolute;
+    width: 84%;height:18%;
+    left:8%;top:10%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+#data_box2{
+    position: absolute;
+    width: 84%;height:67%;
+    left:8%;top:31%;
+    border: 2px solid #032d60;
+    -webkit-box-shadow: #07417a 0px 0px 10px;
+    -moz-box-shadow: #07417a 0px 0px 10px;
+    box-shadow: inset 0 0 30px #07417a;
+}
+
+
+.chartbox{
+    position: absolute;
+    width: 99%;height: 83%;
+    left: 0.5%;top:16%;
+}
+
+/*---------------------实时预测表格-------------------------*/
+
+.realdata_table_div{
+    position:absolute;
+    width: 99%;height: 90%;
+    left:0.5%;top:10%;
+}
+
+.realdata_table {
+    width: 100%; height: 100%;
+    /*border: 1px solid rgba(4,152,196,0.9);*/
+}
+
+.realdata_table thead{
+    /*width: 100%;*/
+    font-size: 0.9rem;font-family: 宋体;
+    text-align: center;
+    color:white;
+}
+
+.realdata_table tbody{
+    width: 100%; height: 90%;
+}
+
+.realdata_table td{
+    font-size: 1rem;font-family: 宋体;color:white;
+    text-align: center;
+    line-height: 1rem;
+}
+
+
+/*---------------------测试预测表格-------------------------*/
+
+/*.realdata_table_div{*/
+    /*position:absolute;*/
+    /*width: 99%;height: 90%;*/
+    /*left:0.5%;top:10%;*/
+/*}*/
+
+.test_table {
+    width: 100%; height: 100%;
+    /*border: 1px solid rgba(4,152,196,0.9);*/
+}
+
+.test_table tbody{
+    width: 100%; height: 90%;
+}
+
+.test_table td{
+    font-size: 1rem;font-family: 宋体;color:white;
+    text-align: center;
+    line-height: 1rem;
+}
+
+
+
+/*---------------------历史预测表格-----------------------------*/
+
+.historydata_table_div{
+    position:absolute;
+    width: 99%;height: 90%;
+    left:0.5%;top:6%;
+}
+
+.historydata_table {
+    display: block;
+    width: 100%; height: 100%;
+    border-collapse: collapse; border-spacing:0;
+}
+
+.historydata_table thead{
+    display: inline-block;
+    width: 100%;
+    font-size: 0.9rem;font-family: 宋体;
+    text-align: center;
+    color:white;
+}
+
+.historydata_table tbody{
+    display: inline-block;
+    width:100%;height: 430px;
+    overflow-y: auto;
+}
+
+
+.td1{width: 7%}
+.td2{width: 5.6%}
+
+.td3{width: 6%}
+
+.td4{width: 8%}
+.td5{width: 5%}
+
+/*---------------------滚动条样式-----------------------------*/
+::-webkit-scrollbar{
+    width:4px;/*滚动条的宽度*/
+    scrollbar-arrow-color: green;
+}
+
+::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgb(255,255,255);
+    background: rgb(255,255,255);
+}
+
+::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgb(255,255,255);
+    border-radius: 0;
+    background: rgba(0,0,0,0.1);
+}
+
+.historydata_table td{
+    font-size: 1rem;font-family: 宋体;color:white;
+    text-align: center;
+    line-height: 1.6rem;
+}
+
+
+/*---------------------模块边框标题样式----------------------*/
+
+.data_title {
+    position: absolute;
+    left: 45%;top:-10px;
+    background-color: #000c3b;
+    color: #83c7e3;
+    font-size: 1.15rem;
+}
+
+.data_title_left,
+.data_title_right {
+    color: #105eda;
+    font-family: "微软雅黑";
+    font-size: 1.25rem;
+}
+
+.topL {
+    width: 20px;height: 20px;
+    border-top-width: 2px;
+    border-top-color: #26c6f0;
+    border-top-style: solid;
+    border-left-width: 2px;
+    border-left-color: #26c6f0;
+    border-left-style: solid;
+    position: absolute;
+    top: -2px;left: -2px;
+}
+
+.topR {
+    width: 20px;
+    height: 20px;
+    border-top-width: 2px;
+    border-top-color: #26c6f0;
+    border-top-style: solid;
+    border-right-width: 2px;
+    border-right-color: #26c6f0;
+    border-right-style: solid;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+}
+
+.bottomL {
+    width: 20px;
+    height: 20px;
+    border-bottom-width: 2px;
+    border-bottom-color: #26c6f0;
+    border-bottom-style: solid;
+    border-left-width: 2px;
+    border-left-color: #26c6f0;
+    border-left-style: solid;
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+}
+
+.bottomR {
+    width: 20px;
+    height: 20px;
+    border-bottom-width: 2px;
+    border-bottom-color: #26c6f0;
+    border-bottom-style: solid;
+    border-right-width: 2px;
+    border-right-color: #26c6f0;
+    border-right-style: solid;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+}

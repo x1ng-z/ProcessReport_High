@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="css/Rawframe_Style.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-3.0.0.js"></script>
+    <script src="js/jquery.table2excel.js"></script>
+    <script src="js/rawdataflush.js"></script>
+    <script type="text/javascript">
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 1600*16 + 'px';
+    </script>
+
+    <title>远程智慧诊断平台</title>
+
+</head>
+<body class="bodystyle" onload="rawdataflush()">
+
+    <div class="p1">生料系统运行情况</div>
+
+    <button class="outputBtn">导出excel</button>
+    <table id="proRawtable" style="table-layout: fixed;word-break: break-all">
+        <thead>
+        <tr>
+            <th rowspan="2" class="th1">区域</th>
+            <th rowspan="2" class="th2">生产线</th>
+            <th rowspan="2" class="th3">型号</th>
+            <th colspan="12" class="th4">磨机参数</th>
+            <th colspan="2" class="th5">循环风机</th>
+            <th colspan="2" class="th6">选粉机</th>
+            <th colspan="4" class="th7">磨辅机参数</th>
+            <th class="th8">电耗</th>
+            <th colspan="2" class="th9">配比</th>
+        </tr>
+
+        <tr>
+            <th colspan="2" class="td5">磨辊压力bar</th>
+            <th class="td5">喂料量T</th>
+            <th colspan="2" class="td5">主电机电流A</th>
+            <th class="td5">入磨温度℃</th>
+            <th class="td5">入磨压力Pa</th>
+            <th class="td5">出磨气温℃</th>
+            <th class="td5">出磨压力Pa</th>
+            <th class="td5">磨机压差Pa</th>
+            <th class="td5">料层mm</th>
+            <th class="td5">垂直振动mm/s</th>
+            <th class="td6">电流A</th>
+            <th class="td6">转速 rpm</th>
+            <th class="td6">电流A</th>
+            <th class="td6">转速 rpm</th>
+            <th class="td7">回料电流A</th>
+            <th class="td7">旋风筒压力Pa</th>
+            <th colspan="2" class="td8">入库提电流A</th>
+            <th class="td9">工序电耗kwh/t</th>
+            <th colspan="2" class="td10">石灰石配比</th>
+        </tr>
+        </thead>
+
+        <tbody id="proRawtbody">
+
+        <tr  bgcolor="#EEDAF6">
+            <td rowspan="3" class="td1">浙江区域</td>
+            <td class="td2">兰溪1#</td>
+            <td class="td4">160*140</td>
+            <td class="td5" name="ZJLX_11" title="B32ACP_DACAYY_PV" about="B32ACP_DACAYY_PV"></td>
+            <td class="td5" name="ZJLX_11" title="B32ACP_DACAYZ_PV" about="B32ACP_DACAYZ_PV"></td>
+            <td class="td5" name="ZJLX_11" title="AFEED_TOTALS_C1" about="AFEED_TOTALS_C1"></td>
+            <td class="td5" name="ZJLX_11" title="B32M_DACAH_PV" about="B32M_DACAH_PV"></td>
+            <td class="td5" name="ZJLX_11" title="B32M_DACAG_PV" about="B32M_DACAG_PV"></td>
+            <td class="td5" name="ZJLX_11" title="BTT01_DACA_PV" about="BTT01_DACA_PV"></td>
+            <td class="td5" name="ZJLX_11" title="BPT01_DACA_PV" about="BPT01_DACA_PV"></td>
+            <td class="td5" name="ZJLX_11" title="BTT04_DACA_PV" about="BTT04_DACA_PV"></td>
+            <td class="td5" name="ZJLX_11" title="" about=""></td>
+            <td class="td5" name="ZJLX_11" title="" about=""></td>
+            <td class="td5" name="ZJLX_11" title="" about=""></td>
+            <td class="td5" name="ZJLX_11" title="" about=""></td>
+            <td class="td6" name="ZJLX_11" title="B20M_CUND_PV" about="B20M_CUND_PV"></td>
+            <td class="td6" name="ZJLX_11" title="" about=""></td>
+            <td class="td6" name="ZJLX_11" title="B19AC_CUND_PV" about="B19AC_CUND_PV"></td>
+            <td class="td6" name="ZJLX_11" title="B19AC_SDFD_PV" about="B19AC_SDFD_PV"></td>
+            <td class="td7" name="ZJLX_11" title="B22AC_CUND_PV" about="B22AC_CUND_PV"></td>
+            <td class="td7" name="ZJLX_11" title="BPT04_DACA_PV" about="BPT04_DACA_PV"></td>
+            <td colspan="2" class="td8" name="ZJLX_11" title="B4M_CUND_PV" about="B4M_CUND_PV"></td>
+            <td class="td9" name="ZJLX_11" title="" about=""></td>
+            <td colspan="2" class="td10" name="ZJLX_11" title="AFEED_LIMESTONE_PV" about="AFEED_LIMESTONE_PV"></td>
+        </tr>
+        <tr  bgcolor="#EEDAF6">
+            <td class="td2">兰溪2#</td>
+            <td class="td4">4.6*8.5+3.5</td>
+            <td colspan="2" class="td5" name="ZJLX_21" title="" about=""></td>
+            <td class="td5" name="ZJLX_21" title="AFEED_B_TOTALS_C1" about="AFEED_B_TOTALS_C1"></td>
+            <td colspan="2" class="td5" name="ZJLX_21" title="B32M_B_DACA_PV" about="B32M_B_DACA_PV"></td>
+            <td class="td5" name="ZJLX_21" title="BTT01_B_DACA_PV" about="BTT01_B_DACA_PV"></td>
+            <td class="td5" name="ZJLX_21" title="BPT01_B_DACA_PV" about="BPT01_B_DACA_PV"></td>
+            <td class="td5" name="ZJLX_21" title="BTT02_B_DACA_PV" about="BTT02_B_DACA_PV"></td>
+            <td class="td5" name="ZJLX_21" title="BPT02_B_DACA_PV" about="BPT02_B_DACA_PV"></td>
+            <td class="td5" name="ZJLX_21" title="BPT03_B_DACA_PV" about="BPT03_B_DACA_PV"></td>
+            <td class="td5" name="ZJLX_21" title="" about=""></td>
+            <td class="td5" name="ZJLX_21" title="" about=""></td>
+            <td class="td6" name="ZJLX_21" title="B20M_B_CUND_PV" about="B20M_B_CUND_PV"></td>
+            <td class="td6" name="ZJLX_21" title="" about=""></td>
+            <td class="td6" name="ZJLX_21" title="B19AC_B_CUND_PV" about="B19AC_B_CUND_PV"></td>
+            <td class="td6" name="ZJLX_21" title="B19AC_B_SDFD_PV" about="B19AC_B_SDFD_PV"></td>
+            <td class="td7" name="ZJLX_21" title="" about=""></td>
+            <td class="td7" name="ZJLX_21" title="" about=""></td>
+            <td colspan="2" class="td8" name="ZJLX_21" title="B4M_B_CUND_PV" about="B4M_B_CUND_PV"></td>
+            <td class="td9" name="ZJLX_21" title="" about=""></td>
+            <td colspan="2" class="td10" name="ZJLX_21" title="AFEED_B_LIMESTONE_PV" about="AFEED_B_LIMESTONE_PV"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">兰溪3#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="ZJLX_31" title="B02G_B31AC2_PD_PV" about="B02G_B31AC2_PD_PV"></td>
+            <td class="td5" name="ZJLX_31" title="Q06G_PLJS_ZFK_PV" about="Q06G_PLJS_ZFK_PV"></td>
+            <td colspan="2" class="td5" name="ZJLX_31" title="B07G_B13M_CUND_PV" about="B07G_B13M_CUND_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B_TT02_DACA_PV" about="B_TT02_DACA_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B_PT02_DACA_PV" about="B_PT02_DACA_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B_TT01_DACA_PV" about="B_TT01_DACA_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B_PT01_DACA_PV" about="B_PT01_DACA_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B_PDT04_DACA_PV" about="B_PDT04_DACA_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B02G_B31AC3_LD_PV" about="B02G_B31AC3_LD_PV"></td>
+            <td class="td5" name="ZJLX_31" title="B_VT01_DACA_PV" about="B_VT01_DACA_PV"></td>
+            <td class="td6" name="ZJLX_31" title="B05G_B18M_CUND_PV" about="B05G_B18M_CUND_PV"></td>
+            <td class="td6" name="ZJLX_31" title="" about=""></td>
+            <td class="td6" name="ZJLX_31" title="B06G_B57AC_CUND_PV" about="B06G_B57AC_CUND_PV"></td>
+            <td class="td6" name="ZJLX_31" title="B06G_B57AC_SDD_PV" about="B06G_B57AC_SDD_PV"></td>
+            <td class="td7" name="ZJLX_31" title="B08G_B73M_CUND_PV" about="B08G_B73M_CUND_PV"></td>
+            <td class="td7" name="ZJLX_31" title="E_PT04_DACA_PV" about="E_PT04_DACA_PV"></td>
+            <td colspan="2" class="td8" name="ZJLX_31" title="E09G_B7AC_CUND_PV" about="E09G_B7AC_CUND_PV"></td>
+            <td class="td9" name="ZJLX_31" title="SSGL_YLGH_C2" about="SSGL_YLGH_C2"></td>
+            <td colspan="2" class="td10" name="ZJLX_31" title="Q06G_PLJS_PB_1_PV" about="Q06G_PLJS_PB_1_PV"></td>
+        </tr>
+
+        <tr  bgcolor="#BDD7EE">
+            <td rowspan="3" class="td1">杭州区域</td>
+            <td class="td2">建德1#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="HZJD_11" title="AB31AC1_PD_PV" about="AB31AC1_PD_PV"></td>
+            <td class="td5" name="HZJD_11" title="AAFEED_TOTAL_C1" about="AAFEED_TOTAL_C1"></td>
+            <td colspan="2" class="td5" name="HZJD_11" title="AB13M_CUND_PV" about="AB13M_CUND_PV"></td>
+            <td class="td5" name="HZJD_11" title="ABTE02_DACA_PV" about="ABTE02_DACA_PV"></td>
+            <td class="td5" name="HZJD_11" title="ABPT02_DACA_PV" about="ABPT02_DACA_PV"></td>
+            <td class="td5" name="HZJD_11" title="ABTE01_DACA_PV" about="ABTE01_DACA_PV"></td>
+            <td class="td5" name="HZJD_11" title="ABPT01_DACA_PV" about="ABPT01_DACA_PV"></td>
+            <td class="td5" name="HZJD_11" title="ABPT04_DACA_PV" about="ABPT04_DACA_PV"></td>
+            <td class="td5" name="HZJD_11" title="AB31AC1_LD_PV" about="AB31AC1_LD_PV"></td>
+            <td class="td5" name="HZJD_11" title="ABVT01_VD_PV" about="ABVT01_VD_PV"></td>
+            <td class="td6" name="HZJD_11" title="AB18M_CUND_PV" about="AB18M_CUND_PV"></td>
+            <td class="td6" name="HZJD_11" title="" about=""></td>
+            <td class="td6" name="HZJD_11" title="AB57AC_CUND_PV" about="AB57AC_CUND_PV"></td>
+            <td class="td6" name="HZJD_11" title="AB57AC_SDFD_PV" about="AB57AC_SDFD_PV"></td>
+            <td class="td7" name="HZJD_11" title="AB73M_CUND_PV" about="AB73M_CUND_PV"></td>
+            <td class="td7" name="HZJD_11" title="AEPT04_DACA_PV" about="AEPT04_DACA_PV"></td>
+            <td colspan="2" class="td8" name="HZJD_11" title="AB7AC_CUND_PV" about="AB7AC_CUND_PV"></td>
+            <td class="td9" name="HZJD_11" title="ADL_SLDH1_C2" about="ADL_SLDH1_C2"></td>
+            <td colspan="2" class="td10" name="HZJD_11" title="AA5AFCa_B_PV" about="AA5AFCa_B_PV"></td>
+        </tr>
+        <tr  bgcolor="#BDD7EE">
+            <td class="td2">建德2#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="HZJD_21" title="B31AC1_PD_PV" about="B31AC1_PD_PV"></td>
+            <td class="td5" name="HZJD_21" title="AFEED_TOTAL_C1" about="AFEED_TOTAL_C1"></td>
+            <td colspan="2" class="td5" name="HZJD_21" title="B13M_CUND_PV" about="B13M_CUND_PV"></td>
+            <td class="td5" name="HZJD_21" title="BTE02_DACA_PV" about="BTE02_DACA_PV"></td>
+            <td class="td5" name="HZJD_21" title="BPT02_DACA_PV" about="BPT02_DACA_PV"></td>
+            <td class="td5" name="HZJD_21" title="BTE01_DACA_PV" about="BTE01_DACA_PV"></td>
+            <td class="td5" name="HZJD_21" title="BPT01_DACA_PV" about="BPT01_DACA_PV"></td>
+            <td class="td5" name="HZJD_21" title="BPT04_DACA_PV" about="BPT04_DACA_PV"></td>
+            <td class="td5" name="HZJD_21" title="B31AC1_LD_PV" about="B31AC1_LD_PV"></td>
+            <td class="td5" name="HZJD_21" title="BVT01_VD_PV" about="BVT01_VD_PV"></td>
+            <td class="td6" name="HZJD_21" title="B18M_CUND_PV" about="B18M_CUND_PV"></td>
+            <td class="td6" name="HZJD_21" title="" about=""></td>
+            <td class="td6" name="HZJD_21" title="B57AC_CUND_PV" about="B57AC_CUND_PV"></td>
+            <td class="td6" name="HZJD_21" title="B57AC_SDFD_PV" about="B57AC_SDFD_PV"></td>
+            <td class="td7" name="HZJD_21" title="B73M_CUND_PV" about="B73M_CUND_PV"></td>
+            <td class="td7" name="HZJD_21" title="EPT04_DACA_PV" about="EPT04_DACA_PV"></td>
+            <td colspan="2" class="td8" name="HZJD_21" title="B7AC_CUND_PV" about="B7AC_CUND_PV"></td>
+            <td class="td9" name="HZJD_21" title="DL_SLDH_C6" about="DL_SLDH_C6"></td>
+            <td colspan="2" class="td10" name="HZJD_21" title="A6AFCb_B_PV" about="A6AFCb_B_PV"></td>
+        </tr>
+        <tr  bgcolor="#EEDAF6">
+            <td class="td2">桐庐</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="HZTL_11" title="AI41054P" about="AI41054P"></td>
+            <td class="td5" name="HZTL_11" title="TSFK"></td>
+            <td colspan="2" class="td5" name="HZTL_11" title="A41E1AH04I" about="A41E1AH04I"></td>
+            <td class="td5" name="HZTL_11" title="AI4105T01" about="AI4105T01"></td>
+            <td class="td5" name="HZTL_11" title="AI4105P01" about="AI4105P01"></td>
+            <td class="td5" name="HZTL_11" title="AI4105T02" about="AI4105T02"></td>
+            <td class="td5" name="HZTL_11" title="AI4105P02" about="AI4105P02"></td>
+            <td class="td5" name="HZTL_11" title="AI4105P03" about="AI4105P03"></td>
+            <td class="td5" name="HZTL_11" title="AI41054L" about="AI41054L"></td>
+            <td class="td5" name="HZTL_11" title="AI4105V01" about="AI4105V01"></td>
+            <td class="td6" name="HZTL_11" title="A41E1AH05I" about="A41E1AH05I"></td>
+            <td class="td6" name="HZTL_11" title="" about=""></td>
+            <td class="td6" name="HZTL_11" title="AI4105101I" about="AI4105101I"></td>
+            <td class="td6" name="HZTL_11" title="AI4105101S" about="AI4105101S"></td>
+            <td class="td7" name="HZTL_11" title="AI4108I" about="AI4108I"></td>
+            <td class="td7" name="HZTL_11" title="AI4111P01" about="AI4111P01"></td>
+            <td colspan="2" class="td8" name="HZTL_11" title="AI42011I" about="AI42011I"></td>
+            <td class="td9" name="HZTL_11" title="DLSLHJ" about="DLSLHJ"></td>
+            <td colspan="2" class="td10" name="HZTL_11" title="SHSGDBL_1" about="SHSGDBL_1"></td>
+        </tr>
+
+
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="9" class="td1">江西区域</td>
+            <td class="td2">高安1#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="JXGA_11" title="B31AC_PF_M" about="B31AC_PF_M"></td>
+            <td class="td5" name="JXGA_11" title="FEED_TOL" about="FEED_TOL"></td>
+            <td colspan="2" class="td5" name="JXGA_11" title="B13M_CUN_M" about="B13M_CUN_M"></td>
+            <td class="td5" name="JXGA_11" title="BTE02_T_M" about="BTE02_T_M"></td>
+            <td class="td5" name="JXGA_11" title="BTE03_T_M" about="BTE03_T_M"></td>
+            <td class="td5" name="JXGA_11" title="BTE01_T_M" about="BTE01_T_M"></td>
+            <td class="td5" name="JXGA_11" title="BPT01_P_M" about="BPT01_P_M"></td>
+            <td class="td5" name="JXGA_11" title="BPdT04_P_M" about="BPdT04_P_M"></td>
+            <td class="td5" name="JXGA_11" title="B31AC_L_M" about="B31AC_L_M"></td>
+            <td class="td5" name="JXGA_11" title="BVT01_V_M" about="BVT01_V_M"></td>
+            <td class="td6" name="JXGA_11" title="B18M_CUN_M" about="B18M_CUN_M"></td>
+            <td class="td6" name="JXGA_11" title="" about=""></td>
+            <td class="td6" name="JXGA_11" title="B57AC_CUN_M" about="B57AC_CUN_M"></td>
+            <td class="td6" name="JXGA_11" title="B57AC_SDF_M" about="B57AC_SDF_M"></td>
+            <td class="td7" name="JXGA_11" title="B73M_CUN_M" about="B73M_CUN_M"></td>
+            <td class="td7" name="JXGA_11" title="EPT04_P_M" about="EPT04_P_M"></td>
+            <td colspan="2" class="td8" name="JXGA_11" title="B7M_CUN_M" about="B7M_CUN_M"></td>
+            <td class="td9" name="JXGA_11" title="YLZDH_1" about="YLZDH_1"></td>
+            <td class="td10" name="JXGA_11" title="A15AFC_RAT" about="A15AFC_RAT"></td>
+            <td class="td10" name="JXGA_11" title="A20AFC_RAT" about="A20AFC_RAT"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">高安2#</td>
+            <td class="td4">RTM38.4</td>
+            <td colspan="2" class="td5" name="JXGA_21" title="AB42ALC_P" about="AB42ALC_P"></td>
+            <td class="td5" name="JXGA_21" title="AA2ZCL_FI" about="AA2ZCL_FI"></td>
+            <td colspan="2" class="td5" name="JXGA_21" title="AB34M_CUN" about="AB34M_CUN"></td>
+            <td class="td5" name="JXGA_21" title="ABTT02_T" about="ABTT02_T"></td>
+            <td class="td5" name="JXGA_21" title="ABPT02_P" about="ABPT02_P"></td>
+            <td class="td5" name="JXGA_21" title="" about=""></td>
+            <td class="td5" name="JXGA_21" title="ABPT01_P" about="ABPT01_P"></td>
+            <td class="td5" name="JXGA_21" title="ABTT01_T" about="ABTT01_T"></td>
+            <td class="td5" name="JXGA_21" title="" about=""></td>
+            <td class="td5" name="JXGA_21" title="ABVT01_V" about="ABVT01_V"></td>
+            <td class="td6" name="JXGA_21" title="AB22M_CUN" about="AB22M_CUN"></td>
+            <td class="td6" name="JXGA_21" title="" about=""></td>
+            <td class="td6" name="JXGA_21" title="AB38AC_CUN" about="AB38AC_CUN"></td>
+            <td class="td6" name="JXGA_21" title="AB38AC_SDF" about="AB38AC_SDF"></td>
+            <td class="td7" name="JXGA_21" title="AB24M_CUN" about="AB24M_CUN"></td>
+            <td class="td7" name="JXGA_21" title="ABPT04_P" about="ABPT04_P"></td>
+            <td colspan="2" class="td8" name="JXGA_21" title="AB7M_CUN" about="AB7M_CUN"></td>
+            <td class="td9" name="JXGA_21" title="YLZDH_2" about="YLZDH_2"></td>
+            <td class="td10" name="JXGA_21" title="AA2A9AC_SEL" about="AA2A9AC_SEL"></td>
+            <td class="td10" name="JXGA_21" title="AA2A10AC_SEL" about="AA2A10AC_SEL"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">会昌</td>
+            <td class="td4">LGM5024</td>
+            <td colspan="2" class="td5" name="JXHC_11" title="B131ALP5" about="B131ALP5"></td>
+            <td class="td5" name="JXHC_11" title="B_G14_TOL" about="B_G14_TOL"></td>
+            <td colspan="2" class="td5" name="JXHC_11" title="B131ALI2" about="B131ALI2"></td>
+            <td class="td5" name="JXHC_11" title="B13104T1" about="B13104T1"></td>
+            <td class="td5" name="JXHC_11" title="B13104P1" about="B13104P1"></td>
+            <td class="td5" name="JXHC_11" title="B13104T3" about="B13104T3"></td>
+            <td class="td5" name="JXHC_11" title="B13104P3" about="B13104P3"></td>
+            <td class="td5" name="JXHC_11" title="B13104PC" about="B13104PC"></td>
+            <td class="td5" name="JXHC_11" title="B131ALWY1" about="B131ALWY1"></td>
+            <td class="td5" name="JXHC_11" title="B131ALN1" about="B131ALN1"></td>
+            <td class="td6" name="JXHC_11" title="B13123I" about="B13123I"></td>
+            <td class="td6" name="JXHC_11" title="B13123II" about="B13123II"></td>
+            <td class="td6" name="JXHC_11" title="BBPG1AI1" about="BBPG1AI1"></td>
+            <td class="td6" name="JXHC_11" title="BBPG1AS1" about="BBPG1AS1"></td>
+            <td class="td7" name="JXHC_11" title="B131061I1" about="B131061I1"></td>
+            <td class="td7" name="JXHC_11" title="B13117P1" about="B13117P1"></td>
+            <td colspan="2" class="td8" name="JXHC_11" title="B13201I1" about="B13201I1"></td>
+            <td class="td9" name="JXHC_11" title="GL_PSHZDH" about="GL_PSHZDH"></td>
+            <td colspan="2" class="td10" name="JXHC_11" title="B13011_1" about="B13011_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">衡阳</td>
+            <td class="td4">LGM5024</td>
+            <td colspan="2" class="td5" name="JXHY_11" title="AAL1P5" about="AAL1P5"></td>
+            <td class="td5" name="JXHY_11" title="Total" about="Total"></td>
+            <td colspan="2" class="td5" name="JXHY_11" title="AAL1T18" about="AAL1T18"></td>
+            <td class="td5" name="JXHY_11" title="A131104T1" about="A131104T1"></td>
+            <td class="td5" name="JXHY_11" title="A13104P1" about="A13104P1"></td>
+            <td class="td5" name="JXHY_11" title="A131104T3" about="A131104T3"></td>
+            <td class="td5" name="JXHY_11" title="A13104P3" about="A13104P3"></td>
+            <td class="td5" name="JXHY_11" title="A131041YC" about="A131041YC"></td>
+            <td class="td5" name="JXHY_11" title="AAL1W1" about="AAL1W1"></td>
+            <td class="td5" name="JXHY_11" title="AAL1N1" about="AAL1N1"></td>
+            <td class="td6" name="JXHY_11" title="A132811I1" about="A132811I1"></td>
+            <td class="td6" name="JXHY_11" title="" about=""></td>
+            <td class="td6" name="JXHY_11" title="AAL1I1" about="AAL1I1"></td>
+            <td class="td6" name="JXHY_11" title="AAL1S5" about="AAL1S5"></td>
+            <td class="td7" name="JXHY_11" title="A131061I1" about="A131061I1"></td>
+            <td class="td7" name="JXHY_11" title="A13122P1" about="A13122P1"></td>
+            <td colspan="2" class="td8" name="JXHY_11" title="A132011I1" about="A132011I1"></td>
+            <td class="td9" name="JXHY_11" title="SLZDH" about="SLZDH"></td>
+            <td class="td10" name="JXHY_11" title="SV13016" about="SV13016"></td>
+            <td class="td10" name="JXHY_11" title="SV13017" about="SV13017"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">宁远莲花</td>
+            <td class="td4">RTM38.4</td>
+            <td colspan="2" class="td5" name="JXNY_11" title="A13106U2P" about="A13106U2P"></td>
+            <td class="td5" name="JXNY_11" title="A_G18_TOL" about="A_G18_TOL"></td>
+            <td colspan="2" class="td5" name="JXNY_11" title="A13106I1" about="A13106I1"></td>
+            <td class="td5" name="JXNY_11" title="A13106T1" about="A13106T1"></td>
+            <td class="td5" name="JXNY_11" title="A13106P1" about="A13106P1"></td>
+            <td class="td5" name="JXNY_11" title="A13106T3" about="A13106T3"></td>
+            <td class="td5" name="JXNY_11" title="A13106P4_0" about="A13106P4_0"></td>
+            <td class="td5" name="JXNY_11" title="" about=""></td>
+            <td class="td5" name="JXNY_11" title="" about=""></td>
+            <td class="td5" name="JXNY_11" title="A13106N1" about="A13106N1"></td>
+            <td class="td6" name="JXNY_11" title="A13121I1" about="A13121I1"></td>
+            <td class="td6" name="JXNY_11" title="" about=""></td>
+            <td class="td6" name="JXNY_11" title="A13106AI1" about="A13106AI1"></td>
+            <td class="td6" name="JXNY_11" title="A13106AS1" about="A13106AS1"></td>
+            <td class="td7" name="JXNY_11" title="A131091I1" about="A131091I1"></td>
+            <td class="td7" name="JXNY_11" title="A13118P1" about="A13118P1"></td>
+            <td colspan="2" class="td8" name="JXNY_11" title="A132011I1" about="A132011I1"></td>
+            <td class="td9" name="JXNY_11" title="" about=""></td>
+            <td colspan="2" class="td10" name="JXNY_11" title="A13005_1" about="A13005_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="2" class="td2">永州红狮</td>
+            <td class="td4">180*160</td>
+            <td class="td5" name="JXYZ_11" title="A361RP01HA_AI09" about="A361RP01HA_AI09"></td>
+            <td class="td5" name="JXYZ_11" title="A361RP01HA_AI10" about="A361RP01HA_AI10"></td>
+            <td class="td5" name="JXYZ_11" title="TSFK_1_VALUE" about="TSFK_1.VALUE"></td>
+            <td class="td5" name="JXYZ_11" title="A361RP01HA_AI13_PV" about="A361RP01HA_AI13.PV"></td>
+            <td class="td5" name="JXYZ_11" title="A361RP01HA_AI14_PV" about="A361RP01HA_AI14.PV"></td>
+            <td class="td5" name="JXYZ_11" title="AI361SR01T01_PV" about="AI361SR01T01.PV"></td>
+            <td class="td5" name="JXYZ_11" title="AI361SR01P01_PV" about="AI361SR01P01.PV"></td>
+            <td class="td5" name="JXYZ_11" title="AI361CS01T01_PV" about="AI361CS01T01.PV"></td>
+            <td class="td5" name="JXYZ_11" title="" about=""></td>
+            <td class="td5" name="JXYZ_11" title="" about=""></td>
+            <td class="td5" name="JXYZ_11" title="" about=""></td>
+            <td class="td5" name="JXYZ_11" title="" about=""></td>
+            <td class="td6" name="JXYZ_11" title="A361FN01_AI07_PV" about="A361FN01_AI07.PV"></td>
+            <td class="td6" name="JXYZ_11" title="A361FN01_AI01_PV" about="A361FN01_AI01.PV"></td>
+            <td class="td6" name="JXYZ_11" title="DPVF361SR03II_PV" about="DPVF361SR03II.PV"></td>
+            <td class="td6" name="JXYZ_11" title="DPVF361SR03SS_PV" about="DPVF361SR03SS.PV"></td>
+            <td class="td7" name="JXYZ_11" title="A361BE03_I" about="A361BE03_I"></td>
+            <td class="td7" name="JXYZ_11" title="AI361CS01P01_PV" about="AI361CS01P01.PV"></td>
+            <td colspan="2" rowspan="2" class="td8" name="JXYZ_11" title="A391BE01_TII" about="A391BE01_TII"></td>
+            <td class="td9" name="JXYZ_11" title="" about=""></td>
+            <td colspan="2" class="td10" name="JXYZ_11" title="" about=""></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td4">180*160</td>
+            <td class="td5" name="JXYZ_12" title="A361RP02HA_AI09" about="A361RP02HA_AI09"></td>
+            <td class="td5" name="JXYZ_12" title="A361RP02HA_AI10" about="A361RP02HA_AI10"></td>
+            <td class="td5" name="JXYZ_12" title="TSFK_2_VALUE" about="TSFK_2.VALUE"></td>
+            <td class="td5" name="JXYZ_12" title="A361RP02HA_AI13_PV" about="A361RP02HA_AI13.PV"></td>
+            <td class="td5" name="JXYZ_12" title="A361RP02HA_AI14_PV" about="A361RP02HA_AI14.PV"></td>
+            <td class="td5" name="JXYZ_12" title="AI361SR02T01_PV" about="AI361SR02T01.PV"></td>
+            <td class="td5" name="JXYZ_12" title="AI361SR02P01_PV" about="AI361SR02P01.PV"></td>
+            <td class="td5" name="JXYZ_12" title="AI361CS02T01_PV" about="AI361CS02T01.PV"></td>
+            <td class="td5" name="JXYZ_12" title="" about=""></td>
+            <td class="td5" name="JXYZ_12" title="" about=""></td>
+            <td class="td5" name="JXYZ_12" title="" about=""></td>
+            <td class="td5" name="JXYZ_12" title="" about=""></td>
+            <td class="td6" name="JXYZ_12" title="A361FN02_AI07_PV" about="A361FN02_AI07.PV"></td>
+            <td class="td6" name="JXYZ_12" title="A361FN02_AI01_PV" about="A361FN02_AI01.PV"></td>
+            <td class="td6" name="JXYZ_12" title="DPVF361SR04II_PV" about="DPVF361SR04II.PV"></td>
+            <td class="td6" name="JXYZ_12" title="DPVF361SR04SS_PV" about="DPVF361SR04SS.PV"></td>
+            <td class="td7" name="JXYZ_12" title="A361BE04_I" about="A361BE04_I"></td>
+            <td class="td7" name="JXYZ_12" title="AI361CS02P01_PV" about="AI361CS02P01.PV"></td>
+            <td class="td9" name="JXYZ_12" title="" about=""></td>
+            <td colspan="2" class="td10" name="JXYZ_12" title="" about=""></td>
+        </tr>
+
+
+        <tr bgcolor="#EEDAF6">
+            <td rowspan="2" class="td2">江西鹰鹏</td>
+            <td class="td4">180*160</td>
+            <td class="td5" name="JXYP_11" title="A361RP01HA_AI09" about="A361RP01HA_AI09"></td>
+            <td class="td5" name="JXYP_11" title="A361RP01HA_AI10" about="A361RP01HA_AI10"></td>
+            <td class="td5" name="JXYP_11" title="TSFK_1_VALUE" about="TSFK_1.VALUE"></td>
+            <td class="td5" name="JXYP_11" title="A361RP01HA_AI13_PV" about="A361RP01HA_AI13.PV"></td>
+            <td class="td5" name="JXYP_11" title="A361RP01HA_AI14_PV" about="A361RP01HA_AI14.PV"></td>
+            <td class="td5" name="JXYP_11" title="AI11_1T01_PV" about="AI11_1T01.PV"></td>
+            <td class="td5" name="JXYP_11" title="AI11_1P01_PV" about="AI11_1P01.PV"></td>
+            <td class="td5" name="JXYP_11" title="AI21_1T01" about="AI21_1T01"></td>
+            <td class="td5" name="JXYP_11" title="AI21_1P01" about="AI21_1P01"></td>
+            <td class="td5" name="JXYP_11" title="" about=""></td>
+            <td class="td5" name="JXYP_11" title="" about=""></td>
+            <td class="td5" name="JXYP_11" title="" about=""></td>
+            <td class="td6" name="JXYP_11" title="AI27_1I_PV" about="AI27_1I.PV"></td>
+            <td class="td6" name="JXYP_11" title="AI27_1F_PV" about="AI27_1F.PV"></td>
+            <td class="td6" name="JXYP_11" title="DP17_1VF01_4_PV" about="DP17_1VF01_4.PV"></td>
+            <td class="td6" name="JXYP_11" title="DP17_1VF01_3_PV" about="DP17_1VF01_3.PV"></td>
+            <td class="td7" name="JXYP_11" title="DP12_1SS01_3" about="DP12_1SS01_3"></td>
+            <td class="td7" name="JXYP_11" title="AI21_1P01_PV" about="AI21_1P01.PV"></td>
+            <td rowspan="2" class="td8" name="JXYP_11" title="DP391BE01SS01_3_PV" about="DP391BE01SS01_3.PV"></td>
+            <td rowspan="2" class="td8" name="JXYP_11" title="DP391BE01SS02_3_PV" about="DP391BE01SS02_3.PV"></td>
+            <td class="td9" name="JXYP_11" title="ZDH_1_VALUE" about="ZDH_1.VALUE"></td>
+            <td colspan="2" class="td10" name="JXYP_11" title="PBSB_1GD" about="PBSB_1GD"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td4">180*160</td>
+            <td class="td5" name="JXYP_12" title="A361RP02HA_AI09" about="A361RP02HA_AI09"></td>
+            <td class="td5" name="JXYP_12" title="A361RP02HA_AI10" about="A361RP02HA_AI10"></td>
+            <td class="td5" name="JXYP_12" title="TSFK_2_VALUE" about="TSFK_2.VALUE"></td>
+            <td class="td5" name="JXYP_12" title="A361RP02HA_AI13_PV" about="A361RP02HA_AI13.PV"></td>
+            <td class="td5" name="JXYP_12" title="A361RP02HA_AI14_PV" about="A361RP02HA_AI14.PV"></td>
+            <td class="td5" name="JXYP_12" title="AI11_2T01_PV" about="AI11_2T01.PV"></td>
+            <td class="td5" name="JXYP_12" title="AI11_2P01_PV" about="AI11_2P01.PV"></td>
+            <td class="td5" name="JXYP_12" title="AI21_2T01" about="AI21_2T01"></td>
+            <td class="td5" name="JXYP_12" title="AI21_2P01" about="AI21_2P01"></td>
+            <td class="td5" name="JXYP_12" title="" about=""></td>
+            <td class="td5" name="JXYP_12" title="" about=""></td>
+            <td class="td5" name="JXYP_12" title="" about=""></td>
+            <td class="td6" name="JXYP_12" title="AI27_2I_PV" about="AI27_2I.PV"></td>
+            <td class="td6" name="JXYP_12" title="AI27_2F" about="AI27_2F"></td>
+            <td class="td6" name="JXYP_12" title="DP17_2VF01_4_PV" about="DP17_2VF01_4.PV"></td>
+            <td class="td6" name="JXYP_12" title="DP17_2VF01_3_PV" about="DP17_2VF01_3.PV"></td>
+            <td class="td7" name="JXYP_12" title="DP12_2SS01_3" about="DP12-2SS01_3"></td>
+            <td class="td7" name="JXYP_12" title="AI21_2P01_PV" about="AI21_2P01.PV"></td>
+            <td class="td9" name="JXYP_12" title="ZDH_2_VALUE" about="ZDH_2.VALUE"></td>
+            <td colspan="2" class="td10" name="JXYP_12" title="PBSB_5GD_VALUE" about="PBSB_5GD.VALUE"></td>
+        </tr>
+
+
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="5" class="td1">福建区域</td>
+            <td class="td2">漳平1#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="FJZP_11" title="I_AAI41054P01" about="I_AAI41054P01"></td>
+            <td class="td5" name="FJZP_11" title="ARAWIN" about="ARAWIN"></td>
+            <td colspan="2" class="td5" name="FJZP_11" title="I_AAI4105MI" about="I_AAI4105MI"></td>
+            <td class="td5" name="FJZP_11" title="I_AAI4105T01" about="I_AAI4105T01"></td>
+            <td class="td5" name="FJZP_11" title="I_AAI4105P01" about="I_AAI4105P01"></td>
+            <td class="td5" name="FJZP_11" title="I_AAI4105T02" about="I_AAI4105T02"></td>
+            <td class="td5" name="FJZP_11" title="I_AAI4105P02" about="I_AAI4105P02"></td>
+            <td class="td5" name="FJZP_11" title="I_AAI4105P03" about="I_AAI4105P03"></td>
+            <td class="td5" name="FJZP_11" title="I_AAI41054L01" about="I_AAI41054L01"></td>
+            <td class="td5" name="FJZP_11" title="I_AA4105V01" about="I_AA4105V01"></td>
+            <td class="td6" name="FJZP_11" title="I_AAI4125MI" about="I_AAI4125MI"></td>
+            <td class="td6" name="FJZP_11" title="" about=""></td>
+            <td class="td6" name="FJZP_11" title="I_AAI4105101I" about="I_AAI4105101I"></td>
+            <td class="td6" name="FJZP_11" title="I_AAI4105101S" about="I_AAI4105101S"></td>
+            <td class="td7" name="FJZP_11" title="I_AAI41081I" about="I_AAI41081I"></td>
+            <td class="td7" name="FJZP_11" title="I_AAI4114P01" about="I_AAI4114P01"></td>
+            <td colspan="2" class="td8" name="FJZP_11" title="I_AAI4201I" about="I_AAI4201I"></td>
+            <td class="td9" name="FJZP_11" title="SLZDH002" about="SLZDH002"></td>
+            <td colspan="2" class="td10" name="FJZP_11" title="P_AAI3513F" about="P_AAI3513F"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">漳平2#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="FJZP_21" title="M4105P01" about="M4105P01"></td>
+            <td class="td5" name="FJZP_21" title="TSFK" about="TSFK"></td>
+            <td colspan="2" class="td5" name="FJZP_21" title="M4105I" about="M4105I"></td>
+            <td class="td5" name="FJZP_21" title="T410501" about="T410501"></td>
+            <td class="td5" name="FJZP_21" title="P410501" about="P410501"></td>
+            <td class="td5" name="FJZP_21" title="T410502" about="T410502"></td>
+            <td class="td5" name="FJZP_21" title="P410502" about="P410502"></td>
+            <td class="td5" name="FJZP_21" title="P410503" about="P410503"></td>
+            <td class="td5" name="FJZP_21" title="M4105L01" about="M4105L01"></td>
+            <td class="td5" name="FJZP_21" title="V410501" about="V410501"></td>
+            <td class="td6" name="FJZP_21" title="M4125HI" about="M4125HI"></td>
+            <td class="td6" name="FJZP_21" title="" about=""></td>
+            <td class="td6" name="FJZP_21" title="M4105101I" about="M4105101I"></td>
+            <td class="td6" name="FJZP_21" title="M4105101SD" about="M4105101SD"></td>
+            <td class="td7" name="FJZP_21" title="M41081I" about="M41081I"></td>
+            <td class="td7" name="FJZP_21" title="P411404" about="P411404"></td>
+            <td colspan="2" class="td8" name="FJZP_21" title="M4201I" about="M4201I"></td>
+            <td class="td9" name="FJZP_21" title="SLZDH001" about="SLZDH001"></td>
+            <td colspan="2" class="td10" name="FJZP_21" title="SHSGDBL_1" about="SHSGDBL_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="2" class="td2">漳平3#</td>
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="FJZP_31" title="DP361RM01_AI01" about="DP361RM01_AI01"></td>
+            <td class="td5" name="FJZP_31" title="TSFK_1_VALUE" about="TSFK_1.VALUE"></td>
+            <td colspan="2" class="td5" name="FJZP_31" title="DP361RM01_AI39" about="DP361RM01_AI39"></td>
+            <td class="td5" name="FJZP_31" title="AI361RM01TT01" about="AI361RM01TT01"></td>
+            <td class="td5" name="FJZP_31" title="AI361RM01PT01" about="AI361RM01PT01"></td>
+            <td class="td5" name="FJZP_31" title="AI361RM01TT02" about="AI361RM01TT02"></td>
+            <td class="td5" name="FJZP_31" title="AI361RM01PT02" about="AI361RM01PT02"></td>
+            <td class="td5" name="FJZP_31" title="AI361RM01PT03" about="AI361RM01PT03"></td>
+            <td class="td5" name="FJZP_31" title="DP361RM01_AI03" about="DP361RM01_AI03"></td>
+            <td class="td5" name="FJZP_31" title="DP361RM01_AI23" about="DP361RM01_AI23"></td>
+            <td class="td6" name="FJZP_31" title="DP361FN03VF01_AI10" about="DP361FN03VF01_AI10"></td>
+            <td class="td6" name="FJZP_31" title="DP361FN03VF01_AI05" about="DP361FN03VF01_AI05"></td>
+            <td class="td6" name="FJZP_31" title="AI361RM01M3_II" about="AI361RM01M3_II"></td>
+            <td class="td6" name="FJZP_31" title="AI361RM01M3_V_PV" about="AI361RM01M3_V.PV"></td>
+            <td class="td7" name="FJZP_31" title="COM361BE01MT01_I" about="COM361BE01MT01_I"></td>
+            <td class="td7" name="FJZP_31" title="AI361FN03PT01" about="AI361FN03PT01"></td>
+            <td rowspan="2" class="td8" name="FJZP_31" title="AI391BE01MT01_II_PV" about="AI391BE01MT01_II.PV"></td>
+            <td rowspan="2" class="td8" name="FJZP_31" title="AI391BE01MT02_II_PV" about="AI391BE01MT02_II.PV"></td>
+            <td class="td9" name="FJZP_31" title="" about=""></td>
+            <td colspan="2" class="td10" name="FJZP_31" title="PBSB_1GD_VALUE" about="PBSB_1GD.VALUE"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="FJZP_32" title="DP361RM02_AI01" about="DP361RM02_AI01"></td>
+            <td class="td5" name="FJZP_32" title="TSFK_2" about="TSFK_2"></td>
+            <td colspan="2" class="td5" name="FJZP_32" title="DP361RM02_AI39" about="DP361RM02_AI39"></td>
+            <td class="td5" name="FJZP_32" title="AI361RM02TT01" about="AI361RM02TT01"></td>
+            <td class="td5" name="FJZP_32" title="AI361RM02PT01" about="AI361RM02PT01"></td>
+            <td class="td5" name="FJZP_32" title="AI361RM02TT02" about="AI361RM02TT02"></td>
+            <td class="td5" name="FJZP_32" title="AI361RM02PT02" about="AI361RM02PT02"></td>
+            <td class="td5" name="FJZP_32" title="AI361RM02PT03" about="AI361RM02PT03"></td>
+            <td class="td5" name="FJZP_32" title="DP361RM02_AI03" about="DP361RM02_AI03"></td>
+            <td class="td5" name="FJZP_32" title="DP361RM02_AI23" about="DP361RM02_AI23"></td>
+            <td class="td6" name="FJZP_32" title="DP361FN04VF01_AI10" about="DP361FN04VF01_AI10"></td>
+            <td class="td6" name="FJZP_32" title="DP361FN04VF01_AI05" about="DP361FN04VF01_AI05"></td>
+            <td class="td6" name="FJZP_32" title="AI361RM02M3_II" about="AI361RM02M3_II"></td>
+            <td class="td6" name="FJZP_32" title="AI361RM02M3_V_PV" about="AI361RM02M3_V.PV"></td>
+            <td class="td7" name="FJZP_32" title="COM361BE01MT01_I" about="COM361BE01MT01_I"></td>
+            <td class="td7" name="FJZP_32" title="AI361FN04PT01" about="AI361FN04PT01"></td>
+            <td class="td9" name="FJZP_32" title="" about=""></td>
+            <td colspan="2" class="td10" name="FJZP_32" title="PBSB_2GD" about="PBSB_2GD"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">大田</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="FJDT_11" title="PI1_41059" about="PI1_41059"></td>
+            <td class="td5" name="FJDT_11" title="S_YL1" about="S_YL1"></td>
+            <td colspan="2" class="td5" name="FJDT_11" title="AI_4105" about="AI_4105"></td>
+            <td class="td5" name="FJDT_11" title="T01_4105" about="T01_4105"></td>
+            <td class="td5" name="FJDT_11" title="P01_4105" about="P01_4105"></td>
+            <td class="td5" name="FJDT_11" title="T02_4105" about="T02_4105"></td>
+            <td class="td5" name="FJDT_11" title="P02_4105" about="P02_4105"></td>
+            <td class="td5" name="FJDT_11" title="P03_4105" about="P03_4105"></td>
+            <td class="td5" name="FJDT_11" title="HI1_41059" about="HI1_41059"></td>
+            <td class="td5" name="FJDT_11" title="V01_4105" about="V01_4105"></td>
+            <td class="td6" name="FJDT_11" title="AI_4125" about="AI_4125"></td>
+            <td class="td6" name="FJDT_11" title="" about=""></td>
+            <td class="td6" name="FJDT_11" title="AI1_05101" about="AI1_05101"></td>
+            <td class="td6" name="FJDT_11" title="AI2_05101" about="AI2_05101"></td>
+            <td class="td7" name="FJDT_11" title="A01_41081" about="A01_41081"></td>
+            <td class="td7" name="FJDT_11" title="P01_4114" about="P01_4114"></td>
+            <td colspan="2" class="td8" name="FJDT_11" title="AI1_4201" about="AI1_4201"></td>
+            <td class="td9" name="FJDT_11" title="SLDH_HJ" about="SLDH_HJ"></td>
+            <td colspan="2" class="td10" name="FJDT_11" title="GP_3518" about="GP_3518"></td>
+        </tr>
+
+
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="11" class="td1">云南区域</td>
+            <td class="td2">宜良1#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="YNYL_11" title="AI41054GP" about="AI41054GP"></td>
+            <td class="td5" name="YNYL_11" title="TSFK" about="TSFK"></td>
+            <td colspan="2" class="td5" name="YNYL_11" title="AI4105MI" about="AI4105MI"></td>
+            <td class="td5" name="YNYL_11" title="AI4105T01" about="AI4105T01"></td>
+            <td class="td5" name="YNYL_11" title="AI4105P01" about="AI4105P01"></td>
+            <td class="td5" name="YNYL_11" title="AI4105T02" about="AI4105T02"></td>
+            <td class="td5" name="YNYL_11" title="AI4105P02" about="AI4105P02"></td>
+            <td class="td5" name="YNYL_11" title="AI4105P03" about="AI4105P03"></td>
+            <td class="td5" name="YNYL_11" title="AI41054LC" about="AI41054LC"></td>
+            <td class="td5" name="YNYL_11" title="AI4105C01" about="AI4105C01"></td>
+            <td class="td6" name="YNYL_11" title="AI4122MI" about="AI4122MI"></td>
+            <td class="td6" name="YNYL_11" title="AI4122Z01" about="AI4122Z01"></td>
+            <td class="td6" name="YNYL_11" title="AI4105101C" about="AI4105101C"></td>
+            <td class="td6" name="YNYL_11" title="AI4105101S" about="AI4105101S"></td>
+            <td class="td7" name="YNYL_11" title="AI41081MI" about="AI41081MI"></td>
+            <td class="td7" name="YNYL_11" title="AI4111P01" about="AI4111P01"></td>
+            <td colspan="2" class="td8" name="YNYL_11" title="AI42011MI" about="AI42011MI"></td>
+            <td class="td9" name="YNYL_11" title="H04" about="H04"></td>
+            <td colspan="2" class="td10" name="YNYL_11" title="SHSGDBL_1" about="SHSGDBL_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">宜良2#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="YNYL_21" title="MI41054GP" about="MI41054GP"></td>
+            <td class="td5" name="YNYL_21" title="TSFK4105" about="TSFK4105"></td>
+            <td colspan="2" class="td5" name="YNYL_21" title="MI4105I" about="MI4105I"></td>
+            <td class="td5" name="YNYL_21" title="MI4105T1" about="MI4105T1"></td>
+            <td class="td5" name="YNYL_21" title="MI4105P1" about="MI4105P1"></td>
+            <td class="td5" name="YNYL_21" title="MI4105T2" about="MI4105T2"></td>
+            <td class="td5" name="YNYL_21" title="MI4105P2" about="MI4105P2"></td>
+            <td class="td5" name="YNYL_21" title="MI4105P3" about="MI4105P3"></td>
+            <td class="td5" name="YNYL_21" title="MI41054LC" about="MI41054LC"></td>
+            <td class="td5" name="YNYL_21" title="MI4105V" about="MI4105V"></td>
+            <td class="td6" name="YNYL_21" title="MI4125MI" about="MI4125MI"></td>
+            <td class="td6" name="YNYL_21" title="MI4125S" about="MI4125S"></td>
+            <td class="td6" name="YNYL_21" title="MI41052I" about="MI41052I"></td>
+            <td class="td6" name="YNYL_21" title="MI41052S" about="MI41052S"></td>
+            <td class="td7" name="YNYL_21" title="MI4108I" about="MI4108I"></td>
+            <td class="td7" name="YNYL_21" title="MI4114P1" about="MI4114P1"></td>
+            <td colspan="2" class="td8" name="YNYL_21" title="MI4201I" about="MI4201I"></td>
+            <td class="td9" name="YNYL_21" title="H04P" about="H04P"></td>
+            <td colspan="2" class="td10" name="YNYL_21" title="SHSGDBL1" about="SHSGDBL1"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">南宁</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="YNNN_11" title="P4102F01" about="P4102F01"></td>
+            <td class="td5" name="YNNN_11" title="LMTSFK" about="LMTSFK"></td>
+            <td colspan="2" class="td5" name="YNNN_11" title="AI4105" about="AI4105"></td>
+            <td class="td5" name="YNNN_11" title="T4105T01" about="T4105T01"></td>
+            <td class="td5" name="YNNN_11" title="P4105P01" about="P4105P01"></td>
+            <td class="td5" name="YNNN_11" title="T4105T02" about="T4105T02"></td>
+            <td class="td5" name="YNNN_11" title="P4105P02" about="P4105P02"></td>
+            <td class="td5" name="YNNN_11" title="P4105P03" about="P4105P03"></td>
+            <td class="td5" name="YNNN_11" title="L4102F01" about="L4102F01"></td>
+            <td class="td5" name="YNNN_11" title="V41059Z01" about="V41059Z01"></td>
+            <td class="td6" name="YNNN_11" title="AI4125" about="AI4125"></td>
+            <td class="td6" name="YNNN_11" title="SI4125B" about="SI4125B"></td>
+            <td class="td6" name="YNNN_11" title="AI410501" about="AI410501"></td>
+            <td class="td6" name="YNNN_11" title="SI410501" about="SI410501"></td>
+            <td class="td7" name="YNNN_11" title="AI41081" about="AI41081"></td>
+            <td class="td7" name="YNNN_11" title="P4114P01" about="P4114P01"></td>
+            <td colspan="2" class="td8" name="YNNN_11" title="AI42011" about="AI42011"></td>
+            <td class="td9" name="YNNN_11" title="AVG6a" about="AVG6a"></td>
+            <td colspan="2" class="td10" name="YNNN_11" title="SHSGDBL" about="SHSGDBL"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">龙里1#</td>
+            <td class="td4">LGM5024</td>
+            <td colspan="2" class="td5" name="YNLL_11" title="B34ACP1" about="B34ACP1"></td>
+            <td class="td5" name="YNLL_11" title="FKYULIAO" about="FKYULIAO"></td>
+            <td colspan="2" class="td5" name="YNLL_11" title="B34M11CUN" about="B34M11CUN"></td>
+            <td class="td5" name="YNLL_11" title="BTE02aT" about="BTE02aT"></td>
+            <td class="td5" name="YNLL_11" title="BPT02aP" about="BPT02aP"></td>
+            <td class="td5" name="YNLL_11" title="BTE01T" about="BTE01T"></td>
+            <td class="td5" name="YNLL_11" title="BPT01P" about="BPT01P"></td>
+            <td class="td5" name="YNLL_11" title="BPdT03P" about="BPdT03P"></td>
+            <td class="td5" name="YNLL_11" title="" about=""></td>
+            <td class="td5" name="YNLL_11" title="B34ACV" about="B34ACV"></td>
+            <td class="td6" name="YNLL_11" title="B22MCUN" about="B22MCUN"></td>
+            <td class="td6" name="YNLL_11" title="XHFJHZ" about="XHFJHZ"></td>
+            <td class="td6" name="YNLL_11" title="B57ACCUN" about="B57ACCUN"></td>
+            <td class="td6" name="YNLL_11" title="B57ACSDF" about="B57ACSDF"></td>
+            <td class="td7" name="YNLL_11" title="B24MCUN" about="B24MCUN"></td>
+            <td class="td7" name="YNLL_11" title="BPT04P" about="BPT04P"></td>
+            <td colspan="2" class="td8" name="YNLL_11" title="B7MCUN" about="B7MCUN"></td>
+            <td class="td9" name="YNLL_11" title="YLZDH" about="YLZDH"></td>
+            <td colspan="2" class="td10" name="YNLL_11" title="BL_A5AC" about="BL_A5AC"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="2" class="td2">龙里2#</td>
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="YNLL_21" title="T4111YMYL" about="T4111YMYL"></td>
+            <td class="td5" name="YNLL_21" title="LM1TCFI" about="LM1TCFI"></td>
+            <td colspan="2" class="td5" name="YNLL_21" title="M4111AI" about="M4111AI"></td>
+            <td class="td5" name="YNLL_21" title="T411101" about="T411101"></td>
+            <td class="td5" name="YNLL_21" title="P411101" about="P411101"></td>
+            <td class="td5" name="YNLL_21" title="T411102" about="T411102"></td>
+            <td class="td5" name="YNLL_21" title="P411102" about="P411102"></td>
+            <td class="td5" name="YNLL_21" title="P411103" about="P411103"></td>
+            <td class="td5" name="YNLL_21" title="" about=""></td>
+            <td class="td5" name="YNLL_21" title="V411101" about="V411101"></td>
+            <td class="td6" name="YNLL_21" title="M4143AI" about="M4143AI"></td>
+            <td class="td6" name="YNLL_21" title="M4143SI" about="M4143SI"></td>
+            <td class="td6" name="YNLL_21" title="M41113AI" about="M41113AI"></td>
+            <td class="td6" name="YNLL_21" title="M41113SI" about="M41113SI"></td>
+            <td class="td7" name="YNLL_21" title="M4119AI" about="M4119AI"></td>
+            <td class="td7" name="YNLL_21" title="P414301" about="P414301"></td>
+            <td rowspan="2" class="td8" name="YNLL_21" title="M4201aAI" about="M4201aAI"></td>
+            <td rowspan="2" class="td8" name="YNLL_21" title="M4201bAI" about="M4201bAI"></td>
+            <td class="td9" name="YNLL_21" title="SLDH2" about="SLDH2"></td>
+            <td colspan="2" class="td10" name="YNLL_21" title="PB3510" about="PB3510"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="YNLL_22" title="T4112YMYL" about="T4112YMYL"></td>
+            <td class="td5" name="YNLL_22" title="LM2TCFI" about="LM2TCFI"></td>
+            <td colspan="2" class="td5" name="YNLL_22" title="M4112AI" about="M4112AI"></td>
+            <td class="td5" name="YNLL_22" title="T411201" about="T411201"></td>
+            <td class="td5" name="YNLL_22" title="P411201" about="P411201"></td>
+            <td class="td5" name="YNLL_22" title="T411202" about="T411202"></td>
+            <td class="td5" name="YNLL_22" title="P411202" about="P411202"></td>
+            <td class="td5" name="YNLL_22" title="P411203" about="P411203"></td>
+            <td class="td5" name="YNLL_22" title="" about=""></td>
+            <td class="td5" name="YNLL_22" title="V411201" about="V411201"></td>
+            <td class="td6" name="YNLL_22" title="M4144AI" about="M4144AI"></td>
+            <td class="td6" name="YNLL_22" title="M4144SI" about="M4144SI"></td>
+            <td class="td6" name="YNLL_22" title="M41123AI" about="M41123AI"></td>
+            <td class="td6" name="YNLL_22" title="M41123SI" about="M41123SI"></td>
+            <td class="td7" name="YNLL_22" title="M4120AI" about="M4120AI"></td>
+            <td class="td7" name="YNLL_22" title="P414401" about="P414401"></td>
+            <td class="td9" name="YNLL_22" title="SLDH3" about="SLDH3"></td>
+            <td colspan="2" class="td10" name="YNLL_22" title="PB3511" about="PB3511"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td rowspan="2" class="td2">崇左</td>
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="YNCZ_11" title="T4111YMYL" about="T4111YMYL"></td>
+            <td class="td5" name="YNCZ_11" title="LM1TCFI" about="LM1TCFI"></td>
+            <td colspan="2" class="td5" name="YNCZ_11" title="M4111AI" about="M4111AI"></td>
+            <td class="td5" name="YNCZ_11" title="T411101" about="T411101"></td>
+            <td class="td5" name="YNCZ_11" title="P411101" about="P411101"></td>
+            <td class="td5" name="YNCZ_11" title="T411102" about="T411102"></td>
+            <td class="td5" name="YNCZ_11" title="P411102" about="P411102"></td>
+            <td class="td5" name="YNCZ_11" title="P411103_1" about="P411103_1"></td>
+            <td class="td5" name="YNCZ_11" title="T4111Y01" about="T4111Y01"></td>
+            <td class="td5" name="YNCZ_11" title="V411101" about="V411101"></td>
+            <td class="td6" name="YNCZ_11" title="M4143AI" about="M4143AI"></td>
+            <td class="td6" name="YNCZ_11" title="M4143SI" about="M4143SI"></td>
+            <td class="td6" name="YNCZ_11" title="M41113AI" about="M41113AI"></td>
+            <td class="td6" name="YNCZ_11" title="M41113SI" about="M41113SI"></td>
+            <td class="td7" name="YNCZ_11" title="M4119AI" about="M4119AI"></td>
+            <td class="td7" name="YNCZ_11" title="P414301" about="P414301"></td>
+            <td rowspan="2" class="td8" name="YNCZ_11" title="M4201aAI" about="M4201aAI"></td>
+            <td rowspan="2" class="td8" name="YNCZ_11" title="M4201bAI" about="M4201bAI"></td>
+            <td class="td9" name="YNCZ_11" title="LMZDH1" about="LMZDH1"></td>
+            <td colspan="2" class="td10" name="YNCZ_11" title="PB7320" about="PB7320"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="YNCZ_12" title="T4112YMYL" about="T4112YMYL"></td>
+            <td class="td5" name="YNCZ_12" title="LM2TCFI" about="LM2TCFI"></td>
+            <td colspan="2" class="td5" name="YNCZ_12" title="M4112AI" about="M4112AI"></td>
+            <td class="td5" name="YNCZ_12" title="T411201" about="T411201"></td>
+            <td class="td5" name="YNCZ_12" title="P411201" about="P411201"></td>
+            <td class="td5" name="YNCZ_12" title="T411202" about="T411202"></td>
+            <td class="td5" name="YNCZ_12" title="P411202" about="P411202"></td>
+            <td class="td5" name="YNCZ_12" title="P411203_1" about="P411203_1"></td>
+            <td class="td5" name="YNCZ_12" title="T4112Y01" about="T4112Y01"></td>
+            <td class="td5" name="YNCZ_12" title="V411201" about="V411201"></td>
+            <td class="td6" name="YNCZ_12" title="M4144AI" about="M4144AI"></td>
+            <td class="td6" name="YNCZ_12" title="M4144SI" about="M4144SI"></td>
+            <td class="td6" name="YNCZ_12" title="M41123AI" about="M41123AI"></td>
+            <td class="td6" name="YNCZ_12" title="M41123SI" about="M41123SI"></td>
+            <td class="td7" name="YNCZ_12" title="M4120AI" about="M4120AI"></td>
+            <td class="td7" name="YNCZ_12" title="P414401" about="P414401"></td>
+            <td class="td9" name="YNCZ_12" title="LMZDH2" about="LMZDH2"></td>
+            <td colspan="2" class="td10" name="YNCZ_12" title="PB7319" about="PB7319"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="2" class="td2">茂鑫</td>
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="YNMX_11" title="RM1YMP" about="RM1YMP"></td>
+            <td class="td5" name="YNMX_11" title="TSFK_1" about="TSFK_1"></td>
+            <td colspan="2" class="td5" name="YNMX_11" title="I361RM1" about="I361RM1"></td>
+            <td class="td5" name="YNMX_11" title="T361RM01T1" about="T361RM01T1"></td>
+            <td class="td5" name="YNMX_11" title="P361RM01P1" about="P361RM01P1"></td>
+            <td class="td5" name="YNMX_11" title="T361RM01T2" about="T361RM01T2"></td>
+            <td class="td5" name="YNMX_11" title="P361RM01P2" about="P361RM01P2"></td>
+            <td class="td5" name="YNMX_11" title="YC361RM01" about="YC361RM01"></td>
+            <td class="td5" name="YNMX_11" title="RM1G1W" about="RM1G1W"></td>
+            <td class="td5" name="YNMX_11" title="V361RM01" about="V361RM01"></td>
+            <td class="td6" name="YNMX_11" title="I361FN03" about="I361FN03"></td>
+            <td class="td6" name="YNMX_11" title="S361FN03" about="S361FN03"></td>
+            <td class="td6" name="YNMX_11" title="I361RM1M3" about="I361RM1M3"></td>
+            <td class="td6" name="YNMX_11" title="S361RM1M3" about="S361RM1M3"></td>
+            <td class="td7" name="YNMX_11" title="I361BE01" about="I361BE01"></td>
+            <td class="td7" name="YNMX_11" title="P361FN03P1" about="P361FN03P1"></td>
+            <td rowspan="2" class="td8" name="YNMX_11" title="I1391BE01" about="I1391BE01"></td>
+            <td rowspan="2" class="td8" name="YNMX_11" title="I2391BE01" about="I2391BE01"></td>
+            <td class="td9" name="YNMX_11" title="PSLGX" about="PSLGX"></td>
+            <td colspan="2" class="td10" name="YNMX_11" title="PBSB_1" about="PBSB_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="YNMX_12" title="RM2YMP" about="RM2YMP"></td>
+            <td class="td5" name="YNMX_12" title="TSFK_2" about="TSFK_2"></td>
+            <td colspan="2" class="td5" name="YNMX_12" title="I361RM2" about="I361RM2"></td>
+            <td class="td5" name="YNMX_12" title="T361RM02T1" about="T361RM02T1"></td>
+            <td class="td5" name="YNMX_12" title="P361RM02P1" about="P361RM02P1"></td>
+            <td class="td5" name="YNMX_12" title="T361RM02T2" about="T361RM02T2"></td>
+            <td class="td5" name="YNMX_12" title="P361RM02P2" about="P361RM02P2"></td>
+            <td class="td5" name="YNMX_12" title="YC361RM02" about="YC361RM02"></td>
+            <td class="td5" name="YNMX_12" title="RM2G1W" about="RM2G1W"></td>
+            <td class="td5" name="YNMX_12" title="V361RM02" about="V361RM02"></td>
+            <td class="td6" name="YNMX_12" title="I361FN04" about="I361FN04"></td>
+            <td class="td6" name="YNMX_12" title="S361FN04" about="S361FN04"></td>
+            <td class="td6" name="YNMX_12" title="I361RM2M3" about="I361RM2M3"></td>
+            <td class="td6" name="YNMX_12" title="S361RM2M3" about="S361RM2M3"></td>
+            <td class="td7" name="YNMX_12" title="I361BE02" about="I361BE02"></td>
+            <td class="td7" name="YNMX_12" title="P361FN04P1" about="P361FN04P1"></td>
+            <td class="td9" name="YNMX_12" title="PSLGX_HPS" about="PSLGX_HPS"></td>
+            <td colspan="2" class="td10" name="YNMX_12" title="PBSB_2" about="PBSB_2"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">广西恒庆</td>
+            <td class="td4">200*180</td>
+            <td class="td5" name="YNHQ_11" title="DP_YL_GYJ_AI9" about="DP_YL_GYJ_AI9"></td>
+            <td class="td5" name="YNHQ_11" title="DP_YL_GYJ_AI10" about="DP_YL_GYJ_AI10"></td>
+            <td class="td5" name="YNHQ_11" title="YLSNTSFK_1" about="YLSNTSFK_1"></td>
+            <td class="td5" name="YNHQ_11" title="DP_YL_GYJ_AI3" about="DP_YL_GYJ_AI3"></td>
+            <td class="td5" name="YNHQ_11" title="DP_YL_GYJ_AI4" about="DP_YL_GYJ_AI4"></td>
+            <td class="td5" name="YNHQ_11" title="AIB36T01" about="AIB36T01"></td>
+            <td class="td5" name="YNHQ_11" title="AIB36P01" about="AIB36P01"></td>
+            <td class="td5" name="YNHQ_11" title="AIB39T01" about="AIB39T01"></td>
+            <td class="td5" name="YNHQ_11" title="" about=""></td>
+            <td class="td5" name="YNHQ_11" title="" about=""></td>
+            <td class="td5" name="YNHQ_11" title="" about=""></td>
+            <td class="td5" name="YNHQ_11" title="" about=""></td>
+            <td class="td6" name="YNHQ_11" title="AIE211AH5I_PV" about="AIE211AH5I.PV"></td>
+            <td class="td6" name="YNHQ_11" title="DP_B50_AO2" about="DP_B50_AO2"></td>
+            <td class="td6" name="YNHQ_11" title="DP_b37_II_PV" about="DP_b37_II.PV"></td>
+            <td class="td6" name="YNHQ_11" title="DP_b37_SI_PV" about="DP_b37_SI.PV"></td>
+            <td class="td7" name="YNHQ_11" title="B18MT1_AI12" about="B18MT1_AI12"></td>
+            <td class="td7" name="YNHQ_11" title="AIB39P01" about="AIB39P01"></td>
+            <td colspan="2" class="td8" name="YNHQ_11" title="B60_AI12" about="B60_AI12"></td>
+            <td class="td9" name="YNHQ_11" title="SLSSDH_VALUE" about="SLSSDH.VALUE"></td>
+            <td colspan="2" class="td10" name="YNHQ_11" title="PB_B5AT21" about="PB_B5AT21"></td>
+        </tr>
+
+
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="4" class="td1">四川区域</td>
+            <td class="td2">邻水1#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="SCLS_11" title="AI41052P" about="AI41052P"></td>
+            <td class="td5" name="SCLS_11" title="TSFK" about="TSFK"></td>
+            <td colspan="2" class="td5" name="SCLS_11" title="AI4105MI" about="AI4105MI"></td>
+            <td class="td5" name="SCLS_11" title="AI4105T01" about="AI4105T01"></td>
+            <td class="td5" name="SCLS_11" title="AI4105P01" about="AI4105P01"></td>
+            <td class="td5" name="SCLS_11" title="AI4105T02" about="AI4105T02"></td>
+            <td class="td5" name="SCLS_11" title="AI4105P02" about="AI4105P02"></td>
+            <td class="td5" name="SCLS_11" title="AI4105P03" about="AI4105P03"></td>
+            <td class="td5" name="SCLS_11" title="AI41052LC" about="AI41052LC"></td>
+            <td class="td5" name="SCLS_11" title="AI4105C01" about="AI4105C01"></td>
+            <td class="td6" name="SCLS_11" title="AI4125MI" about="AI4125MI"></td>
+            <td class="td6" name="SCLS_11" title="" about=""></td>
+            <td class="td6" name="SCLS_11" title="AI41051API" about="AI41051API"></td>
+            <td class="td6" name="SCLS_11" title="AI41051APS" about="AI41051APS"></td>
+            <td class="td7" name="SCLS_11" title="AI41081MI" about="AI41081MI"></td>
+            <td class="td7" name="SCLS_11" title="AI4114P01" about="AI4114P01"></td>
+            <td colspan="2" class="td8" name="SCLS_11" title="AI42011I" about="AI42011I"></td>
+            <td class="td9" name="SCLS_11" title="L1SL_Z" about="L1SL_Z"></td>
+            <td colspan="2" class="td10" name="SCLS_11" title="SHSGDBL_1" about="SHSGDBL_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">邻水2#</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="SCLS_21" title="AIB302PA" about="AIB302PA"></td>
+            <td class="td5" name="SCLS_21" title="TSFK_YLMA" about="TSFK_YLMA"></td>
+            <td colspan="2" class="td5" name="SCLS_21" title="AIB30IA" about="AIB30IA"></td>
+            <td class="td5" name="SCLS_21" title="AIB30T01A" about="AIB30T01A"></td>
+            <td class="td5" name="SCLS_21" title="AIB30P01A" about="AIB30P01A"></td>
+            <td class="td5" name="SCLS_21" title="AIB30T02A" about="AIB30T02A"></td>
+            <td class="td5" name="SCLS_21" title="AIB30P02A" about="AIB30P02A"></td>
+            <td class="td5" name="SCLS_21" title="AIB30P03A" about="AIB30P03A"></td>
+            <td class="td5" name="SCLS_21" title="AIB302LCA" about="AIB302LCA"></td>
+            <td class="td5" name="SCLS_21" title="AIB30C01A" about="AIB30C01A"></td>
+            <td class="td6" name="SCLS_21" title="AIB50IA" about="AIB50IA"></td>
+            <td class="td6" name="SCLS_21" title="" about=""></td>
+            <td class="td6" name="SCLS_21" title="AIB24IA" about="AIB24IA"></td>
+            <td class="td6" name="SCLS_21" title="AIB24SA" about="AIB24SA"></td>
+            <td class="td7" name="SCLS_21" title="AIB22IA" about="AIB22IA"></td>
+            <td class="td7" name="SCLS_21" title="AIB41P01A" about="AIB41P01A"></td>
+            <td colspan="2" class="td8" name="SCLS_21" title="AIB60IA" about="AIB60IA"></td>
+            <td class="td9" name="SCLS_21" title="L2SL_Z" about="L2SL_Z"></td>
+            <td colspan="2" class="td10" name="SCLS_21" title="SETB5A" about="SETB5A"></td>
+        </tr>
+        <tr bgcolor="#EEDAF6">
+            <td class="td2">江油</td>
+            <td class="td4">LGM5024</td>
+            <td colspan="2" class="td5" name="SCJY_11" title="AIYMYL" about="AIYMYL"></td>
+            <td class="td5" name="SCJY_11" title="TSFK" about="TSFK"></td>
+            <td colspan="2" class="td5" name="SCJY_11" title="AI4105MI" about="AI4105MI"></td>
+            <td class="td5" name="SCJY_11" title="AI4105T01" about="AI4105T01"></td>
+            <td class="td5" name="SCJY_11" title="AI4105P01" about="AI4105P01"></td>
+            <td class="td5" name="SCJY_11" title="AI4105T02" about="AI4105T02"></td>
+            <td class="td5" name="SCJY_11" title="AI4105P02" about="AI4105P02"></td>
+            <td class="td5" name="SCJY_11" title="AI4105P03" about="AI4105P03"></td>
+            <td class="td5" name="SCJY_11" title="AI4105Y01" about="AI4105Y01"></td>
+            <td class="td5" name="SCJY_11" title="AI4105V02" about="AI4105V02"></td>
+            <td class="td6" name="SCJY_11" title="AI4125MI" about="AI4125MI"></td>
+            <td class="td6" name="SCJY_11" title="" about=""></td>
+            <td class="td6" name="SCJY_11" title="AI41051MI" about="AI41051MI"></td>
+            <td class="td6" name="SCJY_11" title="AI41051SI" about="AI41051SI"></td>
+            <td class="td7" name="SCJY_11" title="AI4107MI" about="AI4107MI"></td>
+            <td class="td7" name="SCJY_11" title="AI4114P01" about="AI4114P01"></td>
+            <td colspan="2" class="td8" name="SCJY_11" title="AI4201MI" about="AI4201MI"></td>
+            <td class="td9" name="SCJY_11" title="DDH200" about="DDH200"></td>
+            <td colspan="2" class="td10" name="SCJY_11" title="SHSGDBL_1" about="SHSGDBL_1"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">长宁</td>
+            <td class="td4">LGM5024</td>
+            <td colspan="2" class="td5" name="SCCN_11" title="PI11" about="PI11"></td>
+            <td class="td5" name="SCCN_11" title="TCFCA" about="TCFCA"></td>
+            <td colspan="2" class="td5" name="SCCN_11" title="AI4105" about="AI4105"></td>
+            <td class="td5" name="SCCN_11" title="TI41051" about="TI41051"></td>
+            <td class="td5" name="SCCN_11" title="PI41051" about="PI41051"></td>
+            <td class="td5" name="SCCN_11" title="TI41052" about="TI41052"></td>
+            <td class="td5" name="SCCN_11" title="PI41052" about="PI41052"></td>
+            <td class="td5" name="SCCN_11" title="PI41053" about="PI41053"></td>
+            <td class="td5" name="SCCN_11" title="AIAL17" about="AIAL17"></td>
+            <td class="td5" name="SCCN_11" title="AI4105V01" about="AI4105V01"></td>
+            <td class="td6" name="SCCN_11" title="AI4125" about="AI4125"></td>
+            <td class="td6" name="SCCN_11" title="SI41253" about="SI41253"></td>
+            <td class="td6" name="SCCN_11" title="AI41051" about="AI41051"></td>
+            <td class="td6" name="SCCN_11" title="SI41051" about="SI41051"></td>
+            <td class="td7" name="SCCN_11" title="AI41071" about="AI41071"></td>
+            <td class="td7" name="SCCN_11" title="PI41141" about="PI41141"></td>
+            <td colspan="2" class="td8" name="SCCN_11" title="AI4201" about="AI4201"></td>
+            <td class="td9" name="SCCN_11" title="TDH01" about="TDH01"></td>
+            <td colspan="2" class="td10" name="SCCN_11" title="AO1A" about="AO1A"></td>
+        </tr>
+
+
+        <tr bgcolor="#EEDAF6">
+            <td rowspan="3" class="td1">集团直属</td>
+            <td class="td2">库车</td>
+            <td class="td4">ATOX50</td>
+            <td colspan="2" class="td5" name="JTKC_11" title="S04_B0000" about="S04_B0000"></td>
+            <td class="td5" name="JTKC_11" title="AF01_00" about="AF01_00"></td>
+            <td colspan="2" class="td5" name="JTKC_11" title="A13103I1" about="A13103I1"></td>
+            <td class="td5" name="JTKC_11" title="A13103T1" about="A13103T1"></td>
+            <td class="td5" name="JTKC_11" title="A13103P1" about="A13103P1"></td>
+            <td class="td5" name="JTKC_11" title="A13103T2" about="A13103T2"></td>
+            <td class="td5" name="JTKC_11" title="A13103P2" about="A13103P2"></td>
+            <td class="td5" name="JTKC_11" title="A13103P4" about="A13103P4"></td>
+            <td class="td5" name="JTKC_11" title="S04_B0001" about="S04_B0001"></td>
+            <td class="td5" name="JTKC_11" title="A13103N1" about="A13103N1"></td>
+            <td class="td6" name="JTKC_11" title="A13119I1" about="A13119I1"></td>
+            <td class="td6" name="JTKC_11" title="" about=""></td>
+            <td class="td6" name="JTKC_11" title="A13103j1I1" about="A13103j1I1"></td>
+            <td class="td6" name="JTKC_11" title="A13103j1S1" about="A13103j1S1"></td>
+            <td class="td7" name="JTKC_11" title="A131051I1" about="A131051I1"></td>
+            <td class="td7" name="JTKC_11" title="A13114P1" about="A13114P1"></td>
+            <td colspan="2" class="td8" name="JTKC_11" title="A132011I1" about="A132011I1"></td>
+            <td class="td9" name="JTKC_11" title="SLFMHJDH" about="SLFMHJDH"></td>
+            <td colspan="2" class="td10" name="JTKC_11" title="GP01_01" about="GP01_01"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td rowspan="2" class="td2">兰州</td>
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="JTLZ_11" title="M4111YMYL" about="M4111YMYL"></td>
+            <td class="td5" name="JTLZ_11" title="LM1TCFI" about="LM1TCFI"></td>
+            <td colspan="2" class="td5" name="JTLZ_11" title="M41111AI" about="M41111AI"></td>
+            <td class="td5" name="JTLZ_11" title="A4111T01" about="A4111T01"></td>
+            <td class="td5" name="JTLZ_11" title="A4111P01" about="A4111P01"></td>
+            <td class="td5" name="JTLZ_11" title="A4111T02" about="A4111T02"></td>
+            <td class="td5" name="JTLZ_11" title="A4111P02" about="A4111P02"></td>
+            <td class="td5" name="JTLZ_11" title="A4111P03" about="A4111P03"></td>
+            <td class="td5" name="JTLZ_11" title="M4111Y01" about="M4111Y01"></td>
+            <td class="td5" name="JTLZ_11" title="M4111V01" about="M4111V01"></td>
+            <td class="td6" name="JTLZ_11" title="M41431AI" about="M41431AI"></td>
+            <td class="td6" name="JTLZ_11" title="M4143SD" about="M4143SD"></td>
+            <td class="td6" name="JTLZ_11" title="M41113IA" about="M41113IA"></td>
+            <td class="td6" name="JTLZ_11" title="M41113SD" about="M41113SD"></td>
+            <td class="td7" name="JTLZ_11" title="M41191AI" about="M41191AI"></td>
+            <td class="td7" name="JTLZ_11" title="A4143P01" about="A4143P01"></td>
+            <td rowspan="2" class="td8" name="JTLZ_11" title="M4201aAI" about="M4201aAI"></td>
+            <td rowspan="2" class="td8" name="JTLZ_11" title="M4201bAI" about="M4201bAI"></td>
+            <td class="td9" name="JTLZ_11" title="YLDDH1" about="YLDDH1"></td>
+            <td colspan="2" class="td10" name="JTLZ_11" title="PB3519" about="PB3519"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td4">LGM4521</td>
+            <td colspan="2" class="td5" name="JTLZ_12" title="M4112YMYL" about="M4112YMYL"></td>
+            <td class="td5" name="JTLZ_12" title="LM2TCFI" about="LM2TCFI"></td>
+            <td colspan="2" class="td5" name="JTLZ_12" title="M41121AI" about="M41121AI"></td>
+            <td class="td5" name="JTLZ_12" title="A4112T01" about="A4112T01"></td>
+            <td class="td5" name="JTLZ_12" title="A4112P01" about="A4112P01"></td>
+            <td class="td5" name="JTLZ_12" title="A4112T02" about="A4112T02"></td>
+            <td class="td5" name="JTLZ_12" title="A4112P02" about="A4112P02"></td>
+            <td class="td5" name="JTLZ_12" title="A4112P03" about="A4112P03"></td>
+            <td class="td5" name="JTLZ_12" title="M4112Y01" about="M4112Y01"></td>
+            <td class="td5" name="JTLZ_12" title="M4112V01" about="M4112V01"></td>
+            <td class="td6" name="JTLZ_12" title="M41441AI" about="M41441AI"></td>
+            <td class="td6" name="JTLZ_12" title="M4144SD" about="M4144SD"></td>
+            <td class="td6" name="JTLZ_12" title="M41123IA" about="M41123IA"></td>
+            <td class="td6" name="JTLZ_12" title="M41123SD" about="M41123SD"></td>
+            <td class="td7" name="JTLZ_12" title="M41191AI" about="M41191AI"></td>
+            <td class="td7" name="JTLZ_12" title="A4144P01" about="A4144P01"></td>
+            <td class="td9" name="JTLZ_12" title="YLDDH2" about="YLDDH2"></td>
+            <td colspan="2" class="td10" name="JTLZ_12" title="PB3520" about="PB3520"></td>
+        </tr>
+
+
+        <tr bgcolor="#EEDAF6">
+            <td rowspan="2" class="td1">海外区域</td>
+            <td class="td2">老挝万象</td>
+            <td class="td4">200*180</td>
+            <td class="td5" name="HWWX_11" title="B13110P1" about="B13110P1"></td>
+            <td class="td5" name="HWWX_11" title="B13110P2" about="B13110P2"></td>
+            <td class="td5" name="HWWX_11" title="TOTALFB2_VALUE" about="TOTALFB2.VALUE"></td>
+            <td class="td5" name="HWWX_11" title="B131101I" about="B131101I"></td>
+            <td class="td5" name="HWWX_11" title="B131102I" about="B131102I"></td>
+            <td class="td5" name="HWWX_11" title="B13103T2" about="B13103T2"></td>
+            <td class="td5" name="HWWX_11" title="B13103P2" about="B13103P2"></td>
+            <td class="td5" name="HWWX_11" title="B13112T1" about="B13112T1"></td>
+            <td class="td5" name="HWWX_11" title="B13112P1" about="B13112P1"></td>
+            <td class="td5" name="HWWX_11" title=""></td>
+            <td class="td5" name="HWWX_11" title=""></td>
+            <td class="td5" name="HWWX_11" title=""></td>
+            <td class="td6" name="HWWX_11" title="B13115VFI1" about="B13115VFI1"></td>
+            <td class="td6" name="HWWX_11" title="B13115VFSPI" about="B13115VFSPI"></td>
+            <td class="td6" name="HWWX_11" title="B13112I1" about="B13112I1"></td>
+            <td class="td6" name="HWWX_11" title="B13112SPI" about="B13112SPI"></td>
+            <td class="td7" name="HWWX_11" title="B13104I1" about="B13104I1"></td>
+            <td class="td7" name="HWWX_11" title="B13114P1" about="B13114P1"></td>
+            <td colspan="2" class="td8" name="HWWX_11" title="B13201I1" about="B13201I1"></td>
+            <td class="td9" name="HWWX_11" title="B001DH" about="B001DH"></td>
+            <td class="td10" name="HWWX_11" title="B13002SET" about="B13002SET"></td>
+            <td class="td10" name="HWWX_11" title="B13003SET" about="B13003SET"></td>
+        </tr>
+        <tr bgcolor="#BDD7EE">
+            <td class="td2">尼泊尔</br>希望</td>
+            <td class="td4">200*180</td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td5" name="HWXW_11" title="" about=""></td>
+            <td class="td6" name="HWXW_11" title="" about=""></td>
+            <td class="td6" name="HWXW_11" title="" about=""></td>
+            <td class="td6" name="HWXW_11" title="" about=""></td>
+            <td class="td6" name="HWXW_11" title="" about=""></td>
+            <td class="td7" name="HWXW_11" title="" about=""></td>
+            <td class="td7" name="HWXW_11" title="" about=""></td>
+            <td class="td8" name="HWXW_11" title="" about=""></td>
+            <td class="td8" name="HWXW_11" title="" about=""></td>
+            <td class="td9" name="HWXW_11" title="" about=""></td>
+            <td colspan="2" class="td10" name="HWXW_11" title="" about=""></td>
+        </tr>
+        </tbody>
+
+    </table>
+
+
+<script>
+    $('button').click(function(){
+        $("#proRawtable").table2excel({
+            exclude: ".noExl",//不被导出的表格行的CSS class类
+            name: "Excel Document Name",//name：导出的Excel文档的名称。
+            filename: "RawdataFile",//filename：Excel文件的名称。
+            exclude_img: true,//exclude_img：是否导出图片。
+            exclude_links: true,//exclude_links：是否导出超链接
+            exclude_inputs: true//exclude_inputs：是否导出输入框中的内容。
+        });
+    })
+</script>
+</body>
+</html>

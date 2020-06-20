@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/china.js"></script>
+
+</head>
+<body>
+<div id="chinamap" style="position: absolute;width: 100%;height: 100%;top:0%;left: 0%">
+
+</div>
+
+</body>
+<script>
+    var geoCoordMap = {
+        "兰溪一线":[119.460472,29.2000],
+        "兰溪二线":[119.460472,29.2100],
+        "兰溪三线":[119.460472,29.2200],
+        "建德一线":[119.281231,29.474759],
+        "建德二线":[119.281231,29.484759],
+        "桐庐一线":[119.691467,29.79299],
+
+        "高安一线":[115.892151,28.676493],
+        "高安二线":[115.892151,28.686493],
+        "会昌红狮":[115.786056,25.600272],
+        "鹰鹏红狮":[114.986373,27.111699],
+
+        "衡阳红狮":[112.607693,26.900358],
+        "宁远莲花":[111.945844,25.570888],
+        "永州红狮":[111.608019,26.434516],
+
+        "漳平一线":[117.419998,25.290184],
+        "漳平二线":[117.419998,25.300184],
+        "漳平三期":[117.419998,25.310184],
+        "大田红狮":[117.847115,25.692699],
+
+        "宜良一线":[103.141603,24.919839],
+        "宜良二线":[103.141603,24.929839],
+
+        "崇左红狮":[107.353926,22.404108],
+        "南宁红狮":[108.320004,22.82402],
+        "广西恒庆":[109.875304,22.736421],
+
+        "龙里一线":[106.979524,26.453154],
+        "龙里二线":[106.979524,26.463154],
+        "茂鑫红狮":[108.81606,27.173887],
+
+        "邻水一线":[106.93038,30.334768],
+        "邻水二线":[106.93038,30.344768],
+        "江油红狮":[104.745915,31.778026],
+        "长宁红狮":[104.921174,28.582169],
+
+        "库车红狮":[82.987312,41.714696],
+        "兰州红狮":[103.823557,36.058039],
+
+    };
+
+
+    var data = [
+        {name: "兰溪一线", value:18},
+        {name: "永州红狮", value:14},
+        {name: "茂鑫红狮", value:30},
+        {name: "宁远莲花", value: 22},
+        {name: "长宁红狮", value: 12},
+    ];
+
+    var data1 = [
+        {name: "高安一线", value:30},
+        {name: "建德一线", value: 22},
+        {name: "大田红狮", value: 12},
+    ];
+
+    var data2 = [
+        {name: "库车红狮", value:30},
+        {name: "兰州红狮", value:30},
+    ];
+
+
+
+    var convertData = function(data) {
+        var res = [];
+        for (var i = 0; i < data.length; i++) {
+            var geoCoord = geoCoordMap[data[i].name];
+            if (geoCoord) {
+                res.push({
+                    name: data[i].name,
+                    value: geoCoord.concat(data[i].value)
+                });
+            }
+        }
+        return res;
+    };
+
+    var convertData1 = function(data1) {
+        var res = [];
+        for (var i = 0; i < data1.length; i++) {
+            var geoCoord = geoCoordMap[data1[i].name];
+            if (geoCoord) {
+                res.push({
+                    name: data1[i].name,
+                    value: geoCoord.concat(data1[i].value)
+                });
+            }
+        }
+        return res;
+    };
+
+    var convertData2 = function(data2) {
+        var res = [];
+        for (var i = 0; i < data2.length; i++) {
+            var geoCoord = geoCoordMap[data2[i].name];
+            if (geoCoord) {
+                res.push({
+                    name: data2[i].name,
+                    value: geoCoord.concat(data2[i].value)
+                });
+            }
+        }
+        return res;
+    };
+
+    var myChart = echarts.init(document.getElementById('chinamap'));
+
+        option = {
+            backgroundColor:'rgb(13, 23, 89)',
+            title: {
+                text: '红狮熟料生产运行情况',
+                left: 'center',
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    return params.name + ' : ' + params.value[2];
+                }
+            },
+            color:['#11ff2a','#ffff00','#ff0000'],
+            legend: {
+                orient: 'vertical',
+                right: 20,
+                top: 10,
+                data: ['产量低','煤耗高','停窑'],
+                textStyle: {
+                    color: '#fff'
+                },
+            },
+            // visualMap: {
+            //     min: 0,
+            //     max: 200,
+            //     left: 20,
+            //     bottom: 20,
+            //     calculable: true,
+            //     text: ['高', '低'],
+            //     inRange: {
+            //         color: ['rgb(70, 240, 252)', 'rgb(250, 220, 46)', 'rgb(245, 38, 186)']
+            //     },
+            //     textStyle: {
+            //         color: '#fff'
+            //     }
+            // },
+            geo: {
+                map: 'china',
+                label: {
+                    emphasis: {
+                        show: false
+                    }
+                },
+                roam: true,
+                itemStyle: {
+                    normal: {
+                        areaColor: 'rgb(19, 91, 153)',
+                        borderColor: 'rgb(9, 54, 95)'
+                    },
+                    emphasis: {
+                        areaColor: 'rgb(10, 105, 187)'
+                    }
+                }
+            },
+            //产量低地区
+            series: [{
+                name: '产量低',
+                type: 'scatter',
+                coordinateSystem: 'geo',
+                data: convertData(data),
+                symbolSize: 12,
+                label: {
+                    normal: {
+                        // show: false
+                        formatter: '{b}',
+                        fontSize:12,
+                        position: 'right',
+                        show: true
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                itemStyle: {
+                    emphasis: {
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    }
+                }
+            },
+                {
+                    type: 'map',
+                    map: 'china',
+                    geoIndex: 0,
+                    aspectScale: 0.75, //长宽比
+                    tooltip: {
+                        show: false
+                    }
+                },
+             //煤耗高地区
+                {
+                    name: '煤耗高',
+                    type: 'scatter',
+                    coordinateSystem: 'geo',
+                    data: convertData1(data1),
+                    symbolSize: 12,
+                    label: {
+                        normal: {
+                            // show: false
+                            formatter: '{b}',
+                            fontSize:12,
+                            position: 'top',
+                            show: true
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            borderColor: '#fff',
+                            borderWidth: 1
+                        }
+                    }
+                },
+                {
+                    type: 'map',
+                    map: 'china',
+                    geoIndex: 0,
+                    aspectScale: 0.75, //长宽比
+                    tooltip: {
+                        show: false
+                    }
+                },
+                //停窑地区
+                {
+                    name: '停窑',
+                    type: 'scatter',
+                    coordinateSystem: 'geo',
+                    data: convertData2(data2),
+                    symbolSize: 12,
+                    label: {
+                        normal: {
+                            formatter: '{b}',
+                            fontSize:12,
+                            position: 'right',
+                            show: true
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            borderColor: '#fff',
+                            borderWidth: 1
+                        }
+                    }
+                },
+                {
+                    type: 'map',
+                    map: 'china',
+                    geoIndex: 0,
+                    aspectScale: 0.75, //长宽比
+                    tooltip: {
+                        show: false
+                    }
+                }
+
+
+
+            ]
+        }
+
+        myChart.setOption(option);
+
+</script>
+</html>

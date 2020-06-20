@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/Burningframe_Style.css" rel="stylesheet" type="text/css" />
+
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/jquery-3.0.0.js"></script>
+    <script src="js/jquery.table2excel.js"></script>
+    <!--<script src="js/jsonread.js"></script>-->
+    <!--<script src="js/rawdataflush.js"></script>-->
+
+    <title>远程智慧诊断平台</title>
+</head>
+<body class="bodystyle" onload="burningdataflush()">
+
+<div class="p1">烧成系统运行情况</div>
+
+<button class="outputBtn">导出excel</button>
+<div style="position:absolute;top:15px;width:1583px;height:760px;">
+<table class="layui-table" style="background-color: #5FB878;" id="proBurningtable"></table>
+</div>
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script src="js/burningdataflush.js" charset="utf-8"></script>
+
+<!--<script>-->
+    <!--$('button').click(function(){-->
+        <!--$("#proBurningtable").table2excel({-->
+            <!--exclude: ".noExl",//不被导出的表格行的CSS class类-->
+            <!--name: "Excel Document Name",//name：导出的Excel文档的名称。-->
+            <!--filename: "BurningdataFile",//filename：Excel文件的名称。-->
+            <!--exclude_img: true,//exclude_img：是否导出图片。-->
+            <!--exclude_links: true,//exclude_links：是否导出超链接-->
+            <!--exclude_inputs: true//exclude_inputs：是否导出输入框中的内容。-->
+        <!--});-->
+    <!--})-->
+<!--</script>-->
+</body>
+</html>

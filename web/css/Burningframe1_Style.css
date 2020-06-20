@@ -1,0 +1,130 @@
+
+.bodystyle{
+    width:100%;
+    height:100%;
+    background-color: rgb(13, 23, 89);
+}
+
+
+.titlediv{
+    position: absolute;
+    width: 98%;height: 8%;
+    top:0%;left: 1%;
+}
+
+.title_left{
+    position: absolute;
+    left:10%;top:18%;
+    width: 30%;height: 90%;
+}
+.title_label{
+    position: absolute;
+    left:43%;top:36%;
+    text-align: center;
+    line-height: 1.8rem;
+    font-size:1.8rem; font-weight: bolder;
+    font-family: 微软雅黑;
+    color: #65c4f1;
+}
+.title_right{
+    position: absolute;
+    right:10%;top:18%;
+    width: 30%;height: 90%;
+}
+
+.page1{
+    position: absolute;
+    left:1%;top:3.5%;
+    font-size:1rem;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;
+}
+
+.page2{
+    position: absolute;
+    left:3%;top:3.5%;
+    font-size:1rem;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;
+}
+
+.page3{
+    position: absolute;
+    left:5%;top:3.5%;
+    font-size:1rem;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;
+}
+
+.outputBtn{
+    position: absolute;
+    right:1%;top:3.5%;
+    font-size:1rem;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;
+}
+
+#proBurningtable{
+    position:absolute;
+    width: 99.4%; height: 90%;
+    left: 0.3%;  top:8%;
+    border-collapse: collapse; border-spacing:0;
+}
+
+
+#proBurningtable th{
+    text-align: center;
+    border:1px solid white;
+    font-family:宋体;
+    font-weight: bolder;
+    background-color: rgba(50, 134, 198, 0.68);
+    color: white;
+}
+
+#proBurningtbody{
+    position:absolute;
+    display: block;
+    overflow:scroll;overflow-x:hidden;
+    width: 100.1%;height:92%;
+    font-family:宋体;
+    text-align: center;
+}
+
+#proBurningtbody::-webkit-scrollbar{
+    width:0px
+}
+
+#proBurningtbody td{
+    line-height: 25px;
+    text-align: center;
+    font-size: 0.85rem;
+    border:1px solid rgb(13, 23, 89);
+}
+
+
+.th1{width: 3%;}
+.th2{width: 4.6%}
+.th3{width: 2.8%}
+.th4{width: 3.2%;}
+.th5{width: 11.2%;}
+.th6{width: 16.8%;}
+.th7{width: 5.6%;}
+.th8{width: 8.4%}
+.th9{width: 5.6%}
+.th10{width: 16.8%}
+.th11{width: 4.0%}
+.th12{width: 5.6%}
+.th13{width: 8.4%}
+.th14{width: 4.0%}
+
+
+.td0{width: 3%;background-color:rgba(50, 134, 198, 0.68)}
+.td1{width: 2.8%}
+.td1_1{width: 4.0%}
+.td2{width: 5.6%}
+.td3{width: 8.4%}
+.td4{width: 11.2%}
+
+tr1{background-color:rgb(238, 218, 246)}
+tr2{background-color:rgb(209, 240, 255)}
+

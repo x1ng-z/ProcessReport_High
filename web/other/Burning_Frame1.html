@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/Rawframe_Style.css" rel="stylesheet" type="text/css" />
+
+    <link href="layui/css/layui.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/jquery-3.0.0.js"></script>
+    <script src="js/jquery.table2excel.js"></script>
+    <!--<script src="js/jsonread.js"></script>-->
+    <!--<script src="js/rawdataflush.js"></script>-->
+
+    <title>烧成系统运行详情</title>
+</head>
+<body class="bodystyle" onload="jsonread()">
+
+<div class="p1">烧成系统运行情况</div>
+
+<button class="outputBtn">导出excel</button>
+<div style="position: absolute;top:10px;width:1600px;overflow-x: visible">
+    <table class="layui-table"  id="proBurningtable"></table>
+</div>
+
+<script src="layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        var jsonObj={
+            "data":[
+                {
+                    "cofield":"浙江",
+                    "proline":"兰溪一线",
+                    "C1_out_negpre":"00",
+                    "C1_out_temp":"00",
+                    "C2_out_negpre":"00",
+                    "C2_out_temp":"00",
+                    "C3_out_negpre":"00",
+                    "C3_out_temp":"00",
+                    "C3_cone_negpre":"00",
+                    "C3_cone_temp":"00",
+                    "C4_out_negpre":"00",
+                    "C4_out_temp":"00",
+                    "C4_cone_negpre":"00",
+                    "C4_cone_temp":"00",
+                    "C5_out_negpre":"00",
+                    "C5_out_temp":"00",
+                    "C5_cone_negpre":"00",
+                    "C5_cone_temp":"00",
+                    "calciner_out_negpre":"00",
+                    "calciner_out_temp":"00",
+                    "tob_room_negpre":"00",
+                    "tob_room_temp":"00",
+                },
+                {
+                    "cofield":"浙江",
+                    "proline":"兰溪二线",
+                    "C1_out_negpre":"00",
+                    "C1_out_temp":"00",
+                    "C2_out_negpre":"00",
+                    "C2_out_temp":"00",
+                    "C3_out_negpre":"00",
+                    "C3_out_temp":"00",
+                    "C3_cone_negpre":"00",
+                    "C3_cone_temp":"00",
+                    "C4_out_negpre":"00",
+                    "C4_out_temp":"00",
+                    "C4_cone_negpre":"00",
+                    "C4_cone_temp":"00",
+                    "C5_out_negpre":"00",
+                    "C5_out_temp":"00",
+                    "C5_cone_negpre":"00",
+                    "C5_cone_temp":"00",
+                    "calciner_out_negpre":"00",
+                    "calciner_out_temp":"00",
+                    "tob_room_negpre":"00",
+                    "tob_room_temp":"00",
+                },
+                {
+                    "cofield":"浙江",
+                    "proline":"兰溪三线",
+                    "C1_out_negpre":"00",
+                    "C1_out_temp":"00",
+                    "C2_out_negpre":"00",
+                    "C2_out_temp":"00",
+                    "C3_out_negpre":"00",
+                    "C3_out_temp":"00",
+                    "C3_cone_negpre":"00",
+                    "C3_cone_temp":"00",
+                    "C4_out_negpre":"00",
+                    "C4_out_temp":"00",
+                    "C4_cone_negpre":"00",
+                    "C4_cone_temp":"00",
+                    "C5_out_negpre":"00",
+                    "C5_out_temp":"00",
+                    "C5_cone_negpre":"00",
+                    "C5_cone_temp":"00",
+                    "calciner_out_negpre":"00",
+                    "calciner_out_temp":"00",
+                    "tob_room_negpre":"00",
+                    "tob_room_temp":"00",
+                },
+                {
+                    "cofield":"杭州",
+                    "proline":"建德一线",
+                    "C1_out_negpre":"00",
+                    "C1_out_temp":"00",
+                    "C2_out_negpre":"00",
+                    "C2_out_temp":"00",
+                    "C3_out_negpre":"00",
+                    "C3_out_temp":"00",
+                    "C3_cone_negpre":"00",
+                    "C3_cone_temp":"00",
+                    "C4_out_negpre":"00",
+                    "C4_out_temp":"00",
+                    "C4_cone_negpre":"00",
+                    "C4_cone_temp":"00",
+                    "C5_out_negpre":"00",
+                    "C5_out_temp":"00",
+                    "C5_cone_negpre":"00",
+                    "C5_cone_temp":"00",
+                    "calciner_out_negpre":"00",
+                    "calciner_out_temp":"00",
+                    "tob_room_negpre":"00",
+                    "tob_room_temp":"00",
+                },
+                {
+                    "cofield":"杭州",
+                    "proline":"建德二线",
+                    "C1_out_negpre":"00",
+                    "C1_out_temp":"00",
+                    "C2_out_negpre":"00",
+                    "C2_out_temp":"00",
+                    "C3_out_negpre":"00",
+                    "C3_out_temp":"00",
+                    "C3_cone_negpre":"00",
+                    "C3_cone_temp":"00",
+                    "C4_out_negpre":"00",
+                    "C4_out_temp":"00",
+                    "C4_cone_negpre":"00",
+                    "C4_cone_temp":"00",
+                    "C5_out_negpre":"00",
+                    "C5_out_temp":"00",
+                    "C5_cone_negpre":"00",
+                    "C5_cone_temp":"00",
+                    "calciner_out_negpre":"00",
+                    "calciner_out_temp":"00",
+                    "tob_room_negpre":"-7000",
+                    "tob_room_temp":"1000",
+                }
+            ]
+        }
+        table.render({
+            elem: '#proBurningtable',
+            // url: 'js/data.json',
+            data: jsonObj.data,
+            toolbar: '#toolbarDemo',
+            title: '用户数据表',
+            cols: [[
+                {align:'center',field:'cofield', title:'区域', width:60, fixed: 'left',rowspan:2},
+                {align:'center',field:'proline', title:'生产线', width:90,fixed: 'left',rowspan:2},
+                {align:'center',field:'C1_out',title:'C1出口指标',colspan:2},
+                {align:'center',field:'C2_out',title:'C2出口指标',colspan:2},
+                {align:'center',field:'C3_out',title:'C3出口指标',colspan:2},
+                {align:'center',field:'C3_cone',title:'C3锥部指标',colspan:2},
+                {align:'center',field:'C4_out',title:'C4出口指标',colspan:2},
+                {align:'center',field:'C4_cone',title:'C4锥部指标',colspan:2},
+                {align:'center',field:'C5_out',title:'C5出口指标',colspan:2},
+                {align:'center',field:'C5_cone',title:'C5锥部指标',colspan:2},
+                {align:'center',field:'calciner_out',title:'分解炉出口',colspan:2},
+                {align:'center',field:'tob_room',title:'烟室指标',colspan:2}
+            ],[
+                {align:'center',field:'C1_out_negpre', title:'负压', width:70},
+                {align:'center',field:'C1_out_temp', title:'温度', width:70},
+                {align:'center',field:'C2_out_negpre', title:'负压', width:70},
+                {align:'center',field:'C2_out_temp', title:'温度', width:70},
+                {align:'center',field:'C3_out_negpre', title:'负压', width:70},
+                {align:'center',field:'C3_out_temp', title:'温度', width:70},
+                {align:'center',field:'C3_cone_negpre', title:'负压', width:70},
+                {align:'center',field:'C3_cone_temp', title:'温度', width:70},
+                {align:'center',field:'C4_out_negpre', title:'负压', width:70},
+                {align:'center',field:'C4_out_temp', title:'温度', width:70},
+                {align:'center',field:'C4_cone_negpre', title:'负压', width:70},
+                {align:'center',field:'C4_cone_temp', title:'温度', width:70},
+                {align:'center',field:'C5_out_negpre', title:'负压', width:70},
+                {align:'center',field:'C5_out_temp', title:'温度', width:70},
+                {align:'center',field:'C5_cone_negpre', title:'负压', width:70},
+                {align:'center',field:'C5_cone_temp', title:'温度', width:70},
+                {align:'center',field:'calciner_out_negpre', title:'负压', width:70},
+                {align:'center',field:'calciner_out_temp', title:'温度', width:70},
+                {align:'center',field:'tob_room_negpre', title:'负压', width:70},
+                {align:'center',field:'tob_room_temp', title:'温度', width:70}
+            ]],
+            done: function(res,curr,count){
+                layuiRowspan("cofield",1);   // 在此处合并单元格,我在这里要合并fileid为areaName的列
+            }
+        });
+        function layuiRowspan(fieldName,index){
+            // 左侧列为冻结的情况
+            var tbodyNode = document.getElementsByClassName("layui-table-fixed-l")[index-1];
+            // 左侧导航栏不冻结的情况
+            // var fixedNode = document.getElementsByClassName("layui-table-body")[index - 1];
+            var child = tbodyNode.getElementsByTagName("td");
+            var childFilterArr = [];
+            // 获取data-field属性为fieldName的td
+            for(var i = 0; i < child.length; i++){
+                if(child[i].getAttribute("data-field") == fieldName){
+                    childFilterArr.push(child[i]);
+                }
+            }
+            // 获取td的个数和种类
+            var childFilterTextObj = {};
+            for(var i = 0; i < childFilterArr.length; i++){
+                var childText = childFilterArr[i].textContent;
+                if(childFilterTextObj[childText] == undefined){
+                    childFilterTextObj[childText] = 1;
+                }else{
+                    var num = childFilterTextObj[childText];
+                    childFilterTextObj[childText] = num*1 + 1;
+                }
+            }
+
+            // 给获取到的td设置合并单元格属性
+            for(var key in childFilterTextObj){
+
+                var tdNum = childFilterTextObj[key];
+                var canRowspan = true;
+                for(var i = 0; i < childFilterArr.length; i++){
+                    // if(childFilterArr[i].getAttribute("data-content") == key){
+                    if(childFilterArr[i].textContent == key){
+                        if(canRowspan){
+                            childFilterArr[i].setAttribute("rowspan",tdNum);
+                            canRowspan = false;
+                        }else{
+                            childFilterArr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    $('button').click(function(){
+        $("#proRawtable").table2excel({
+            exclude: ".noExl",//不被导出的表格行的CSS class类
+            name: "Excel Document Name",//name：导出的Excel文档的名称。
+            filename: "RawdataFile",//filename：Excel文件的名称。
+            exclude_img: true,//exclude_img：是否导出图片。
+            exclude_links: true,//exclude_links：是否导出超链接
+            exclude_inputs: true//exclude_inputs：是否导出输入框中的内容。
+        });
+    })
+</script>
+</body>
+</html>
