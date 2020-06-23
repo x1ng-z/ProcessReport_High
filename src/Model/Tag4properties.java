@@ -38,8 +38,10 @@ public class Tag4properties implements MyProperties {
     public static final double N_INITIAL = -1e-8;
     public static final String ALARMMONITOR = "alarm";
     public static final String OPERATEMONITOR = "operate";
+    public static final String ALLVALUEMONITOR = "allvalue";
+    public static final String ALLVALUENODYNAMICMONITOR = "allvaluenodynamic";
     public static final String NEGATIVEMODE = "negative_mode";
-
+    private int id;
     private int LOWLOWALARM = 0;
     private int LOWALARM = 1;
     private int HIGHALARM = 2;
@@ -721,5 +723,13 @@ public class Tag4properties implements MyProperties {
 
     public void setDeviceAlarmJudgmentSrc(Integer deviceAlarmJudgmentSrc) {
         this.deviceAlarmJudgmentSrc = deviceAlarmJudgmentSrc;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

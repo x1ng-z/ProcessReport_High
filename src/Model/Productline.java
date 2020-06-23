@@ -19,9 +19,16 @@ public class Productline implements Product {
     private List<String> alltagnameInpruductline=null;
 
 
-
+    //生料系统
     private Map<String, RawSystem> rawSystemmapping;
+    //烧成系统
     private Map<String, FiredSystem> firedSystemmapping;
+
+    //质量系统
+    private Map<String,Tag4properties> qulityTags=new HashMap<>();
+
+
+
 
     /**用于保存设备是否需要报警判断位号、如：位号的设备名称：辊压机，且deviceAlarmJudgmentSrc是为1的，那么意思就是辊压机的位号*/
     private Map<String,Tag4properties> deviceAlarmjudgeRsc=new HashMap<>();
@@ -123,7 +130,7 @@ public class Productline implements Product {
 
 
         for (FiredSystem firedSystem : firedSystemmapping.values()) {
-            alltags.putAll(firedSystem.getTagMapping());
+            alltags.putAll(firedSystem.getTagMapping());//烧成
         }
 
 
@@ -266,4 +273,14 @@ public class Productline implements Product {
     public void setFired_judgerelu(Tag4properties fired_judgerelu) {
         this.fired_judgerelu = fired_judgerelu;
     }
+
+    public Map<String, Tag4properties> getQulityTags() {
+        return qulityTags;
+    }
+
+    public void setQulityTags(Map<String, Tag4properties> qulityTags) {
+        this.qulityTags = qulityTags;
+    }
+
+
 }

@@ -92,12 +92,7 @@ public class ActionServlet extends HttpServlet {
         }
 
 
-
-
-
         exeThreadPool = Executors.newCachedThreadPool(new DaemonThreadFactory());
-
-
         //Connection connection = MysqlDB.getConnection(servletContext);
         processMgr = ProcessMgr.getProcessMgr_instance(servletContext);
 
@@ -216,6 +211,52 @@ public class ActionServlet extends HttpServlet {
             try {
 
                 Future<JSONObject> jsonArrayFuture = requestexec.submit(new Action4GetQualitPredict(request, servletContext));
+
+                response.setContentType("text/json; charset=UTF-8");
+                response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+                response.setHeader("Pragma", "no-cache"); //HTTP1.0
+                response.setDateHeader("Expires", 0);
+                PrintWriter out = response.getWriter();
+                out.println(jsonArrayFuture.get().toString());
+
+                // alwaysexec.shutdown();
+
+            } catch (InterruptedException e) {
+                logger.error(e);
+            } catch (ExecutionException e) {
+                logger.error(e);
+            }
+
+        }
+
+        if (method.trim().equals("allquality")) {
+
+            try {
+
+                Future<JSONObject> jsonArrayFuture = requestexec.submit(new Action4Get_AllqulityData(request, servletContext));
+
+                response.setContentType("text/json; charset=UTF-8");
+                response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+                response.setHeader("Pragma", "no-cache"); //HTTP1.0
+                response.setDateHeader("Expires", 0);
+                PrintWriter out = response.getWriter();
+                out.println(jsonArrayFuture.get().toString());
+
+                // alwaysexec.shutdown();
+
+            } catch (InterruptedException e) {
+                logger.error(e);
+            } catch (ExecutionException e) {
+                logger.error(e);
+            }
+
+        }
+
+        if (method.trim().equals("envptc")) {
+
+            try {
+
+                Future<JSONObject> jsonArrayFuture = requestexec.submit(new Action4Get_EnvPTCData(request, servletContext));
 
                 response.setContentType("text/json; charset=UTF-8");
                 response.setHeader("Cache-Control", "no-store"); //HTTP1.1
@@ -491,7 +532,7 @@ public class ActionServlet extends HttpServlet {
                 combox += test + ",";
             }
 
-            System.out.println(combox.substring(0, combox.length() - 1));
+//            System.out.println(combox.substring(0, combox.length() - 1));
             String measurement = request.getParameter("measurement");
             Long timespan = Long.valueOf(request.getParameter("timespan"));
 

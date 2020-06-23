@@ -22,9 +22,11 @@ import static java.lang.Math.abs;
 
 public class MonitorDefaultDymaticAlarm implements Monitor {
     private static Logger logger = Logger.getLogger(MonitorDefaultDymaticAlarm.class);
-    public static final int HOLDONTIME = 20 * 60 * 1000;
+    public int HOLDONTIME = 20 * 60 * 1000;
     private LinkedBlockingQueue<Object> audiomessage;
     private final static String Model = "run";//standard or debug
+    public final static String BIG = "gt";
+    public final static String SMALL = "lt";
     private ServletContext servletContext;
 
 
@@ -34,7 +36,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
     }
 
 
-    private void CheckAlarmLineLife(Tag4properties needdymatcitag, List<Double> result) {
+    protected void CheckAlarmLineLife(Tag4properties needdymatcitag, List<Double> result) {
 
 
         if (needdymatcitag.getHighhigh_holdontime() < System.currentTimeMillis()) {
@@ -122,7 +124,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
             //台时报警
             tempchangerate = (result.get(0) - result.get(1)) / (result.get(1) == 0 ? Tag4properties.P_INITIAL : result.get(1));
             if (tempchangerate < 0) {
-                tempchangerate=abs(tempchangerate);
+                tempchangerate = abs(tempchangerate);
                 if (Tools.sub(tempchangerate, needDynamicTag.getFix_changerate()) > Tag4properties.P_INITIAL && (needDynamicTag.getFix_changerate() != 0)) {
                     //result.get(0) 是实时值
                     checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), productline);
@@ -140,12 +142,16 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
         }
 
+        alarmjudgebydynamic(result.get(0), needDynamicTag, productline);
+    }
 
+
+    public void alarmjudgebydynamic(Double[] values, Tag4properties needDynamicTag, Productline productline) {
         /**
          * High High  Alarm
          * */
 
-        if (Tools.sub(mean60, needDynamicTag.getHighhighbase()) > Tag4properties.P_INITIAL) {
+        if (compared(BIG, values, needDynamicTag.getHighhighbase())) {
 
 
             /**
@@ -154,11 +160,11 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
              *
              * */
 
-            if (Tools.sub(mean60, needDynamicTag.getHighhighlinepool()[(needDynamicTag.getPoniter_HighHigh() - 1) >= 0 ? (needDynamicTag.getPoniter_HighHigh() - 1) : 0]) > Tag4properties.P_INITIAL) {
+            if (compared(BIG, values, needDynamicTag.getHighhighlinepool()[(needDynamicTag.getPoniter_HighHigh() - 1) >= 0 ? (needDynamicTag.getPoniter_HighHigh() - 1) : 0])) {
                 needDynamicTag.setHighhigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
                 needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
                 if (Model.equals("debug")) {
-                    logger.error("FEED High High and High " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                    logger.error("FEED High High and High " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
                             " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPoniter_HighHigh() + " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime());
                 }
 
@@ -166,10 +172,9 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
             /**
              * value higher than the current dynamic alarm line
              * */
-            if (Tools.sub(mean60, needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()]) > Tag4properties.P_INITIAL) {
+            if (compared(BIG, values, needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()])) {
 
-
-                checkAndPut(mean60, needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), productline);
 
 
                 // adjust dymaticalarm line
@@ -181,8 +186,8 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                 needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
 
                 if (Model.equals("debug")) {
-                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
-                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + result.get(0) + "\n" +
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + values + "\n" +
                             " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
                             " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
                             " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
@@ -199,31 +204,39 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
          * high
          * */
 
-        else if ((Tools.sub(mean60, needDynamicTag.getHighbase()) > Tag4properties.P_INITIAL) && (Tools.sub(mean60, needDynamicTag.getHighhighbase()) < Tag4properties.N_INITIAL)) {
+        else if (
+                compared(BIG, values, needDynamicTag.getHighbase())
+                        &&
+                        compared(SMALL, values, needDynamicTag.getHighhighbase())
+        ) {
 
             /**
              * High  Alarm in high region and trigger high dynamic-line
              * */
-            if (Tools.sub(mean60, needDynamicTag.getHighlinepool()[(needDynamicTag.getPointer_High() - 1) >= 0 ? (needDynamicTag.getPointer_High() - 1) : 0]) > Tag4properties.P_INITIAL) {
+            if (
+                    compared(BIG, values, needDynamicTag.getHighlinepool()[(needDynamicTag.getPointer_High() - 1) >= 0 ? (needDynamicTag.getPointer_High() - 1) : 0])
+            ) {
                 needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
                 if (Model.equals("debug")) {
-                    logger.error("FEED High " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                    logger.error("FEED High " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
                             " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPointer_High() + " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime());
                 }
 
             }
 
 
-            if ((Tools.sub(mean60, needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()]) > Tag4properties.P_INITIAL)) {
+            if (
+                    compared(BIG, values, needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()])
+            ) {
 
-                checkAndPut(mean60, needDynamicTag, needDynamicTag.getHIGHALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHALARM(), productline);
 
                 needDynamicTag.setPointer_High((needDynamicTag.getPointer_High() + 1) > Tag4properties.MAXLEVEL - 1 ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_High() + 1));
                 needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
 
                 if (Model.equals("debug")) {
-                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
-                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + result.get(0) + "\n" +
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + values + "\n" +
                             " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
                             " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
                             " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
@@ -238,13 +251,17 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
         /**
          * LowLow  Alarm
          * */
-        else if (Tools.sub(mean60, needDynamicTag.getLowlowbase()) < Tag4properties.N_INITIAL) {
+        else if (
+                compared(SMALL, values, needDynamicTag.getLowlowbase())
+        ) {
 
-            if (Tools.sub(mean60, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow() - 1 >= 0 ? (needDynamicTag.getPointer_LowLow() - 1) : 0]) < Tag4properties.N_INITIAL) {
+            if (
+                    compared(SMALL, values, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow() - 1 >= 0 ? (needDynamicTag.getPointer_LowLow() - 1) : 0])
+            ) {
                 needDynamicTag.setLowlow_holdontime(System.currentTimeMillis() + HOLDONTIME);
                 needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
                 if (Model.equals("debug")) {
-                    logger.error("FEED LowLow  and low" + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                    logger.error("FEED LowLow  and low" + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
                             " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPointer_LowLow() + " CurrentDymatic_lowlow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_lowlow: " + needDynamicTag.getLowlow_holdontime());
                 }
 
@@ -252,9 +269,11 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
             }
 
 
-            if ((Tools.sub(mean60, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()]) < Tag4properties.N_INITIAL)) {
+            if (
+                    compared(SMALL, values, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()])
+            ) {
 
-                checkAndPut(mean60, needDynamicTag, needDynamicTag.getLOWLOWALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWLOWALARM(), productline);
 
 
                 needDynamicTag.setPointer_LowLow((needDynamicTag.getPointer_LowLow() + 1) > Tag4properties.MAXLEVEL - 1 ? (Tag4properties.MAXLEVEL - 1) : (needDynamicTag.getPointer_LowLow() + 1));
@@ -265,8 +284,8 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                 needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
 
                 if (Model.equals("debug")) {
-                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
-                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + result.get(0) + "\n" +
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + values + "\n" +
                             " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
                             " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
                             " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
@@ -280,26 +299,34 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
         /**
          * Low  Alarm
          * */
-        else if ((Tools.sub(mean60, needDynamicTag.getLowbase()) < Tag4properties.N_INITIAL) && (Tools.sub(mean60, needDynamicTag.getLowlowbase()) > Tag4properties.P_INITIAL)) {
+        else if (
+                compared(SMALL, values, needDynamicTag.getLowbase())
+                        &&
+                        compared(BIG, values, needDynamicTag.getLowlowbase())
+        ) {
 
-            if (Tools.sub(mean60, needDynamicTag.getLowlinepool()[(needDynamicTag.getPointer_Low() - 1) >= 0 ? (needDynamicTag.getPointer_Low() - 1) : 0]) < Tag4properties.N_INITIAL) {
+            if (
+                    compared(SMALL, values, needDynamicTag.getLowlinepool()[(needDynamicTag.getPointer_Low() - 1) >= 0 ? (needDynamicTag.getPointer_Low() - 1) : 0])
+            ) {
                 needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
                 if (Model.equals("debug")) {
-                    logger.error("FEED Low " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                    logger.error("FEED Low " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
                             " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPointer_Low() + " CurrentDymatic_low" + needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()] + " CurrentLift_low: " + needDynamicTag.getLow_holdontime());
                 }
 
             }
-            if (Tools.sub(mean60, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()]) < Tag4properties.N_INITIAL) {
+            if (
+                    compared(BIG, values, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()])
+            ) {
 
-                checkAndPut(mean60, needDynamicTag, needDynamicTag.getLOWALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWALARM(), productline);
 
                 needDynamicTag.setPointer_Low((needDynamicTag.getPointer_Low() + 1) > (Tag4properties.MAXLEVEL - 1) ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_Low() + 1));
                 needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
 
                 if (Model.equals("debug")) {
-                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + result.get(0) + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
-                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + result.get(0) + "\n" +
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + values + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + values + "\n" +
                             " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
                             " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
                             " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
@@ -309,11 +336,236 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
             }
 
         }
+    }
+
+
+    public void alarmjudgebydynamic(double value, Tag4properties needDynamicTag, Productline productline) {
+        /**
+         * High High  Alarm
+         * */
+
+        if (compared(BIG, new Double[]{value}, needDynamicTag.getHighhighbase())) {
+
+
+            /**
+             *
+             * value in alarm region
+             *
+             * */
+
+            if (compared(BIG, new Double[]{value}, needDynamicTag.getHighhighlinepool()[(needDynamicTag.getPoniter_HighHigh() - 1) >= 0 ? (needDynamicTag.getPoniter_HighHigh() - 1) : 0])) {
+                needDynamicTag.setHighhigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                if (Model.equals("debug")) {
+                    logger.error("FEED High High and High " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPoniter_HighHigh() + " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime());
+                }
+
+            }
+            /**
+             * value higher than the current dynamic alarm line
+             * */
+            if (compared(BIG, new Double[]{value}, needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()])) {
+
+                checkAndPut(value, needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), productline);
+
+
+                // adjust dymaticalarm line
+                needDynamicTag.setPoniter_HighHigh((needDynamicTag.getPoniter_HighHigh() + 1) > (Tag4properties.MAXLEVEL - 1) ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPoniter_HighHigh() + 1));
+                needDynamicTag.setHighhigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                // if acess dymatic_highhighline   highline directly set maxlevel
+
+                needDynamicTag.setPointer_High((Tag4properties.MAXLEVEL - 1));
+                needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
+
+                if (Model.equals("debug")) {
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + value + "\n" +
+                            " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
+                            " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
+                            " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
+                            " CurrentDymatic_Low" + needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()] + " CurrentLift_Low: " + needDynamicTag.getLow_holdontime());
+                }
+
+
+            }
+
+
+        }
+
+        /**
+         * high
+         * */
+
+        else if (
+                compared(BIG, new Double[]{value}, needDynamicTag.getHighbase())
+                        &&
+                        compared(SMALL, new Double[]{value}, needDynamicTag.getHighhighbase())
+        ) {
+
+            /**
+             * High  Alarm in high region and trigger high dynamic-line
+             * */
+            if (
+                    compared(BIG, new Double[]{value}, needDynamicTag.getHighlinepool()[(needDynamicTag.getPointer_High() - 1) >= 0 ? (needDynamicTag.getPointer_High() - 1) : 0])
+            ) {
+                needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                if (Model.equals("debug")) {
+                    logger.error("FEED High " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPointer_High() + " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime());
+                }
+
+            }
+
+
+            if (
+                    compared(BIG, new Double[]{value}, needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()])
+            ) {
+
+                checkAndPut(value, needDynamicTag, needDynamicTag.getHIGHALARM(), productline);
+
+                needDynamicTag.setPointer_High((needDynamicTag.getPointer_High() + 1) > Tag4properties.MAXLEVEL - 1 ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_High() + 1));
+                needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
+
+                if (Model.equals("debug")) {
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + value + "\n" +
+                            " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
+                            " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
+                            " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
+                            " CurrentDymatic_Low" + needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()] + " CurrentLift_Low: " + needDynamicTag.getLow_holdontime());
+                }
+            }
+
+
+        }
+
+
+        /**
+         * LowLow  Alarm
+         * */
+        else if (
+                compared(SMALL, new Double[]{value}, needDynamicTag.getLowlowbase())
+        ) {
+
+            if (
+            compared(SMALL, new Double[]{value}, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow() - 1 >= 0 ? (needDynamicTag.getPointer_LowLow() - 1) : 0])
+
+            ) {
+                needDynamicTag.setLowlow_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                if (Model.equals("debug")) {
+                    logger.error("FEED LowLow  and low" + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPointer_LowLow() + " CurrentDymatic_lowlow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_lowlow: " + needDynamicTag.getLowlow_holdontime());
+                }
+
+
+            }
+
+
+            if (
+                    compared(SMALL, new Double[]{value}, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()])
+            ) {
+
+                checkAndPut(value, needDynamicTag, needDynamicTag.getLOWLOWALARM(), productline);
+
+
+                needDynamicTag.setPointer_LowLow((needDynamicTag.getPointer_LowLow() + 1) > Tag4properties.MAXLEVEL - 1 ? (Tag4properties.MAXLEVEL - 1) : (needDynamicTag.getPointer_LowLow() + 1));
+                needDynamicTag.setLowlow_holdontime(System.currentTimeMillis() + HOLDONTIME);
+
+
+                needDynamicTag.setPointer_Low(Tag4properties.MAXLEVEL - 1);
+                needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
+
+                if (Model.equals("debug")) {
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + value + "\n" +
+                            " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
+                            " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
+                            " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
+                            " CurrentDymatic_Low" + needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()] + " CurrentLift_Low: " + needDynamicTag.getLow_holdontime());
+                }
+
+
+            }
+
+        }
+        /**
+         * Low  Alarm
+         * */
+        else if (
+                compared(SMALL, new Double[]{value}, needDynamicTag.getLowbase())
+                        &&
+                        compared(BIG, new Double[]{value}, needDynamicTag.getLowlowbase())
+        ) {
+
+            if (
+                    compared(SMALL, new Double[]{value}, needDynamicTag.getLowlinepool()[(needDynamicTag.getPointer_Low() - 1) >= 0 ? (needDynamicTag.getPointer_Low() - 1) : 0])
+            ) {
+                needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
+                if (Model.equals("debug")) {
+                    logger.error("FEED Low " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowlowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + needDynamicTag.getPointer_Low() + " CurrentDymatic_low" + needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()] + " CurrentLift_low: " + needDynamicTag.getLow_holdontime());
+                }
+
+            }
+            if (
+                    compared(BIG, new Double[]{value}, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()])
+            ) {
+
+                checkAndPut(value, needDynamicTag, needDynamicTag.getLOWALARM(), productline);
+
+                needDynamicTag.setPointer_Low((needDynamicTag.getPointer_Low() + 1) > (Tag4properties.MAXLEVEL - 1) ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_Low() + 1));
+                needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
+
+                if (Model.equals("debug")) {
+                    logger.error("ALARM " + "Tagnem: " + needDynamicTag.getTag() + " CH:" + needDynamicTag.getProductlinename() + needDynamicTag.getDevice() + needDynamicTag.getCn() + " currentValue: " + value + " Lowlowlimit: " + needDynamicTag.getLowbase() + " Lowlimit: " + needDynamicTag.getLowbase() + " Highlimit: " + needDynamicTag.getHighbase() +
+                            " HighHighlimit: " + needDynamicTag.getHighhighbase() + " CurrentPoint: " + value + "\n" +
+                            " CurrentDymatic_HighHigh" + needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needDynamicTag.getHighhigh_holdontime() + "\n" +
+                            " CurrentDymatic_High" + needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()] + " CurrentLift_High: " + needDynamicTag.getHigh_holdontime() + "\n" +
+                            " CurrentDymatic_LowLow" + needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needDynamicTag.getLowlow_holdontime() + "\n" +
+                            " CurrentDymatic_Low" + needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()] + " CurrentLift_Low: " + needDynamicTag.getLow_holdontime());
+                }
+
+            }
+
+        }
+    }
+
+
+    /**
+     * <	     <=	       >	>=	     &	       '	"
+     * &lt;   &lt;=   &gt;   &gt;=   &amp;   &apos;  &quot
+     */
+    protected boolean compared(String operation, Double[] values, double base) {
+        if (operation.equals("lt")) {
+
+            for (double value : values) {
+                if (Tools.sub(value, base) < Tag4properties.N_INITIAL) {
+                    //right
+                } else {
+                    return false;
+                }
+            }
+
+        } else if (operation.equals("gt")) {
+
+            for (double value : values) {
+                if (Tools.sub(value, base) > Tag4properties.P_INITIAL) {
+                    //right
+                } else {
+                    return false;
+                }
+            }
+
+
+        }
+        return true;
 
     }
 
 
-    private void checkAndPut(double newvalue, Tag4properties needDynamicTag, int defaultcode, Productline productline) {
+    protected void checkAndPut(double newvalue, Tag4properties needDynamicTag, int defaultcode, Productline productline) {
 
 
         try {
@@ -338,7 +590,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
     private void putInQ(Tag4properties needDynamicTag, int defaultcode, double newvalue, Productline productline) throws InterruptedException {
 
-        needDynamicTag.setLastAlarmtime(defaultcode,Instant.now());
+        needDynamicTag.setLastAlarmtime(defaultcode, Instant.now());
         if (needDynamicTag.isIsaudio() && needDynamicTag.isIsalarm()) {
             AudioMessage audioMessage = new AudioMessage();
             audioMessage.setDefaultcode(defaultcode);
@@ -399,4 +651,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
     }
 
 
+    public void setHOLDONTIME(int HOLDONTIME) {
+        this.HOLDONTIME = HOLDONTIME;
+    }
 }

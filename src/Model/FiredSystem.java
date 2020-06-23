@@ -25,6 +25,9 @@ public class FiredSystem {
     private double month_totalhour;
     private double month_run_day;
 
+    //环保系统
+    private Map<String,Tag4properties> envPtcSystemTags;
+
 
     /**烧成系统位号：key:tagName;value object for Tag4properties*/
     private Map<String,Tag4properties> TagMapping;
@@ -203,5 +206,13 @@ public class FiredSystem {
 
     public void setMonth_run_day(double month_run_day) {
         this.month_run_day = month_run_day;
+    }
+
+    public Map<String, Tag4properties> getEnvPtcSystemTags() {
+        return envPtcSystemTags;
+    }
+
+    public void setEnvPtcSystemTags(Map<String, Tag4properties> envPtcSystemTags) {
+        this.envPtcSystemTags = envPtcSystemTags;
     }
 }

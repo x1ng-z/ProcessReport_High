@@ -15,28 +15,41 @@ import java.time.Instant;
 import java.util.*;
 
 
-
 public class Influxdb_Access_Data {
-    private static Logger logger= Logger.getLogger(Influxdb_Access_Data.class);
+    private static Logger logger = Logger.getLogger(Influxdb_Access_Data.class);
 
 
-    public static  void get_Realtimedata(String measureName, Product product, ServletContext servletContext) {
+    public static void get_Realtimedata(String measureName, Map<String, Tag4properties> tagsmap, ServletContext servletContext, Integer sampletimelength, Productline productline, boolean islimit,
+                                        Integer limitcount) {
 
         InfluxDB influxDB = Influxdb.getConnect(servletContext);
-
 //        String psql=Tools.listToString(tagnames,',');
-
-        Query query = BoundParameterQuery.QueryBuilder.newQuery("SELECT * FROM " + measureName + " WHERE time > $start AND time < $end ORDER BY time DESC")// LIMIT 1
-                .forDatabase("mydb")
-                .bind("start", Instant.now().minusSeconds(60))
-                .bind("end", Instant.now())
-                .create();
+        StringBuilder tagname = new StringBuilder();
+        for (String tag : tagsmap.keySet()) {
+            tagname.append("\""+tag+"\"" + ",");
+        }
+        Query query = null;
+        if (!islimit) {
+            query = BoundParameterQuery.QueryBuilder.newQuery("SELECT " + tagname.substring(0, tagname.length() - 1) + " FROM " + measureName + " WHERE time > $start AND time < $end ORDER BY time DESC")// LIMIT 1
+                    .forDatabase("mydb")
+                    .bind("start", Instant.now().minusSeconds((sampletimelength == null) ? 60 : sampletimelength))
+                    .bind("end", Instant.now())
+                    .create();
+        } else {
+             query = BoundParameterQuery.QueryBuilder.newQuery("SELECT " + tagname.substring(0, tagname.length() - 1) + " FROM " + measureName + " WHERE time > $start AND time < $end ORDER BY time DESC LIMIT "+limitcount)// LIMIT 1
+                    .forDatabase("mydb")
+                    .bind("start", Instant.now().minusSeconds((sampletimelength == null) ? 60 : sampletimelength))
+                    .bind("end", Instant.now())
+                    .create();
+        }
 
         QueryResult queryResult = null;
         try {
             queryResult = influxDB.query(query);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(),e);
+            logger.error(measureName+sampletimelength);
+            logger.error(tagname.substring(0, tagname.length() - 1));
             return;
         }
 
@@ -55,7 +68,7 @@ public class Influxdb_Access_Data {
                     for (int i = 1; i < serie.getColumns().size(); ++i) {
                         Tag4properties tag4properties = null;
 
-                        tag4properties = product.getTags().get(serie.getColumns().get(i));
+                        tag4properties = tagsmap.get(serie.getColumns().get(i));
                         if (tag4properties == null) {
                             continue;
                         }
@@ -65,7 +78,7 @@ public class Influxdb_Access_Data {
 
                         }
 
-                        if(list.get(i)!=null){
+                        if (list.get(i) != null) {
 
                             tag4properties.addMinvalues((Double) list.get(i));
 //                                      System.out.println((String)list.get(0)+"--"+(Double) list.get(i));
@@ -75,16 +88,16 @@ public class Influxdb_Access_Data {
                         }
 
                     }
-                    first=false;
+                    first = false;
                 }
 
                 for (int i = 1; i < serie.getColumns().size(); ++i) {
                     Tag4properties tag4properties = null;
-                    tag4properties = product.getTags().get(serie.getColumns().get(i));
+                    tag4properties = tagsmap.get(serie.getColumns().get(i));
                     if (tag4properties == null) {
                         continue;
                     }
-                    MyProperties proxytag = (MyProperties) DynamicProxyHandler.bind(tag4properties, "ToolUnits.RealDateInterceptorImp", "update", ProcessMgr.getProcessMgr_instance(servletContext).getService_alarmMonitor(), (Productline) product);
+                    MyProperties proxytag = (MyProperties) DynamicProxyHandler.bind(tag4properties, "ToolUnits.RealDateInterceptorImp", "update", ProcessMgr.getProcessMgr_instance(servletContext).getService_alarmMonitor(), (Productline) productline);
                     proxytag.update();
 
 
@@ -99,12 +112,12 @@ public class Influxdb_Access_Data {
 
     }
 
-    public static  Map<String,List> get_sometime(ServletContext servletContext,String measureName,String tagNames, Instant starttime, Instant endtime) {
+    public static Map<String, List> get_sometime(ServletContext servletContext, String measureName, String tagNames, Instant starttime, Instant endtime) {
 
         InfluxDB influxDB = Influxdb.getConnect(servletContext);
 //        System.out.println("SELECT "+tagNames+" FROM " + measureName);
-        Map<String,List> timeorderData=new LinkedHashMap<>();
-        Query query = BoundParameterQuery.QueryBuilder.newQuery("SELECT "+tagNames+" FROM " + measureName + " WHERE time > $start AND time < $end ORDER BY time DESC")
+        Map<String, List> timeorderData = new LinkedHashMap<>();
+        Query query = BoundParameterQuery.QueryBuilder.newQuery("SELECT " + tagNames + " FROM " + measureName + " WHERE time > $start AND time < $end ORDER BY time DESC")
                 .forDatabase("mydb")
                 .bind("start", starttime)
                 .bind("end", endtime)
@@ -119,13 +132,13 @@ public class Influxdb_Access_Data {
 
 //                System.out.println(serie.getColumns());
 
-                for(int i=1;i<serie.getColumns().size();i++){
-                    timeorderData.put(serie.getColumns().get(i),new ArrayList());
+                for (int i = 1; i < serie.getColumns().size(); i++) {
+                    timeorderData.put(serie.getColumns().get(i), new ArrayList());
                 }
 
-                for (List<Object> list : serie.getValues()){
-                    int j=1;
-                    for(String tag:timeorderData.keySet()){
+                for (List<Object> list : serie.getValues()) {
+                    int j = 1;
+                    for (String tag : timeorderData.keySet()) {
                         timeorderData.get(tag).add(list.get(j++));
                     }
                 }

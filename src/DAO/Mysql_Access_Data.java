@@ -97,6 +97,8 @@ public class Mysql_Access_Data {
                 productlineclazz.setRawSystemmapping(getAllrawstem(productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz, servletContext));
                 productlineclazz.setFiredSystemmapping(getAllfiredsystem(servletContext, productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz));
 
+                productlineclazz.setQulityTags(getqulitysystemTags(productlineclazz,MysqlDB.getConnection(servletContext)));
+
                 productlineMap.put(productline_id, productlineclazz);
             }
             return productlineMap;
@@ -211,6 +213,7 @@ public class Mysql_Access_Data {
                 firedSystem.setFiredsystemno(firedsystemno);
                 firedSystem.setType(type);
                 firedSystem.setTagMapping(getFiredsystemTags(productline, MysqlDB.getConnection(servletContext), firedsystemno, productlinename, product));
+                firedSystem.setEnvPtcSystemTags(getenvptcsystemTags(firedsystemno,MysqlDB.getConnection(servletContext)));
                 firedSystemMap.put(firedsystemno, firedSystem);
             }
 
@@ -507,6 +510,197 @@ public class Mysql_Access_Data {
         return null;
 
     }
+
+
+
+
+    public static Map<String, Tag4properties> getqulitysystemTags(Productline productline, Connection mysql_connection) {
+
+        Map<String, Tag4properties> qulitytags = new HashMap<String, Tag4properties>();
+        String sql = "select * from qulitytag where productline=?";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = mysql_connection.prepareStatement(sql);
+            preparedStatement.setString(1, productline.getProductline_cn());
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String processtype="qulity";
+                String productlineindex = resultSet.getString("productline");
+                String cn = resultSet.getString("cn");
+                String tag = resultSet.getString("tag");
+                double hhighlimit = resultSet.getDouble("hhighlimit");
+                double highlimit = resultSet.getDouble("highlimit");
+                double llowlimit = resultSet.getDouble("llowlimit");
+                double lowlimit = resultSet.getDouble("lowlimit");
+                int id = resultSet.getInt("id");
+                double changerate = resultSet.getDouble("changerate");
+                String type = resultSet.getString("type");
+                String alarmmonitor = resultSet.getString("alarmonitor");
+                boolean isaudio = resultSet.getBoolean("isaudio");
+                boolean isalarm = resultSet.getBoolean("isalarm");
+                String topic = resultSet.getString("topic");
+                Tag4properties tag4properties = new Tag4properties();
+                try {
+                    Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
+                    /**tag have that properties*/
+                    if ((deviceAlarmJudgmentSrc != null) && (deviceAlarmJudgmentSrc.equals(1))) {
+//                        productline.addDeviceAlarmjudgeRsc(device, tag4properties);
+                        tag4properties.setDeviceAlarmJudgmentSrc(deviceAlarmJudgmentSrc);
+                    }
+                } catch (SQLException throwables) {
+                    /**tag have no that properties*/
+                }
+
+                tag4properties.setCn(cn);
+                tag4properties.setHighhighbase(hhighlimit);
+                tag4properties.setHighbase(highlimit);
+                tag4properties.setLowlowbase(llowlimit);
+                tag4properties.setLowbase(lowlimit);
+                tag4properties.setTag("Q"+productline.getProductline_id().substring(productline.getProductline_id().length() - 1, productline.getProductline_id().length())+tag);
+                tag4properties.setId(id);
+                tag4properties.setFix_changerate(changerate);
+                tag4properties.setType(type);
+                tag4properties.setProductlinename(productlineindex);
+
+                tag4properties.setIsalarm(isalarm);
+                tag4properties.setAlarmtmonitor(alarmmonitor);
+                tag4properties.setIsaudio(isaudio);
+                tag4properties.setProcesstype(processtype);
+                tag4properties.setTopic(topic);
+                tag4properties.init();
+                qulitytags.put("Q"+productline.getProductline_id().substring(productline.getProductline_id().length() - 1, productline.getProductline_id().length())+tag, tag4properties);
+            }
+            return qulitytags;
+        } catch (SQLException e) {
+            logger.error(e.getMessage(),e);
+
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    logger.error(e.getMessage(),e);
+                }
+            }
+
+            if (preparedStatement != null) {
+
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                   logger.error(e.getMessage(),e);
+                }
+            }
+
+
+            try {
+                if (mysql_connection != null) {
+                    mysql_connection.close();
+                }
+            } catch (SQLException throwables) {
+               logger.error(throwables.getMessage(),throwables);
+            }
+        }
+        return null;
+    }
+
+
+
+
+    public static Map<String, Tag4properties> getenvptcsystemTags(String firedsystemno, Connection mysql_connection) {
+
+        Map<String, Tag4properties> qulitytags = new HashMap<String, Tag4properties>();
+        String sql = "select * from envprotecttag where firedsystemno=?";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = mysql_connection.prepareStatement(sql);
+            preparedStatement.setString(1, firedsystemno);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String cn = resultSet.getString("cn");
+                String tag = resultSet.getString("tag");
+                double hhighlimit = resultSet.getDouble("hhighlimit");
+                double highlimit = resultSet.getDouble("highlimit");
+                double llowlimit = resultSet.getDouble("llowlimit");
+                double lowlimit = resultSet.getDouble("lowlimit");
+                String processtype = resultSet.getString("processtype");
+                int id = resultSet.getInt("id");
+                double changerate = resultSet.getDouble("changerate");
+                String type = resultSet.getString("type");
+                String alarmmonitor = resultSet.getString("alarmmonitor");
+                boolean isaudio = resultSet.getBoolean("isaudio");
+                boolean isalarm = resultSet.getBoolean("isalarm");
+                String topic = resultSet.getString("topic");
+                Tag4properties tag4properties = new Tag4properties();
+                try {
+                    Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
+                    /**tag have that properties*/
+                    if ((deviceAlarmJudgmentSrc != null) && (deviceAlarmJudgmentSrc.equals(1))) {
+//                        productline.addDeviceAlarmjudgeRsc(device, tag4properties);
+                        tag4properties.setDeviceAlarmJudgmentSrc(deviceAlarmJudgmentSrc);
+                    }
+                } catch (SQLException throwables) {
+                    /**tag have no that properties*/
+                }
+
+                tag4properties.setCn(cn);
+                tag4properties.setHighhighbase(hhighlimit);
+                tag4properties.setHighbase(highlimit);
+                tag4properties.setLowlowbase(llowlimit);
+                tag4properties.setLowbase(lowlimit);
+                tag4properties.setTag(tag);
+                tag4properties.setId(id);
+                tag4properties.setFix_changerate(changerate);
+                tag4properties.setType(type);
+
+                tag4properties.setIsalarm(isalarm);
+                tag4properties.setAlarmtmonitor(alarmmonitor);
+                tag4properties.setIsaudio(isaudio);
+                tag4properties.setProcesstype(processtype);
+                tag4properties.setTopic(topic);
+                tag4properties.setProcesstype("envptc");
+                tag4properties.init();
+                qulitytags.put(tag, tag4properties);
+            }
+            return qulitytags;
+        } catch (SQLException e) {
+            logger.error(e.getMessage(),e);
+
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    logger.error(e.getMessage(),e);
+                }
+            }
+
+            if (preparedStatement != null) {
+
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    logger.error(e.getMessage(),e);
+                }
+            }
+
+
+            try {
+                if (mysql_connection != null) {
+                    mysql_connection.close();
+                }
+            } catch (SQLException throwables) {
+                logger.error(throwables.getMessage(),throwables);
+            }
+        }
+        return null;
+    }
+
+
+
+
 
 
     public static List<AlarmMessage> get_oldalarmhistory(ServletContext servletContext, Connection mysql_connection, Timestamp start, Timestamp end, String processtype) {

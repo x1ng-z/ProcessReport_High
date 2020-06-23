@@ -10,10 +10,10 @@ public class Carrior4periodtask implements Delayed {
     private final long trigger;
     private Periodtask task;
 
-    public Carrior4periodtask(int dalta, Periodtask task) {
-        this.dalta = dalta;
+    public Carrior4periodtask(int dalta_millisec, Periodtask task) {
+        this.dalta = dalta_millisec;
         this.task=task;
-        this.trigger=System.nanoTime()+NANOSECONDS.convert(dalta,MILLISECONDS);
+        this.trigger=System.nanoTime()+NANOSECONDS.convert(dalta_millisec,MILLISECONDS);
     }
 
 

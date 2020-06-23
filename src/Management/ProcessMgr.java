@@ -2,9 +2,7 @@ package Management;
 
 import DAO.*;
 import Model.*;
-import Task_Service.MonitorDefaultDymaticAlarm;
-import Task_Service.MonitorDefaultOperaterHistory;
-import Task_Service.Service_AlarmMonitor;
+import Task_Service.*;
 import ToolUnits.ExecuteCmd;
 import ToolUnits.Tools;
 import org.apache.log4j.Logger;
@@ -41,6 +39,8 @@ public class ProcessMgr {
         this.service_alarmMonitor = new Service_AlarmMonitor(servletContext);
         service_alarmMonitor.registerMonitor(Tag4properties.OPERATEMONITOR, new MonitorDefaultOperaterHistory(servletContext, messageQueue));
         service_alarmMonitor.registerMonitor(Tag4properties.ALARMMONITOR, new MonitorDefaultDymaticAlarm(servletContext, messageQueue));
+        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUEMONITOR,new MonitorAllValue(servletContext,messageQueue));
+        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUENODYNAMICMONITOR,new MonitorAllValueWithoutDynamic(servletContext,messageQueue));
 
     }
 
