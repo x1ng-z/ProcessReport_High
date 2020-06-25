@@ -14,6 +14,10 @@ public class Productline implements Product {
     private ConcurrentLinkedQueue<AlarmMessage> current_raw_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
     private ConcurrentLinkedQueue<Operate_Message> current_fired_operate = new ConcurrentLinkedQueue<Operate_Message>();
     private ConcurrentLinkedQueue<AlarmMessage> current_fired_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
+
+    private ConcurrentLinkedQueue<AlarmMessage> current_quality_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
+
+    private ConcurrentLinkedQueue<AlarmMessage> current_envptc_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
     private Tag4properties raw_judgerelu;//用于判定是否需要判断报警，生料磨机电流为0，不需要判断
     private Tag4properties fired_judgerelu;//用于判定是否需要判断报警，回转窑电流为0，不需要判断
     private List<String> alltagnameInpruductline=null;
@@ -257,6 +261,21 @@ public class Productline implements Product {
 
     }
 
+    public void addCurrent_quality_alarm(AlarmMessage alarmMessage) {
+        while (current_quality_alarm.size() > MESSAGESIZE) {
+            current_quality_alarm.poll();
+        }
+        current_quality_alarm.add(alarmMessage);
+    }
+
+
+    public void addCurrent_envptc_alarm(AlarmMessage alarmMessage) {
+        while (current_envptc_alarm.size() > MESSAGESIZE) {
+            current_envptc_alarm.poll();
+        }
+        current_envptc_alarm.add(alarmMessage);
+    }
+
 
     public Tag4properties getRaw_judgerelu() {
         return raw_judgerelu;
@@ -283,4 +302,11 @@ public class Productline implements Product {
     }
 
 
+    public ConcurrentLinkedQueue<AlarmMessage> getCurrent_quality_alarm() {
+        return current_quality_alarm;
+    }
+
+    public ConcurrentLinkedQueue<AlarmMessage> getCurrent_envptc_alarm() {
+        return current_envptc_alarm;
+    }
 }

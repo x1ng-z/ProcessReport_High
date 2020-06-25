@@ -275,19 +275,14 @@ public class ProcessMgr {
         List<AlarmMessage> fired_operAndAlarm = new ArrayList<AlarmMessage>();
 
         for (Map.Entry<String, Firm> firmEntry : firmmmaping.entrySet()) {
-
-//            firmEntry.getKey();
             Firm firm = firmEntry.getValue();
             for (Map.Entry<String, Productline> productlineEntry : firm.getProductlinemapping().entrySet()) {
                 fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_fired_operate());
                 fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_fired_alarm());
-//                logger.info("getCurrent_fired_OAndA"+productlineEntry.getValue().getCurrent_fired_alarm().toString());
+                fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_envptc_alarm());
+                fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_quality_alarm());
             }
-
-
         }
-
-
         return fired_operAndAlarm;
     }
 

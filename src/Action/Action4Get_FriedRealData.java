@@ -24,10 +24,6 @@ public class Action4Get_FriedRealData implements Callable<JSONObject> {
 
     private HttpServletRequest httpServletRequest;
     private ServletContext servletContext;
-
-
-
-
     public Action4Get_FriedRealData(HttpServletRequest httpServletRequest, ServletContext servletContext){
         this.httpServletRequest=httpServletRequest;
         this.servletContext=servletContext;
@@ -40,9 +36,6 @@ public class Action4Get_FriedRealData implements Callable<JSONObject> {
         String lang=httpServletRequest.getParameter("zh");
 
         if(process.trim().equals("fired")){
-//            System.out.println("into");
-
-
             ProcessMgr processMgr =ProcessMgr.getProcessMgr_instance(servletContext);
             Map<String, FiredSystem> firedsystemmaping= processMgr.get_FiredmapingClone();
             List<AlarmMessage> firedoperateAndalarmhistory=processMgr.getCurrent_fired_OAndA();
@@ -93,6 +86,7 @@ public class Action4Get_FriedRealData implements Callable<JSONObject> {
              for(AlarmMessage alarmMessage:firedoperateAndalarmhistory){
                  stringhistory.add(alarmMessage.toString());
              }
+
 
             jsonArray.put("operatehistory",stringhistory);
 

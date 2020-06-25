@@ -37,12 +37,8 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
 
     protected void CheckAlarmLineLife(Tag4properties needdymatcitag, List<Double> result) {
-
-
         if (needdymatcitag.getHighhigh_holdontime() < System.currentTimeMillis()) {
             int poniter_HighHigh = needdymatcitag.getPoniter_HighHigh();
-
-
             if (Model.equals("debug") && (poniter_HighHigh != 0)) {
                 logger.error("SHITDOWM High High" + "Tag_: " + result.get(0) + " CurrentPoint: " + needdymatcitag.getPoniter_HighHigh() + " CurrentDymatic_HighHigh" + needdymatcitag.getHighhighlinepool()[needdymatcitag.getPoniter_HighHigh()] + " CurrentLift_HighHigh: " + needdymatcitag.getHighhigh_holdontime());
             }
@@ -50,23 +46,17 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
         }
         if (needdymatcitag.getHigh_holdontime() < System.currentTimeMillis()) {
             int poniter_High = needdymatcitag.getPointer_High();
-
-
             if (Model.equals("debug") && (poniter_High != 0)) {
                 logger.error("SHITDOWM High" + "Tag_: " + result.get(0) + " CurrentPoint: " + needdymatcitag.getPointer_High() + " CurrentDymatic_High" + needdymatcitag.getHighlinepool()[needdymatcitag.getPointer_High()] + " CurrentLift_High: " + needdymatcitag.getHigh_holdontime());
             }
             needdymatcitag.setPointer_High((poniter_High - 1) <= 0 ? 0 : (poniter_High - 1));
         }
-
         if (needdymatcitag.getLowlow_holdontime() < System.currentTimeMillis()) {
             int poniter_LowLow = needdymatcitag.getPointer_LowLow();
-
-
             if (Model.equals("debug") && (poniter_LowLow != 0)) {
                 logger.error("SHITDOWM LowLow" + "Tag_: " + result.get(0) + " CurrentPoint: " + needdymatcitag.getPointer_LowLow() + " CurrentDymatic_LowLow" + needdymatcitag.getLowlowlinepool()[needdymatcitag.getPointer_LowLow()] + " CurrentLift_LowLow: " + needdymatcitag.getLowlow_holdontime());
             }
             needdymatcitag.setPointer_LowLow((poniter_LowLow - 1) <= 0 ? 0 : (poniter_LowLow - 1));
-
         }
 
         if (needdymatcitag.getLow_holdontime() < System.currentTimeMillis()) {
@@ -510,7 +500,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
             }
             if (
-                    compared(BIG, new Double[]{value}, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()])
+                    compared(SMALL, new Double[]{value}, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()])
             ) {
 
                 checkAndPut(value, needDynamicTag, needDynamicTag.getLOWALARM(), productline);
@@ -608,10 +598,18 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
             if (needDynamicTag.getNoAlarmtime() < System.currentTimeMillis()) {//系统刚起的3分钟内，不进行报警
 
-                if (needDynamicTag.getProcesstype().equals("raw")) {
-                    productline.addCurrent_raw_alarm(audioMessage);
-                } else if (needDynamicTag.getProcesstype().equals("fired")) {
-                    productline.addCurrent_fired_alarm(audioMessage);
+                try {
+                    if (needDynamicTag.getProcesstype().equals("raw")) {
+                        productline.addCurrent_raw_alarm(audioMessage);
+                    } else if (needDynamicTag.getProcesstype().equals("fired")) {
+                        productline.addCurrent_fired_alarm(audioMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("quality")){
+                        productline.addCurrent_quality_alarm(audioMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("envptc")){
+                        productline.addCurrent_envptc_alarm(audioMessage);
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage(),e);
                 }
                 audiomessage.put(audioMessage);
             }
@@ -632,12 +630,18 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
             alarmMessage.setDeviceOrProcess(needDynamicTag.getType());
             if (needDynamicTag.getNoAlarmtime() < System.currentTimeMillis()) {
 
-                if (needDynamicTag.getProcesstype().equals("raw")) {
-
-                    productline.getCurrent_raw_alarm().add(alarmMessage);
-                } else if (needDynamicTag.getProcesstype().equals("fired")) {
-                    productline.getCurrent_fired_alarm().add(alarmMessage);
-
+                try {
+                    if (needDynamicTag.getProcesstype().equals("raw")) {
+                        productline.addCurrent_raw_alarm(alarmMessage);
+                    } else if (needDynamicTag.getProcesstype().equals("fired")) {
+                        productline.addCurrent_fired_alarm(alarmMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("quality")){
+                        productline.addCurrent_quality_alarm(alarmMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("envptc")){
+                        productline.addCurrent_envptc_alarm(alarmMessage);
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage(),e);
                 }
 
 

@@ -213,7 +213,7 @@ public class Mysql_Access_Data {
                 firedSystem.setFiredsystemno(firedsystemno);
                 firedSystem.setType(type);
                 firedSystem.setTagMapping(getFiredsystemTags(productline, MysqlDB.getConnection(servletContext), firedsystemno, productlinename, product));
-                firedSystem.setEnvPtcSystemTags(getenvptcsystemTags(firedsystemno,MysqlDB.getConnection(servletContext)));
+                firedSystem.setEnvPtcSystemTags(getenvptcsystemTags(productline,firedsystemno,MysqlDB.getConnection(servletContext)));
                 firedSystemMap.put(firedsystemno, firedSystem);
             }
 
@@ -525,7 +525,7 @@ public class Mysql_Access_Data {
             preparedStatement.setString(1, productline.getProductline_cn());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String processtype="qulity";
+                String processtype=resultSet.getString("processtype");
                 String productlineindex = resultSet.getString("productline");
                 String cn = resultSet.getString("cn");
                 String tag = resultSet.getString("tag");
@@ -608,7 +608,7 @@ public class Mysql_Access_Data {
 
 
 
-    public static Map<String, Tag4properties> getenvptcsystemTags(String firedsystemno, Connection mysql_connection) {
+    public static Map<String, Tag4properties> getenvptcsystemTags(Productline productline,String firedsystemno, Connection mysql_connection) {
 
         Map<String, Tag4properties> qulitytags = new HashMap<String, Tag4properties>();
         String sql = "select * from envprotecttag where firedsystemno=?";
@@ -620,6 +620,7 @@ public class Mysql_Access_Data {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String cn = resultSet.getString("cn");
+                String device = resultSet.getString("device");
                 String tag = resultSet.getString("tag");
                 double hhighlimit = resultSet.getDouble("hhighlimit");
                 double highlimit = resultSet.getDouble("highlimit");
@@ -654,13 +655,13 @@ public class Mysql_Access_Data {
                 tag4properties.setId(id);
                 tag4properties.setFix_changerate(changerate);
                 tag4properties.setType(type);
-
+                tag4properties.setProductlinename(productline.getProductline_cn());
                 tag4properties.setIsalarm(isalarm);
                 tag4properties.setAlarmtmonitor(alarmmonitor);
                 tag4properties.setIsaudio(isaudio);
                 tag4properties.setProcesstype(processtype);
                 tag4properties.setTopic(topic);
-                tag4properties.setProcesstype("envptc");
+                tag4properties.setDevice(device);
                 tag4properties.init();
                 qulitytags.put(tag, tag4properties);
             }
@@ -708,7 +709,7 @@ public class Mysql_Access_Data {
 
         List<AlarmMessage> operatehistories = new ArrayList<AlarmMessage>();
 
-        String sql = "select * from operatehistory where (genertime>=? and genertime<=? )and type=? ORDER BY genertime DESC";
+        String sql = processtype.equals("fired")?("select * from operatehistory where (genertime>=? and genertime<=? )and (type=? or type='quality' or type='envptc') ORDER BY genertime DESC"):("select * from operatehistory where (genertime>=? and genertime<=? )and type=? ORDER BY genertime DESC");
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
