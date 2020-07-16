@@ -6,7 +6,7 @@ import DAO.*;
 
 import Management.ProcessMgr;
 import Model.Firm;
-import Model.Productline;
+import Model.DefaultProductline;
 import Model.Tag4properties;
 import Task_Service.*;
 import ToolUnits.JMS_Text_Service;
@@ -121,7 +121,6 @@ public class ActionServlet extends HttpServlet {
         Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firstdelay, firedSystem_output));
 
         firedSystem_qulityData.execute();
-        firedSystem_qulityData.execute();
         firedSystem_output.execute();
 
         Thread tempthread = new Thread(new Runnable() {
@@ -185,7 +184,7 @@ public class ActionServlet extends HttpServlet {
 
             try {
 
-                Future<JSONObject> jsonArrayFuture = requestexec.submit(new Action4GetalarmHistoryData(request, servletContext));
+                Future<JSONObject> jsonArrayFuture = requestexec.submit(new Action4GetalarmHistoryAlarmData(request, servletContext));
 
                 response.setContentType("text/json; charset=UTF-8");
                 response.setHeader("Cache-Control", "no-store"); //HTTP1.1
@@ -303,6 +302,30 @@ public class ActionServlet extends HttpServlet {
 
         }
 
+        if (method.trim().equals("CementRD")) {//real data
+
+            try {
+
+                Future<JSONObject> jsonArrayFuture = requestexec.submit(new Action4Get_CementRealData(request, servletContext));
+                response.setContentType("text/json; charset=UTF-8");
+                response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+                response.setHeader("Pragma", "no-cache"); //HTTP1.0
+                response.setDateHeader("Expires", 0);
+                PrintWriter out = response.getWriter();
+//                System.out.println("##" + jsonArrayFuture.get().toString());
+                out.println(jsonArrayFuture.get().toString());
+
+                // alwaysexec.shutdown();
+
+            } catch (Exception e) {
+                logger.error(e);
+                ;
+
+            }
+
+
+        }
+
         if (method.trim().equals("PD")) {
 
             List<String> production = new LinkedList<>();
@@ -310,9 +333,9 @@ public class ActionServlet extends HttpServlet {
 
             for (Firm firm : processMgr.getFirmmmaping().values()) {
 
-                for (Productline productline : firm.getProductlinemapping().values()) {
-                    production.add(productline.getProductline_cn());
-                    for (Tag4properties tag : productline.getTags().values()) {
+                for (DefaultProductline defaultProductline : firm.getProductlinemapping().values()) {
+                    production.add(defaultProductline.getProductline_cn());
+                    for (Tag4properties tag : defaultProductline.getTags().values()) {
                         device.add(tag.getDevice());
                     }
                 }
@@ -354,7 +377,7 @@ public class ActionServlet extends HttpServlet {
 
                     for (Firm firm : processMgr.getFirmmmaping().values()) {
 
-                        for (Productline productline : firm.getProductlinemapping().values()) {
+                        for (DefaultProductline defaultProductline : firm.getProductlinemapping().values()) {
                             String pln = "";
 
 
@@ -364,8 +387,8 @@ public class ActionServlet extends HttpServlet {
                                 pln = request.getParameter("production");
                             }
 
-                            if (productline.getProductline_cn().equals(pln)) {
-                                for (Tag4properties tag : productline.getTags().values()) {
+                            if (defaultProductline.getProductline_cn().equals(pln)) {
+                                for (Tag4properties tag : defaultProductline.getTags().values()) {
                                     devices.add(tag.getDevice());
                                 }
 
@@ -384,11 +407,11 @@ public class ActionServlet extends HttpServlet {
                 if (request.getParameter("tag").equals("All")) {
                     for (Firm firm : processMgr.getFirmmmaping().values()) {
 
-                        for (Productline productline : firm.getProductlinemapping().values()) {
+                        for (DefaultProductline defaultProductline : firm.getProductlinemapping().values()) {
 
                             if (request.getParameter("production").equals("All")) {
 
-                                for (Tag4properties tag : productline.getTags().values()) {
+                                for (Tag4properties tag : defaultProductline.getTags().values()) {
 
                                     if (request.getParameter("device").equals(tag.getDevice())) {
                                         tags.add(tag.getProductlinename() + "%" + tag.getDevice() + "%" + tag.getCn() + "%" + tag.getTag() + "%" + tag.getHighhighbase() + "%" + tag.getHighbase() + "%" + tag.getLowbase() + "%" + tag.getLowlowbase() + "%" + tag.getFix_changerate() + "%" + tag.isIsalarm() + "%" + tag.isIsaudio() + "%" + tag.getAlarm_mode() + "%" + tag.getAlarmtmonitor());
@@ -405,8 +428,8 @@ public class ActionServlet extends HttpServlet {
                                 } else {
                                     pln = request.getParameter("production");
                                 }
-                                if (pln.equals(productline.getProductline_cn())) {
-                                    for (Tag4properties tag : productline.getTags().values()) {
+                                if (pln.equals(defaultProductline.getProductline_cn())) {
+                                    for (Tag4properties tag : defaultProductline.getTags().values()) {
                                         if (request.getParameter("device").equals(tag.getDevice())) {
                                             tags.add(tag.getProductlinename() + "%" + tag.getDevice() + "%" + tag.getCn() + "%" + tag.getTag() + "%" + tag.getHighhighbase() + "%" + tag.getHighbase() + "%" + tag.getLowbase() + "%" + tag.getLowlowbase() + "%" + tag.getFix_changerate() + "%" + tag.isIsalarm() + "%" + tag.isIsaudio() + "%" + tag.getAlarm_mode() + "%" + tag.getAlarmtmonitor());
                                         }
@@ -433,10 +456,10 @@ public class ActionServlet extends HttpServlet {
 
                     for (Firm firm : processMgr.getFirmmmaping().values()) {
 
-                        for (Productline productline : firm.getProductlinemapping().values()) {
-                            if (pln.equals(productline.getProductline_cn())) {
+                        for (DefaultProductline defaultProductline : firm.getProductlinemapping().values()) {
+                            if (pln.equals(defaultProductline.getProductline_cn())) {
 
-                                for (Tag4properties tag : productline.getTags().values()) {
+                                for (Tag4properties tag : defaultProductline.getTags().values()) {
 
                                     if (request.getParameter("device").equals(tag.getDevice()) && (tag.getCn().equals(request.getParameter("tag")))) {
                                         tags.add(tag.getProductlinename() + "%" + tag.getDevice() + "%" + tag.getCn() + "%" + tag.getTag() + "%" + tag.getHighhighbase() + "%" + tag.getHighbase() + "%" + tag.getLowbase() + "%" + tag.getLowlowbase() + "%" + tag.getFix_changerate() + "%" + tag.isIsalarm() + "%" + tag.isIsaudio() + "%" + tag.getAlarm_mode() + "%" + tag.getAlarmtmonitor());
@@ -536,7 +559,7 @@ public class ActionServlet extends HttpServlet {
             String measurement = request.getParameter("measurement");
             Long timespan = Long.valueOf(request.getParameter("timespan"));
 
-            Future<JSONObject> results = requestexec.submit(new Action4Get_moredata(getServletContext(),measurement, combox.substring(0, combox.length() - 1), timespan));
+            Future<JSONObject> results = requestexec.submit(new Action4Get_HistoryMoreRealdata(getServletContext(),measurement, combox.substring(0, combox.length() - 1), timespan));
             response.setContentType("text/json; charset=UTF-8");
             response.setHeader("Cache-Control", "no-store"); //HTTP1.1
             response.setHeader("Pragma", "no-cache"); //HTTP1.0

@@ -39,8 +39,8 @@ public class ProcessMgr {
         this.service_alarmMonitor = new Service_AlarmMonitor(servletContext);
         service_alarmMonitor.registerMonitor(Tag4properties.OPERATEMONITOR, new MonitorDefaultOperaterHistory(servletContext, messageQueue));
         service_alarmMonitor.registerMonitor(Tag4properties.ALARMMONITOR, new MonitorDefaultDymaticAlarm(servletContext, messageQueue));
-        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUEMONITOR,new MonitorAllValue(servletContext,messageQueue));
-        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUENODYNAMICMONITOR,new MonitorAllValueWithoutDynamic(servletContext,messageQueue));
+        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUEMONITOR,new MonitorAllValueAlarm(servletContext,messageQueue));
+        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUENODYNAMICMONITOR,new MonitorAllValueWithoutDynamicAlarm(servletContext,messageQueue));
 
     }
 
@@ -50,15 +50,15 @@ public class ProcessMgr {
         for (Map.Entry<String, Firm> firmEntry : getFirmmmaping().entrySet()) {
 
             Firm subfirm = firmEntry.getValue();
-            Map<String, Productline> productlinemapping = subfirm.getProductlinemapping();
-            for (Map.Entry<String, Productline> productlineEntry : productlinemapping.entrySet()) {
+            Map<String, DefaultProductline> productlinemapping = subfirm.getProductlinemapping();
+            for (Map.Entry<String, DefaultProductline> productlineEntry : productlinemapping.entrySet()) {
 
-                Productline productline = productlineEntry.getValue();
-                if (productline.getRegionfirm().equals(firmname)) {
+                DefaultProductline defaultProductline = productlineEntry.getValue();
+                if (defaultProductline.getRegionfirm().equals(firmname)) {
                     if(productlineno!=null){
-                        if(productline.getProductline_id().equals(productlineno)){
+                        if(defaultProductline.getProductline_id().equals(productlineno)){
 
-                            for (Map.Entry<String, Tag4properties> tag4propertiesEntry : productline.getTags().entrySet()) {
+                            for (Map.Entry<String, Tag4properties> tag4propertiesEntry : defaultProductline.getTags().entrySet()) {
                                 Tag4properties tag4property = tag4propertiesEntry.getValue();
                                 if (tag4property.getDevice().equals(device)) {
                                     results.add(tag4property.tagclone());
@@ -70,8 +70,8 @@ public class ProcessMgr {
                         }
                     }else{
 
-                        if(productline.getProductline_id().equals("0001E110000000000EYU")){
-                            for (Map.Entry<String, Tag4properties> tag4propertiesEntry : productline.getTags().entrySet()) {
+                        if(defaultProductline.getProductline_id().equals("0001E110000000000EYU")){
+                            for (Map.Entry<String, Tag4properties> tag4propertiesEntry : defaultProductline.getTags().entrySet()) {
                                 Tag4properties tag4property = tag4propertiesEntry.getValue();
                                 if (tag4property.getDevice().equals(device)) {
                                     results.add(tag4property.tagclone());
@@ -172,10 +172,10 @@ public class ProcessMgr {
 
             for (Firm firm : firmmapping.values()) {
 
-                for (Productline productline : firm.getProductlinemapping().values()) {
+                for (DefaultProductline defaultProductline : firm.getProductlinemapping().values()) {
 
 
-                    for (RawSystem rawSystem : productline.getRawSystemmapping().values()) {
+                    for (RawSystem rawSystem : defaultProductline.getRawSystemmapping().values()) {
 
                         rawmapping.put(rawSystem.getRawsystemno(), rawSystem);
 
@@ -198,10 +198,10 @@ public class ProcessMgr {
 
             for (Firm firm : firmmapping.values()) {
 
-                for (Productline productline : firm.getProductlinemapping().values()) {
+                for (DefaultProductline defaultProductline : firm.getProductlinemapping().values()) {
 
 
-                    for (FiredSystem firedSystem : productline.getFiredSystemmapping().values()) {
+                    for (FiredSystem firedSystem : defaultProductline.getFiredSystemmapping().values()) {
 
                         firedmapping.put(firedSystem.getFiredsystemno(), firedSystem);
 
@@ -210,6 +210,24 @@ public class ProcessMgr {
                 }
             }
             return firedmapping;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public Map<String, CementSystem> get_CementmapingClone() {
+        try {
+            Map<String, CementSystem> cementmapping = new HashMap<String, CementSystem>();
+            for(Firm firm:firmmmaping.values()){
+                for(DefaultProductline productline:firm.getProductlinemapping().values()){
+                    cementmapping.putAll(productline.getCementSystemmapping());
+                }
+            }
+
+            return cementmapping;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,7 +270,7 @@ public class ProcessMgr {
 
 //            firmEntry.getKey();
             Firm firm = firmEntry.getValue();
-            for (Map.Entry<String, Productline> productlineEntry : firm.getProductlinemapping().entrySet()) {
+            for (Map.Entry<String, DefaultProductline> productlineEntry : firm.getProductlinemapping().entrySet()) {
 
                 raw_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_raw_operate());
                 raw_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_raw_alarm());
@@ -270,17 +288,30 @@ public class ProcessMgr {
      * get the operate and alarm message
      */
     public List<AlarmMessage> getCurrent_fired_OAndA() {
-
-
         List<AlarmMessage> fired_operAndAlarm = new ArrayList<AlarmMessage>();
-
         for (Map.Entry<String, Firm> firmEntry : firmmmaping.entrySet()) {
             Firm firm = firmEntry.getValue();
-            for (Map.Entry<String, Productline> productlineEntry : firm.getProductlinemapping().entrySet()) {
+            for (Map.Entry<String, DefaultProductline> productlineEntry : firm.getProductlinemapping().entrySet()) {
                 fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_fired_operate());
                 fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_fired_alarm());
                 fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_envptc_alarm());
                 fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_quality_alarm());
+            }
+        }
+        return fired_operAndAlarm;
+    }
+
+
+    /**
+     * get the operate and alarm message
+     */
+    public List<AlarmMessage> getCurrent_cement_OAndA() {
+        List<AlarmMessage> fired_operAndAlarm = new ArrayList<AlarmMessage>();
+        for (Map.Entry<String, Firm> firmEntry : firmmmaping.entrySet()) {
+            Firm firm = firmEntry.getValue();
+            for (Map.Entry<String, DefaultProductline> productlineEntry : firm.getProductlinemapping().entrySet()) {
+                fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_cement_alarm());
+                fired_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_cement_operate());
             }
         }
         return fired_operAndAlarm;

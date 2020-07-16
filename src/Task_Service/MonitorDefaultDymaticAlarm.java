@@ -3,7 +3,7 @@ package Task_Service;
 
 import Model.AlarmMessage;
 import Model.AudioMessage;
-import Model.Productline;
+import Model.DefaultProductline;
 import Model.Tag4properties;
 import ToolUnits.Tools;
 import org.apache.log4j.Logger;
@@ -75,7 +75,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
 
     @Override
-    synchronized public void judgment(Tag4properties needDynamicTag, Productline productline) {
+    synchronized public void judgment(Tag4properties needDynamicTag, DefaultProductline defaultProductline) {
         List<Double> result = Tools.gettailAndheard(needDynamicTag.getMinvalues());
         Double mean60 = 0d;//计算60sec内的平均值
         if (result == null || result.size() != 2) {
@@ -117,7 +117,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                 tempchangerate = abs(tempchangerate);
                 if (Tools.sub(tempchangerate, needDynamicTag.getFix_changerate()) > Tag4properties.P_INITIAL && (needDynamicTag.getFix_changerate() != 0)) {
                     //result.get(0) 是实时值
-                    checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), productline);
+                    checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), defaultProductline);
                 }
             }
 
@@ -127,16 +127,16 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
             tempchangerate = abs((result.get(0) - result.get(1)) / (result.get(1) == 0 ? Tag4properties.P_INITIAL : result.get(1)));
             if (abs(Tools.sub(tempchangerate, needDynamicTag.getFix_changerate())) > Tag4properties.P_INITIAL && (needDynamicTag.getFix_changerate() != 0)) {
                 //result.get(0) 是实时值
-                checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), productline);
+                checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), defaultProductline);
             }
 
         }
 
-        alarmjudgebydynamic(result.get(0), needDynamicTag, productline);
+        alarmjudgebydynamic(result.get(0), needDynamicTag, defaultProductline);
     }
 
 
-    public void alarmjudgebydynamic(Double[] values, Tag4properties needDynamicTag, Productline productline) {
+    public void alarmjudgebydynamic(Double[] values, Tag4properties needDynamicTag, DefaultProductline defaultProductline) {
         /**
          * High High  Alarm
          * */
@@ -164,7 +164,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
              * */
             if (compared(BIG, values, needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()])) {
 
-                checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), defaultProductline);
 
 
                 // adjust dymaticalarm line
@@ -219,7 +219,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                     compared(BIG, values, needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()])
             ) {
 
-                checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHALARM(), defaultProductline);
 
                 needDynamicTag.setPointer_High((needDynamicTag.getPointer_High() + 1) > Tag4properties.MAXLEVEL - 1 ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_High() + 1));
                 needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
@@ -263,7 +263,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                     compared(SMALL, values, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()])
             ) {
 
-                checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWLOWALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWLOWALARM(), defaultProductline);
 
 
                 needDynamicTag.setPointer_LowLow((needDynamicTag.getPointer_LowLow() + 1) > Tag4properties.MAXLEVEL - 1 ? (Tag4properties.MAXLEVEL - 1) : (needDynamicTag.getPointer_LowLow() + 1));
@@ -309,7 +309,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                     compared(BIG, values, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()])
             ) {
 
-                checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWALARM(), productline);
+                checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWALARM(), defaultProductline);
 
                 needDynamicTag.setPointer_Low((needDynamicTag.getPointer_Low() + 1) > (Tag4properties.MAXLEVEL - 1) ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_Low() + 1));
                 needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
@@ -329,7 +329,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
     }
 
 
-    public void alarmjudgebydynamic(double value, Tag4properties needDynamicTag, Productline productline) {
+    public void alarmjudgebydynamic(double value, Tag4properties needDynamicTag, DefaultProductline defaultProductline) {
         /**
          * High High  Alarm
          * */
@@ -357,7 +357,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
              * */
             if (compared(BIG, new Double[]{value}, needDynamicTag.getHighhighlinepool()[needDynamicTag.getPoniter_HighHigh()])) {
 
-                checkAndPut(value, needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), productline);
+                checkAndPut(value, needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), defaultProductline);
 
 
                 // adjust dymaticalarm line
@@ -412,7 +412,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                     compared(BIG, new Double[]{value}, needDynamicTag.getHighlinepool()[needDynamicTag.getPointer_High()])
             ) {
 
-                checkAndPut(value, needDynamicTag, needDynamicTag.getHIGHALARM(), productline);
+                checkAndPut(value, needDynamicTag, needDynamicTag.getHIGHALARM(), defaultProductline);
 
                 needDynamicTag.setPointer_High((needDynamicTag.getPointer_High() + 1) > Tag4properties.MAXLEVEL - 1 ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_High() + 1));
                 needDynamicTag.setHigh_holdontime(System.currentTimeMillis() + HOLDONTIME);
@@ -457,7 +457,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                     compared(SMALL, new Double[]{value}, needDynamicTag.getLowlowlinepool()[needDynamicTag.getPointer_LowLow()])
             ) {
 
-                checkAndPut(value, needDynamicTag, needDynamicTag.getLOWLOWALARM(), productline);
+                checkAndPut(value, needDynamicTag, needDynamicTag.getLOWLOWALARM(), defaultProductline);
 
 
                 needDynamicTag.setPointer_LowLow((needDynamicTag.getPointer_LowLow() + 1) > Tag4properties.MAXLEVEL - 1 ? (Tag4properties.MAXLEVEL - 1) : (needDynamicTag.getPointer_LowLow() + 1));
@@ -503,7 +503,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                     compared(SMALL, new Double[]{value}, needDynamicTag.getLowlinepool()[needDynamicTag.getPointer_Low()])
             ) {
 
-                checkAndPut(value, needDynamicTag, needDynamicTag.getLOWALARM(), productline);
+                checkAndPut(value, needDynamicTag, needDynamicTag.getLOWALARM(), defaultProductline);
 
                 needDynamicTag.setPointer_Low((needDynamicTag.getPointer_Low() + 1) > (Tag4properties.MAXLEVEL - 1) ? Tag4properties.MAXLEVEL - 1 : (needDynamicTag.getPointer_Low() + 1));
                 needDynamicTag.setLow_holdontime(System.currentTimeMillis() + HOLDONTIME);
@@ -555,19 +555,19 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
     }
 
 
-    protected void checkAndPut(double newvalue, Tag4properties needDynamicTag, int defaultcode, Productline productline) {
+    protected void checkAndPut(double newvalue, Tag4properties needDynamicTag, int defaultcode, DefaultProductline defaultProductline) {
 
 
         try {
             if (needDynamicTag.getLastAlarmtime(defaultcode) == (null)) {
 
-                putInQ(needDynamicTag, defaultcode, newvalue, productline);
+                putInQ(needDynamicTag, defaultcode, newvalue, defaultProductline);
 
             } else {
                 Duration duration = Duration.between(Instant.now(), needDynamicTag.getLastAlarmtime(defaultcode));
 
                 if (abs(duration.getSeconds()) > Monitor.ALARMINTERVAL) {
-                    putInQ(needDynamicTag, defaultcode, newvalue, productline);
+                    putInQ(needDynamicTag, defaultcode, newvalue, defaultProductline);
                 }
 
             }
@@ -578,7 +578,7 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
     }
 
-    private void putInQ(Tag4properties needDynamicTag, int defaultcode, double newvalue, Productline productline) throws InterruptedException {
+    private void putInQ(Tag4properties needDynamicTag, int defaultcode, double newvalue, DefaultProductline defaultProductline) throws InterruptedException {
 
         needDynamicTag.setLastAlarmtime(defaultcode, Instant.now());
         if (needDynamicTag.isIsaudio() && needDynamicTag.isIsalarm()) {
@@ -600,13 +600,15 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
                 try {
                     if (needDynamicTag.getProcesstype().equals("raw")) {
-                        productline.addCurrent_raw_alarm(audioMessage);
+                        defaultProductline.addCurrent_raw_alarm(audioMessage);
                     } else if (needDynamicTag.getProcesstype().equals("fired")) {
-                        productline.addCurrent_fired_alarm(audioMessage);
+                        defaultProductline.addCurrent_fired_opt(audioMessage);
                     }else if(needDynamicTag.getProcesstype().equals("quality")){
-                        productline.addCurrent_quality_alarm(audioMessage);
+                        defaultProductline.addCurrent_quality_alarm(audioMessage);
                     }else if(needDynamicTag.getProcesstype().equals("envptc")){
-                        productline.addCurrent_envptc_alarm(audioMessage);
+                        defaultProductline.addCurrent_envptc_alarm(audioMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("cement")){
+                        defaultProductline.addCurrent_cement_alarm(audioMessage);
                     }
                 } catch (Exception e) {
                     logger.error(e.getMessage(),e);
@@ -632,19 +634,19 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
 
                 try {
                     if (needDynamicTag.getProcesstype().equals("raw")) {
-                        productline.addCurrent_raw_alarm(alarmMessage);
+                        defaultProductline.addCurrent_raw_alarm(alarmMessage);
                     } else if (needDynamicTag.getProcesstype().equals("fired")) {
-                        productline.addCurrent_fired_alarm(alarmMessage);
+                        defaultProductline.addCurrent_fired_opt(alarmMessage);
                     }else if(needDynamicTag.getProcesstype().equals("quality")){
-                        productline.addCurrent_quality_alarm(alarmMessage);
+                        defaultProductline.addCurrent_quality_alarm(alarmMessage);
                     }else if(needDynamicTag.getProcesstype().equals("envptc")){
-                        productline.addCurrent_envptc_alarm(alarmMessage);
+                        defaultProductline.addCurrent_envptc_alarm(alarmMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("cement")){
+                        defaultProductline.addCurrent_cement_alarm(alarmMessage);
                     }
                 } catch (Exception e) {
                     logger.error(e.getMessage(),e);
                 }
-
-
                 audiomessage.put(alarmMessage);
             }
 

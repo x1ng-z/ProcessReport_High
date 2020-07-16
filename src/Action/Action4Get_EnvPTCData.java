@@ -3,7 +3,7 @@ package Action;
 import Management.ProcessMgr;
 import Model.FiredSystem;
 import Model.Firm;
-import Model.Productline;
+import Model.DefaultProductline;
 import Model.Tag4properties;
 import org.json.JSONObject;
 
@@ -39,7 +39,7 @@ public class Action4Get_EnvPTCData implements Callable<JSONObject> {
 
 
 
-                for(Productline pl:firm.getProductlinemapping().values()){
+                for(DefaultProductline pl:firm.getProductlinemapping().values()){
 
                     Map<String,String> realtagdatamapping=new HashMap<String,String>();
 

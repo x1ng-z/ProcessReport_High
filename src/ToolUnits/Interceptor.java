@@ -1,7 +1,5 @@
 package ToolUnits;
 
-import Model.Product;
-
 import java.lang.reflect.Method;
 
 public interface Interceptor {

@@ -1,7 +1,7 @@
 package DAO;
 
 import Model.Firm;
-import Model.Productline;
+import Model.DefaultProductline;
 import Model.Quality_data;
 import Model.RawSystem;
 import ToolUnits.DatesUtil;
@@ -38,11 +38,11 @@ public class OracleMESdb_Access_Date {
                     e.printStackTrace();
                 }
 
-                for(Productline productline:firmmapping.get(firmid).getProductlinemapping().values()){
+                for(DefaultProductline defaultProductline :firmmapping.get(firmid).getProductlinemapping().values()){
 
-                    if(productline.getRawSystemmapping().containsKey(rawsystemid)){
+                    if(defaultProductline.getRawSystemmapping().containsKey(rawsystemid)){
                         if(raw02fineness!=-1d){
-                            productline.getRawSystemmapping().get(rawsystemid).setRaw02Fineness(raw02fineness);
+                            defaultProductline.getRawSystemmapping().get(rawsystemid).setRaw02Fineness(raw02fineness);
                         }
 
                     }
@@ -179,11 +179,11 @@ public class OracleMESdb_Access_Date {
 
         for(Firm firm:firmmaping.values()){
 
-            Map<String, Productline> productlinemapping=firm.getProductlinemapping();
-            for(Productline productline:productlinemapping.values()){
+            Map<String, DefaultProductline> productlinemapping=firm.getProductlinemapping();
+            for(DefaultProductline defaultProductline :productlinemapping.values()){
 
 
-                for(RawSystem rawSystem:productline.getRawSystemmapping().values()){
+                for(RawSystem rawSystem: defaultProductline.getRawSystemmapping().values()){
 
                     get_Raw_monthyield(servletContext,oracle_connection,rawSystem);
 

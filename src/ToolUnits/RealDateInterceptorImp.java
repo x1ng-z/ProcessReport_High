@@ -1,7 +1,6 @@
 package ToolUnits;
 
-import Model.AlarmMessage;
-import Model.Productline;
+import Model.DefaultProductline;
 import Model.Tag4properties;
 import Task_Service.Service_AlarmMonitor;
 
@@ -11,13 +10,13 @@ public class RealDateInterceptorImp implements Interceptor {
 
     private Tag4properties tag;
     private Service_AlarmMonitor service_alarmMonitor;
-    private Productline productline;
+    private DefaultProductline defaultProductline;
 
 
-    public RealDateInterceptorImp(Tag4properties tag, Service_AlarmMonitor service_alarmMonitor, Productline productline) {
+    public RealDateInterceptorImp(Tag4properties tag, Service_AlarmMonitor service_alarmMonitor, DefaultProductline defaultProductline) {
         this.tag = tag;
         this.service_alarmMonitor = service_alarmMonitor;
-        this.productline = productline;
+        this.defaultProductline = defaultProductline;
     }
 
     @Override
@@ -28,25 +27,37 @@ public class RealDateInterceptorImp implements Interceptor {
         }
 
         switch (tag.getProcesstype()) {
+            //停机判定
             case "raw":
-                if (productline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null && (productline.findDeviceAlarmjudgeRsc(tag.getDevice()) == 0)) {
+                if (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null && (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == 0)) {
                     return true;
                 } else {
-                    if ((productline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (productline.getRaw_judgerelu() != null) && (productline.getRaw_judgerelu().getValue() < 5)) {//生料磨电流小于5停机
+                    if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getRaw_judgerelu().get(tag.getDevice())!=null) && (defaultProductline.getRaw_judgerelu().get(tag.getDevice()).getValue() < 5)) {//生料磨电流小于5停机
                         return true;
                     }
                 }
                 break;
 
             case "fired":
-                if ((productline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null) && (productline.findDeviceAlarmjudgeRsc(tag.getDevice()) == 0)) {
+                if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null) && (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == 0)) {
                     return true;
                 } else {
-                    if ((productline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (productline.getFired_judgerelu() != null) && (productline.getFired_judgerelu().getValue() < 30)) {//回转窑电流小于30停机
+                    if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getFired_judgerelu() != null) && (defaultProductline.getFired_judgerelu().getValue() < 30)) {//回转窑电流小于30停机
                         return true;//不用执行后面的动态报警判断了
                     }
                 }
                 break;
+
+            case "cement":
+                if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null) && (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == 0)) {
+                    return true;
+                } else {
+                    if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getCement_judgerelu().get(tag.getDevice())!= null) && (defaultProductline.getCement_judgerelu().get(tag.getDevice()).getValue() < 10)) {//回转窑电流小于30停机
+                        return true;//不用执行后面的动态报警判断了
+                    }
+                }
+                break;
+
             case "envptc"://环保数据
                 break;
             case "qulity"://质量数据
@@ -64,17 +75,17 @@ public class RealDateInterceptorImp implements Interceptor {
 
         if (alarmonitor.trim().equals(Tag4properties.OPERATEMONITOR)) {
 
-            service_alarmMonitor.getMonitors().get(Tag4properties.OPERATEMONITOR).judgment(tag, productline);
+            service_alarmMonitor.getMonitors().get(Tag4properties.OPERATEMONITOR).judgment(tag, defaultProductline);
 
         } else if (alarmonitor.trim().equals(Tag4properties.ALARMMONITOR)) {
 
-            service_alarmMonitor.getMonitors().get(Tag4properties.ALARMMONITOR).judgment(tag, productline);
+            service_alarmMonitor.getMonitors().get(Tag4properties.ALARMMONITOR).judgment(tag, defaultProductline);
 
         } else if (alarmonitor.trim().equals(Tag4properties.ALLVALUEMONITOR)) {
 
-            service_alarmMonitor.getMonitors().get(Tag4properties.ALLVALUEMONITOR).judgment(tag,productline);
+            service_alarmMonitor.getMonitors().get(Tag4properties.ALLVALUEMONITOR).judgment(tag, defaultProductline);
         } else if (alarmonitor.trim().equals(Tag4properties.ALLVALUENODYNAMICMONITOR)) {
-            service_alarmMonitor.getMonitors().get(Tag4properties.ALLVALUENODYNAMICMONITOR).judgment(tag,productline);
+            service_alarmMonitor.getMonitors().get(Tag4properties.ALLVALUENODYNAMICMONITOR).judgment(tag, defaultProductline);
 
         }
 

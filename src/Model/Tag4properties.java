@@ -620,15 +620,12 @@ public class Tag4properties implements MyProperties {
         for (int i = 0; i < mindates.size(); ++i) {
             if (mindates.get(i) != null) {
                 updatainstant = mindates.get(i);
-
                 break;
             }
         }
 
         if (minvalues.size() != 0) {
-
             currentchangerate = Math.abs(newAndold.get(0) - newAndold.get(1));
-
         } else {
             currentchangerate = 0;
         }

@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletContext;
 import java.sql.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Mysql_Access_Data {
     //窑上取数用代理模式就可以
@@ -70,8 +72,8 @@ public class Mysql_Access_Data {
     }
 
 
-    private static Map<String, Productline> get_specificproductline(ServletContext servletContext, Connection mysql_connection, String firm_id) {
-        Map<String, Productline> productlineMap = new HashMap<String, Productline>();
+    private static Map<String, DefaultProductline> get_specificproductline(ServletContext servletContext, Connection mysql_connection, String firm_id) {
+        Map<String, DefaultProductline> productlineMap = new HashMap<String, DefaultProductline>();
 
         String sql = "select * from webfactoryip where firm_id=? ";
         ResultSet resultSet = null;
@@ -87,7 +89,7 @@ public class Mysql_Access_Data {
                 String region = resultSet.getString("region");
                 String regionfirm = resultSet.getString("regionfirm");
                 String productline_id = resultSet.getString("productline_id");
-                Productline productlineclazz = new Productline();
+                DefaultProductline productlineclazz = new DefaultProductline();
                 productlineclazz.setIp(ip);
                 productlineclazz.setProductline_cn(productline);
                 productlineclazz.setProductline_id(productline_id);
@@ -96,8 +98,8 @@ public class Mysql_Access_Data {
 
                 productlineclazz.setRawSystemmapping(getAllrawstem(productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz, servletContext));
                 productlineclazz.setFiredSystemmapping(getAllfiredsystem(servletContext, productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz));
-
-                productlineclazz.setQulityTags(getqulitysystemTags(productlineclazz,MysqlDB.getConnection(servletContext)));
+                productlineclazz.setCementSystemmapping(getAllCementsystem(servletContext, productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz));
+                productlineclazz.setQulityTags(getqulitysystemTags(productlineclazz, MysqlDB.getConnection(servletContext)));
 
                 productlineMap.put(productline_id, productlineclazz);
             }
@@ -135,7 +137,7 @@ public class Mysql_Access_Data {
     }
 
 
-    public static Map<String, RawSystem> getAllrawstem(Productline productline, Connection mysql_connection, String productlinename, Product product, ServletContext servletContext) {
+    public static Map<String, RawSystem> getAllrawstem(DefaultProductline defaultProductline, Connection mysql_connection, String productlinename, Productline productline, ServletContext servletContext) {
         Map<String, RawSystem> rawSystemMap = new HashMap<String, RawSystem>();
 
         String sql = "select * from rawsystem_process where productline=?";
@@ -155,7 +157,7 @@ public class Mysql_Access_Data {
                 rawSystem.setProductionline(productlineId);
                 rawSystem.setRawsystemno(rawsystemno);
                 rawSystem.setType(type);
-                rawSystem.setTagMapping(getRawsystemTags(productline, MysqlDB.getConnection(servletContext), rawsystemno, productlinename, product));
+                rawSystem.setTagMapping(getRawsystemTags(defaultProductline, MysqlDB.getConnection(servletContext), rawsystemno, productlinename, productline));
                 rawSystemMap.put(rawsystem_id, rawSystem);
             }
 
@@ -194,7 +196,7 @@ public class Mysql_Access_Data {
     }
 
 
-    public static Map<String, FiredSystem> getAllfiredsystem(ServletContext servletContext, Productline productline, Connection mysql_connection, String productlinename, Product product) {
+    public static Map<String, FiredSystem> getAllfiredsystem(ServletContext servletContext, DefaultProductline defaultProductline, Connection mysql_connection, String productlinename, Productline productline) {
         Map<String, FiredSystem> firedSystemMap = new HashMap<String, FiredSystem>();
 
         String sql = "select * from firedsystem where productline=?";
@@ -212,8 +214,8 @@ public class Mysql_Access_Data {
                 firedSystem.setProductline(productlineId);
                 firedSystem.setFiredsystemno(firedsystemno);
                 firedSystem.setType(type);
-                firedSystem.setTagMapping(getFiredsystemTags(productline, MysqlDB.getConnection(servletContext), firedsystemno, productlinename, product));
-                firedSystem.setEnvPtcSystemTags(getenvptcsystemTags(productline,firedsystemno,MysqlDB.getConnection(servletContext)));
+                firedSystem.setTagMapping(getFiredsystemTags(defaultProductline, MysqlDB.getConnection(servletContext), firedsystemno, productlinename, productline));
+                firedSystem.setEnvPtcSystemTags(getenvptcsystemTags(defaultProductline, firedsystemno, MysqlDB.getConnection(servletContext)));
                 firedSystemMap.put(firedsystemno, firedSystem);
             }
 
@@ -251,7 +253,63 @@ public class Mysql_Access_Data {
 
     }
 
-    public static Map<String, Tag4properties> getFiredsystemTags(Productline productline, Connection mysql_connection, String firedsystemnon, String productlinename, Product product) {
+
+    public static Map<String, CementSystem> getAllCementsystem(ServletContext servletContext, DefaultProductline defaultProductline, Connection mysql_connection, String productlinename, Productline productline) {
+        Map<String, CementSystem> cementSystemMap = new HashMap<String, CementSystem>();
+
+        String sql = "select * from cementsystem where productline=?";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = mysql_connection.prepareStatement(sql);
+            preparedStatement.setString(1, productlinename);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String productlineId = resultSet.getString("productline");
+                String cementsystemno = resultSet.getString("cementsystemno");
+                int type = resultSet.getInt("type");
+                CementSystem cementSystem = new CementSystem();
+                cementSystem.setProductline(productlineId);
+                cementSystem.setType(type);
+                cementSystem.setCementsystemno(cementsystemno);
+                cementSystem.setTagMapping(getCementsystemTags(defaultProductline, MysqlDB.getConnection(servletContext), cementsystemno, productlinename, productline));
+                cementSystemMap.put(cementsystemno, cementSystem);
+            }
+            return cementSystemMap;
+        } catch (SQLException e) {
+            logger.error(e);
+
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    logger.error(e);
+                }
+            }
+
+            if (preparedStatement != null) {
+
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                if (mysql_connection != null) {
+                    mysql_connection.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return null;
+
+    }
+
+    public static Map<String, Tag4properties> getFiredsystemTags(DefaultProductline defaultProductline, Connection mysql_connection, String firedsystemnon, String productlinename, Productline productline) {
 
         Map<String, Tag4properties> firedtags = new HashMap<String, Tag4properties>();
 
@@ -290,7 +348,7 @@ public class Mysql_Access_Data {
                     Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
                     /**tag have that properties*/
                     if ((deviceAlarmJudgmentSrc != null) && (deviceAlarmJudgmentSrc.equals(1))) {
-                        productline.addDeviceAlarmjudgeRsc(device, tag4properties);
+                        defaultProductline.addDeviceAlarmjudgeRsc(device, tag4properties);
                         tag4properties.setDeviceAlarmJudgmentSrc(deviceAlarmJudgmentSrc);
                     }
                 } catch (SQLException throwables) {
@@ -338,12 +396,19 @@ public class Mysql_Access_Data {
                 }
 
 
-                if (tag4properties.getDevice().equals("回转窑") && tag4properties.getCn().equals("电流1")) {
-                    product.setFired_judgerelu(tag4properties);
+                try {
+                    String regex = "((\\w*)(.*))";
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher m = pattern.matcher(tag4properties.getDevice());
+                    if (m.find()) {
+                        if (m.group(3).equals("回转窑") && tag4properties.getCn().equals("电流1")) {
+                            productline.setFired_judgerelu(tag4properties);
+                        }
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
                 }
                 firedtags.put(tag, tag4properties);
-
-
             }
             return firedtags;
         } catch (SQLException e) {
@@ -381,7 +446,136 @@ public class Mysql_Access_Data {
     }
 
 
-    public static Map<String, Tag4properties> getRawsystemTags(Productline productline, Connection mysql_connection, String rawsystemnoname, String productlinename, Product product) {
+    public static Map<String, Tag4properties> getCementsystemTags(DefaultProductline defaultProductline, Connection mysql_connection, String firedsystemnon, String productlinename, Productline productline) {
+
+        Map<String, Tag4properties> cementtags = new HashMap<String, Tag4properties>();
+
+        String sql = "select * from cementtag where cementsystemno=?";
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = mysql_connection.prepareStatement(sql);
+            preparedStatement.setString(1, firedsystemnon);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String firedsystemno = resultSet.getString("cementsystemno");
+                String cn = resultSet.getString("cn");
+                String tag = resultSet.getString("tag");
+                double hhighlimit = resultSet.getDouble("hhighlimit");
+                double highlimit = resultSet.getDouble("highlimit");
+                double llowlimit = resultSet.getDouble("llowlimit");
+                double lowlimit = resultSet.getDouble("lowlimit");
+                String device = resultSet.getString("device");
+                int decision_delay = resultSet.getInt("decision_delay");
+                double changerate = resultSet.getDouble("changerate");
+                double positive_operate_changerate = resultSet.getDouble("positive_operate_changerate");
+                double negative_operate_changerate = resultSet.getDouble("negative_operate_changerate");
+                String type = resultSet.getString("type");
+
+                String alarmmonitor = resultSet.getString("alarmmonitor");
+                double limit = resultSet.getDouble("operate_range_limit");
+
+                boolean isaudio = resultSet.getBoolean("isaudio");
+                boolean isalarm = resultSet.getBoolean("isalarm");
+                String topic = resultSet.getString("topic");
+                String alarm_mode = resultSet.getString("alarm_mode");
+                Tag4properties tag4properties = new Tag4properties();
+                try {
+                    Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
+                    /**tag have that properties*/
+                    if ((deviceAlarmJudgmentSrc != null) && (deviceAlarmJudgmentSrc.equals(1))) {
+                        defaultProductline.addDeviceAlarmjudgeRsc(device, tag4properties);
+                        tag4properties.setDeviceAlarmJudgmentSrc(deviceAlarmJudgmentSrc);
+                    }
+                } catch (SQLException throwables) {
+                    /**tag have no that properties*/
+
+
+                }
+
+                String processtype = "cement";
+                tag4properties.setCn(cn);
+                tag4properties.setSystemno(firedsystemno);
+                tag4properties.setDevice(device);
+                tag4properties.setHighhighbase(hhighlimit);
+                tag4properties.setHighbase(highlimit);
+                tag4properties.setLowlowbase(llowlimit);
+                tag4properties.setLowbase(lowlimit);
+                tag4properties.setTag(tag);
+                tag4properties.setDecision_delay(decision_delay);
+                tag4properties.setFix_changerate(changerate);
+                tag4properties.setPositive_operate_changerate(positive_operate_changerate);
+                tag4properties.setNegative_operate_changerate(negative_operate_changerate);
+                tag4properties.setProductlinename(productlinename);
+                tag4properties.setType(type);
+                tag4properties.setIsalarm(isalarm);
+                tag4properties.setAlarmtmonitor(alarmmonitor);
+                tag4properties.setOperate_range_limit(limit);
+                tag4properties.setIsaudio(isaudio);
+                tag4properties.setProcesstype(processtype);
+                tag4properties.setTopic(topic);
+                tag4properties.setAlarm_mode(alarm_mode);
+                tag4properties.init();
+
+                if (alarm_mode != null) {
+                    if (alarm_mode.equals(Tag4properties.NEGATIVEMODE)) {
+                        tag4properties.setLOWLOWALARM(3);
+                        tag4properties.setLOWALARM(2);
+                        tag4properties.setHIGHALARM(1);
+                        tag4properties.setHIGHHIGHALARM(0);
+
+                    }
+
+                }
+
+                try {
+
+                        if (tag4properties.getDevice().contains("水泥磨") && tag4properties.getCn().equals("电流")) {
+                            productline.addCement_judgerelu(tag4properties.getDevice(),tag4properties);
+                        }
+
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+                cementtags.put(tag, tag4properties);
+            }
+            return cementtags;
+        } catch (SQLException e) {
+            logger.error(e);
+
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    logger.error(e);
+                }
+            }
+
+            if (preparedStatement != null) {
+
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                if (mysql_connection != null) {
+                    mysql_connection.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return null;
+
+
+    }
+
+
+    public static Map<String, Tag4properties> getRawsystemTags(DefaultProductline defaultProductline, Connection mysql_connection, String rawsystemnoname, String productlinename, Productline productline) {
 
 
         Map<String, Tag4properties> rawtags = new HashMap<String, Tag4properties>();
@@ -421,7 +615,7 @@ public class Mysql_Access_Data {
                     Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
                     /**tag have that properties*/
                     if ((deviceAlarmJudgmentSrc != null) && (deviceAlarmJudgmentSrc.equals(1))) {
-                        productline.addDeviceAlarmjudgeRsc(device, tag4properties);
+                        defaultProductline.addDeviceAlarmjudgeRsc(device, tag4properties);
                         tag4properties.setDeviceAlarmJudgmentSrc(deviceAlarmJudgmentSrc);
                     }
                 } catch (SQLException throwables) {
@@ -469,8 +663,8 @@ public class Mysql_Access_Data {
                     }
                 }
 
-                if (tag4properties.getDevice().equals("磨机") && tag4properties.getCn().equals("主电机电流1")) {
-                    product.setRaw_judgerelu(tag4properties);
+                if (tag4properties.getDevice().contains("生料磨") && tag4properties.getCn().equals("主电机电流1")) {
+                    productline.addRaw_judgerelu(tag4properties.getDevice(),tag4properties);
                 }
 
 
@@ -512,9 +706,7 @@ public class Mysql_Access_Data {
     }
 
 
-
-
-    public static Map<String, Tag4properties> getqulitysystemTags(Productline productline, Connection mysql_connection) {
+    public static Map<String, Tag4properties> getqulitysystemTags(DefaultProductline defaultProductline, Connection mysql_connection) {
 
         Map<String, Tag4properties> qulitytags = new HashMap<String, Tag4properties>();
         String sql = "select * from qulitytag where productline=?";
@@ -522,10 +714,10 @@ public class Mysql_Access_Data {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = mysql_connection.prepareStatement(sql);
-            preparedStatement.setString(1, productline.getProductline_cn());
+            preparedStatement.setString(1, defaultProductline.getProductline_cn());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String processtype=resultSet.getString("processtype");
+                String processtype = resultSet.getString("processtype");
                 String productlineindex = resultSet.getString("productline");
                 String cn = resultSet.getString("cn");
                 String tag = resultSet.getString("tag");
@@ -557,7 +749,7 @@ public class Mysql_Access_Data {
                 tag4properties.setHighbase(highlimit);
                 tag4properties.setLowlowbase(llowlimit);
                 tag4properties.setLowbase(lowlimit);
-                tag4properties.setTag("Q"+productline.getProductline_id().substring(productline.getProductline_id().length() - 1, productline.getProductline_id().length())+tag);
+                tag4properties.setTag("Q" + defaultProductline.getProductline_id().substring(defaultProductline.getProductline_id().length() - 1, defaultProductline.getProductline_id().length()) + tag);
                 tag4properties.setId(id);
                 tag4properties.setFix_changerate(changerate);
                 tag4properties.setType(type);
@@ -569,18 +761,18 @@ public class Mysql_Access_Data {
                 tag4properties.setProcesstype(processtype);
                 tag4properties.setTopic(topic);
                 tag4properties.init();
-                qulitytags.put("Q"+productline.getProductline_id().substring(productline.getProductline_id().length() - 1, productline.getProductline_id().length())+tag, tag4properties);
+                qulitytags.put("Q" + defaultProductline.getProductline_id().substring(defaultProductline.getProductline_id().length() - 1, defaultProductline.getProductline_id().length()) + tag, tag4properties);
             }
             return qulitytags;
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
 
         } finally {
             if (resultSet != null) {
                 try {
                     resultSet.close();
                 } catch (SQLException e) {
-                    logger.error(e.getMessage(),e);
+                    logger.error(e.getMessage(), e);
                 }
             }
 
@@ -589,7 +781,7 @@ public class Mysql_Access_Data {
                 try {
                     preparedStatement.close();
                 } catch (SQLException e) {
-                   logger.error(e.getMessage(),e);
+                    logger.error(e.getMessage(), e);
                 }
             }
 
@@ -599,16 +791,14 @@ public class Mysql_Access_Data {
                     mysql_connection.close();
                 }
             } catch (SQLException throwables) {
-               logger.error(throwables.getMessage(),throwables);
+                logger.error(throwables.getMessage(), throwables);
             }
         }
         return null;
     }
 
 
-
-
-    public static Map<String, Tag4properties> getenvptcsystemTags(Productline productline,String firedsystemno, Connection mysql_connection) {
+    public static Map<String, Tag4properties> getenvptcsystemTags(DefaultProductline defaultProductline, String firedsystemno, Connection mysql_connection) {
 
         Map<String, Tag4properties> qulitytags = new HashMap<String, Tag4properties>();
         String sql = "select * from envprotecttag where firedsystemno=?";
@@ -655,7 +845,7 @@ public class Mysql_Access_Data {
                 tag4properties.setId(id);
                 tag4properties.setFix_changerate(changerate);
                 tag4properties.setType(type);
-                tag4properties.setProductlinename(productline.getProductline_cn());
+                tag4properties.setProductlinename(defaultProductline.getProductline_cn());
                 tag4properties.setIsalarm(isalarm);
                 tag4properties.setAlarmtmonitor(alarmmonitor);
                 tag4properties.setIsaudio(isaudio);
@@ -667,14 +857,14 @@ public class Mysql_Access_Data {
             }
             return qulitytags;
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
 
         } finally {
             if (resultSet != null) {
                 try {
                     resultSet.close();
                 } catch (SQLException e) {
-                    logger.error(e.getMessage(),e);
+                    logger.error(e.getMessage(), e);
                 }
             }
 
@@ -683,7 +873,7 @@ public class Mysql_Access_Data {
                 try {
                     preparedStatement.close();
                 } catch (SQLException e) {
-                    logger.error(e.getMessage(),e);
+                    logger.error(e.getMessage(), e);
                 }
             }
 
@@ -693,15 +883,11 @@ public class Mysql_Access_Data {
                     mysql_connection.close();
                 }
             } catch (SQLException throwables) {
-                logger.error(throwables.getMessage(),throwables);
+                logger.error(throwables.getMessage(), throwables);
             }
         }
         return null;
     }
-
-
-
-
 
 
     public static List<AlarmMessage> get_oldalarmhistory(ServletContext servletContext, Connection mysql_connection, Timestamp start, Timestamp end, String processtype) {
@@ -709,7 +895,7 @@ public class Mysql_Access_Data {
 
         List<AlarmMessage> operatehistories = new ArrayList<AlarmMessage>();
 
-        String sql = processtype.equals("fired")?("select * from operatehistory where (genertime>=? and genertime<=? )and (type=? or type='quality' or type='envptc') ORDER BY genertime DESC"):("select * from operatehistory where (genertime>=? and genertime<=? )and type=? ORDER BY genertime DESC");
+        String sql = processtype.equals("fired") ? ("select * from operatehistory where (genertime>=? and genertime<=? )and (type=? or type='quality' or type='envptc') ORDER BY genertime DESC") : ("select * from operatehistory where (genertime>=? and genertime<=? )and type=? ORDER BY genertime DESC");
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -1517,7 +1703,9 @@ public class Mysql_Access_Data {
         return null;
     }
 
-    /**------生料系统配置表参数设置---by lang-----**/
+    /**
+     * ------生料系统配置表参数设置---by lang-----
+     **/
     public static String updatarawtagslimit(Connection mysql_connection, int id, double highhighlimit, double highlimit, double lowlowlimit, double lowlimit) {
         String sql = "update rawtag_process set hhighlimit=?,highlimit=?,llowlimit=?,lowlimit=?where id=?";
         ResultSet resultSet = null;
@@ -1531,7 +1719,7 @@ public class Mysql_Access_Data {
             preparedStatement.setInt(5, id);
             preparedStatement.execute();
             return "success";
-        } catch (SQLException e)                                 {
+        } catch (SQLException e) {
             logger.error(e);
             return "failed";
         } catch (Exception e) {
@@ -1564,7 +1752,9 @@ public class Mysql_Access_Data {
         }
     }
 
-/**------生料系统参数配置表获取---by lang-----**/
+    /**
+     * ------生料系统参数配置表获取---by lang-----
+     **/
     public static List<Map<String, String>> get_rawallTags(ServletContext servletContext, Connection mysql_connection, String rawsystemno) {
         String sql = "select * from rawtag_process where rawsystemno=?";
         ResultSet resultSet = null;

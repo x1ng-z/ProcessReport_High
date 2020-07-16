@@ -1,7 +1,7 @@
 package Task_Service;
 
 import Model.Operate_Message;
-import Model.Productline;
+import Model.DefaultProductline;
 import Model.Tag4properties;
 import ToolUnits.Tools;
 import org.apache.log4j.Logger;
@@ -22,7 +22,7 @@ public class MonitorDefaultOperaterHistory implements Monitor {
     }
 
     @Override
-    public void judgment(Tag4properties tag, Productline productline) {
+    public void judgment(Tag4properties tag, DefaultProductline defaultProductline) {
         if(tag.getMinvalues().size()==0){
             return;
         }
@@ -50,12 +50,14 @@ public class MonitorDefaultOperaterHistory implements Monitor {
 
             if(tag.getProcesstype().equals("raw")){
 
-                productline.addCurrent_raw_operate(operate_message);
+                defaultProductline.addCurrent_raw_operate(operate_message);
 
             }else if(tag.getProcesstype().equals("fired")){
 
-                productline.addCurrent_fired_alarm(operate_message);
+                defaultProductline.addCurrent_fired_opt(operate_message);
 
+            }else if(tag.getProcesstype().equals("cement")){
+                defaultProductline.addCurrent_cement_opt(operate_message);
             }
 
 

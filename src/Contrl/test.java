@@ -30,19 +30,18 @@ public class test {
 
     public static void main(String[] args){
 
-        String device="B30生料辊压机";
+        String device="回转窑";
 
-        String regex = "(\\w*)";
+        String regex = "((\\w*)(.*))";
 
         Pattern pattern=Pattern.compile(regex);
-       Matcher m = pattern.matcher(device);
+        Matcher m = pattern.matcher(device);
         while(m.find()){
+            System.out.println(m.group());
             System.out.println(m.group(0));
             System.out.println(m.group(1));
-            System.out.println(m.group());
+            System.out.println(m.group(2));
             System.out.println(m.group(3));
-
-
         }
 
 

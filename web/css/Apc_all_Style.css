@@ -1,0 +1,121 @@
+.bodystyle{
+    height:100%;width: 100%;
+    background-color: rgb(13, 23, 89);
+}
+
+.titlediv{
+    position: absolute;
+    width: 98%;height: 6%;
+    top:0;left: 1%;
+}
+
+.title_left{
+    position: absolute;
+    left:10%;top:18%;
+    width: 30%;height: 90%;
+}
+
+.title_label{
+    position: absolute;width:100%;top:40%;
+    text-align: center;line-height: 1.5rem;
+    font-size:1.5rem; font-weight: bolder;
+    font-family: 微软雅黑,sans-serif;
+    color: #65c4f1;
+}
+
+.title_right{
+    position: absolute;
+    right:10%;top:18%;width: 30%;height: 90%;
+}
+
+.btndiv{
+    position: absolute;right:1%;top:2%;
+}
+
+#tablebtn{
+    font-family: 微软雅黑,serif;font-size:1rem;cursor:pointer;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;z-index: 99;
+}
+
+.simple_total{
+    position: absolute;
+    width: 7%;height: 60%;left: 1%;top:30%;
+}
+
+#totaltable{
+    position: absolute; cursor: pointer;
+    width: 50%;height: 99%;left:0;top:0;
+    border: 1px solid #83c7e3;
+    color: #ffffff;font-size:1.1rem;text-align: center;
+}
+
+#simpletable{
+    position: absolute; cursor: pointer;
+    width: 50%;height: 99%;left:50%;top:0;
+    border: 1px solid #83c7e3;
+    color: #ffffff;font-size: 1.1rem;text-align: center;
+}
+
+.outputBtn{
+    position: absolute;cursor: pointer;
+    right:1%;top:2%;font-size:1rem;
+    background-color: rgb(13, 23, 89);
+    color: #65c4f1;
+}
+
+
+#apc_all_table_head{
+    position:absolute;top:6%;height:12%;
+    border: 1px solid #e9e9e9; border-collapse: collapse;border-spacing: 0;
+    table-layout: fixed;
+    word-break: break-all;
+}
+
+#apc_all_table_head tbody{
+    display:table;
+    width: 100%; height: 100%;
+}
+
+#apc_all_table_head tr{
+    border: 1px solid #e9e9e9;
+    text-align: center;
+    line-height: 25px;
+}
+
+#apc_all_table_head td{
+    padding: 1px 3px;
+    background: #2072d1;color: #ffffff; border: 1px solid #e9e9e9;
+    font-size:0.9rem;
+    white-space: nowrap;
+}
+
+#apc_all_table_body{
+    position:absolute;top:18%;
+    border: 1px solid #e9e9e9;border-collapse: collapse;border-spacing: 0;
+    table-layout: fixed;
+    word-break: break-all;
+}
+
+#apc_all_table_body tbody{
+    display:block;
+    overflow-y:scroll;overflow-x:hidden;
+    width: 100%;height:600px;
+}
+
+#apc_all_table_body tr{
+    border: 1px solid #e9e9e9;
+    text-align: center;
+    line-height: 25px;
+}
+
+#apc_all_table_body td{
+    border: 1px solid #e9e9e9;
+    font-weight:500;font-size:0.9rem;
+}
+
+#apc_all_body::-webkit-scrollbar{
+    width:0;
+}
+
+

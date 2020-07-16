@@ -19,7 +19,7 @@ public class Influxdb_Access_Data {
     private static Logger logger = Logger.getLogger(Influxdb_Access_Data.class);
 
 
-    public static void get_Realtimedata(String measureName, Map<String, Tag4properties> tagsmap, ServletContext servletContext, Integer sampletimelength, Productline productline, boolean islimit,
+    public static void get_Realtimedata(String measureName, Map<String, Tag4properties> tagsmap, ServletContext servletContext, Integer sampletimelength, DefaultProductline defaultProductline, boolean islimit,
                                         Integer limitcount) {
 
         InfluxDB influxDB = Influxdb.getConnect(servletContext);
@@ -97,7 +97,7 @@ public class Influxdb_Access_Data {
                     if (tag4properties == null) {
                         continue;
                     }
-                    MyProperties proxytag = (MyProperties) DynamicProxyHandler.bind(tag4properties, "ToolUnits.RealDateInterceptorImp", "update", ProcessMgr.getProcessMgr_instance(servletContext).getService_alarmMonitor(), (Productline) productline);
+                    MyProperties proxytag = (MyProperties) DynamicProxyHandler.bind(tag4properties, "ToolUnits.RealDateInterceptorImp", "update", ProcessMgr.getProcessMgr_instance(servletContext).getService_alarmMonitor(), (DefaultProductline) defaultProductline);
                     proxytag.update();
 
 

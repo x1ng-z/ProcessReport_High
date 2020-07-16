@@ -7,7 +7,7 @@ public class Firm {
     private String firmid;
     private String firmname;
     private String firmshortname;
-    private Map<String,Productline> productlinemapping;
+    private Map<String, DefaultProductline> productlinemapping;
 
     public String getFirmid() {
         return firmid;
@@ -33,11 +33,11 @@ public class Firm {
         this.firmshortname = firmshortname;
     }
 
-    public Map<String, Productline> getProductlinemapping() {
+    public Map<String, DefaultProductline> getProductlinemapping() {
         return productlinemapping;
     }
 
-    public void setProductlinemapping(Map<String, Productline> productlinemapping) {
+    public void setProductlinemapping(Map<String, DefaultProductline> productlinemapping) {
         this.productlinemapping = productlinemapping;
     }
 
@@ -49,9 +49,9 @@ public class Firm {
         firm.setFirmname(firmname);
         firm.setFirmid(firmid);
 
-        Map<String,Productline> tempproductlinemapping=new HashMap<String,Productline>();
+        Map<String, DefaultProductline> tempproductlinemapping=new HashMap<String, DefaultProductline>();
 
-        for(Map.Entry<String, Productline> stringProductlineEntry:productlinemapping.entrySet()){
+        for(Map.Entry<String, DefaultProductline> stringProductlineEntry:productlinemapping.entrySet()){
             tempproductlinemapping.put(stringProductlineEntry.getKey(),stringProductlineEntry.getValue().productlineclone());
 
         }

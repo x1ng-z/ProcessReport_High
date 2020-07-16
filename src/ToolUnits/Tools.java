@@ -2,8 +2,8 @@ package ToolUnits;
 
 import Model.FiredSystem;
 import Model.Firm;
-import Model.Product;
 import Model.Productline;
+import Model.DefaultProductline;
 
 
 import org.json.JSONArray;
@@ -332,36 +332,36 @@ public class Tools {
 
                     switch (devicename) {
                         case "1#回转窑":
-                            Product productline1 = firm.getProductlinemapping().get("0001E110000000000EYU");
+                            Productline productline1 = firm.getProductlinemapping().get("0001E110000000000EYU");
                             if(productline1!=null){
-                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((Productline) productline1).getFiredSystemmapping().entrySet()) {
+                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((DefaultProductline) productline1).getFiredSystemmapping().entrySet()) {
                                     firedSystem = firedSystemEntry.getValue();
                                 }
                             }
 
                             break;
                         case "2#回转窑":
-                            Product productline2 = firm.getProductlinemapping().get("0001E110000000000EYV");
+                            Productline productline2 = firm.getProductlinemapping().get("0001E110000000000EYV");
                             if(productline2!=null){
-                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((Productline) productline2).getFiredSystemmapping().entrySet()) {
+                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((DefaultProductline) productline2).getFiredSystemmapping().entrySet()) {
                                     firedSystem = firedSystemEntry.getValue();
                                 }
                             }
 
                             break;
                         case "3#回转窑":
-                            Product productline3 = firm.getProductlinemapping().get("0001E110000000000EYW");
+                            Productline productline3 = firm.getProductlinemapping().get("0001E110000000000EYW");
                             if(productline3!=null){
-                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((Productline) productline3).getFiredSystemmapping().entrySet()) {
+                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((DefaultProductline) productline3).getFiredSystemmapping().entrySet()) {
                                     firedSystem = firedSystemEntry.getValue();
                                 }
                             }
 
                             break;
                         case "回转窑":
-                            Product productline4 = firm.getProductlinemapping().get("0001E110000000000EYU");
+                            Productline productline4 = firm.getProductlinemapping().get("0001E110000000000EYU");
                             if(productline4!=null){
-                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((Productline) productline4).getFiredSystemmapping().entrySet()) {
+                                for (Map.Entry<String, FiredSystem> firedSystemEntry : ((DefaultProductline) productline4).getFiredSystemmapping().entrySet()) {
                                     firedSystem = firedSystemEntry.getValue();
                                 }
                             }
@@ -427,14 +427,14 @@ public class Tools {
                 if(firm==null){
                     continue;
                 }
-                for (Productline pl : firm.getProductlinemapping().values()) {
+                for (DefaultProductline pl : firm.getProductlinemapping().values()) {
                     if (pl.getProductline_cn().equals(productline_cn) || pl.getProductline_cn().equals("浙江" + productline_cn)
                             || pl.getProductline_cn().equals(productline_cn + "红狮")
                             || pl.getProductline_cn().equals("江西" + productline_cn)
                             || pl.getProductline_cn().equals("尼泊尔" + productline_cn)
                             || pl.getProductline_cn().equals("广西" + productline_cn)
                             || pl.getProductline_cn().equals("宁远" + productline_cn)||pl.getProductline_cn().equals("老挝" + productline_cn)) {
-                        for (Map.Entry<String, FiredSystem> firedSystemEntry : ((Productline) pl).getFiredSystemmapping().entrySet()) {
+                        for (Map.Entry<String, FiredSystem> firedSystemEntry : ((DefaultProductline) pl).getFiredSystemmapping().entrySet()) {
                             firedSystem = firedSystemEntry.getValue();
                         }
                         if (firedSystem != null) {

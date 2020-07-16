@@ -2,14 +2,11 @@ package Action;
 
 import Management.ProcessMgr;
 import Model.*;
-import ToolUnits.Tools;
 import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -40,7 +37,7 @@ public class Action4Get_AllqulityData implements Callable<JSONObject> {
 
                 Map<String,String> realtagdatamapping=new HashMap<String,String>();
 
-                for(Productline pl:firm.getProductlinemapping().values()){
+                for(DefaultProductline pl:firm.getProductlinemapping().values()){
                     for(Tag4properties tag:pl.getQulityTags().values()){
                         realtagdatamapping.put(tag.getTag(),tag.getValue()+"");
                     }
