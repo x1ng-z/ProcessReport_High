@@ -1,5 +1,5 @@
 package Model;
 
-public interface MyProperties {
+public interface BaseProperties {
    void update();
 }

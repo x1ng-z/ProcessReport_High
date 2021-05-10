@@ -9,6 +9,8 @@ public class Firm {
     private String firmshortname;
     private Map<String, DefaultProductline> productlinemapping;
 
+    private boolean isupdate=false;//回转窑产量数据是否已经更新
+
     public String getFirmid() {
         return firmid;
     }
@@ -60,5 +62,13 @@ public class Firm {
 
         return firm;
 
+    }
+
+    public boolean isIsupdate() {
+        return isupdate;
+    }
+
+    public void setIsupdate(boolean isupdate) {
+        this.isupdate = isupdate;
     }
 }

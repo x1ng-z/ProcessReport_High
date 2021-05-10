@@ -41,5 +41,46 @@
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@192.168.13.116:1521:orcl</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="@192.168.10.211" uuid="9934069d-3540-44d2-b441-122f7b0bdfd5">
+      <driver-ref>oracle</driver-ref>
+      <synchronize>true</synchronize>
+      <auto-commit>false</auto-commit>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@192.168.10.211:1521:orcl</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@192.168.10.74" uuid="077572f9-e60f-4750-a6d4-952e7a8b505a">
+      <driver-ref>oracle</driver-ref>
+      <synchronize>true</synchronize>
+      <auto-commit>false</auto-commit>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@192.168.10.74:1521:orcl</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@192.168.140.103" uuid="4c04d113-a71f-4b06-8279-f0a68cb03f60">
+      <driver-ref>oracle</driver-ref>
+      <synchronize>true</synchronize>
+      <auto-commit>false</auto-commit>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@192.168.140.103:1521:orcl</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="192.168.10.212" uuid="3a32996f-e503-4ae3-ac63-722d08a7b8e2">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.10.212:3306/process?serveTimeZone=Asia/Shanghai</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="serverTimezone" value="Asia/Shanghai" />
+      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="process@192.168.10.212" uuid="762c5f56-fb2b-489e-b57c-d2ba0d1a31ef">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.10.212:3306/process</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="serverTimezone" value="Asia/Shanghai" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>

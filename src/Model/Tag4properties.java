@@ -28,7 +28,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * +-------------------+
  */
 
-public class Tag4properties implements MyProperties {
+public class Tag4properties implements BaseProperties {
     // measurepoint base properties
     private static Logger logger=Logger.getLogger(Tag4properties.class);
     private Long noAlarmtime =  3*60* 1000 + (System.currentTimeMillis());
@@ -66,11 +66,18 @@ public class Tag4properties implements MyProperties {
     private double positive_operate_changerate;
     private double negative_operate_changerate;
     private String type;/**设备、工艺的编译*///device process
+    //按照时间降序排列
     private List<Double> minvalues = new CopyOnWriteArrayList<Double>();
     private List<Date> mindates = new CopyOnWriteArrayList<Date>();
     private double tempchangerate;
     private String processtype;
     private Integer deviceAlarmJudgmentSrc;//设备的点号是否需要报警的判断点号，如回转窑的电流，没电流就回转窑上的位号都不需要报警了
+
+    private int isrunvalide;//运行状态进行报警判断还是停机进行判断
+
+    private Instant stoptimestep;//开机时间戳
+    private Instant runtimestep;//关机时间戳
+
 
     private Double mean60sec=0d;
     //Dymatic AlarmLine properties:
@@ -296,6 +303,9 @@ public class Tag4properties implements MyProperties {
     public void setPositive_operate_changerate(double positive_operate_changerate) {
         this.positive_operate_changerate = positive_operate_changerate;
     }
+    public void setMinvalues(List<Double> minvalues) {
+        this.minvalues = minvalues;
+    }
 
     public double getNegative_operate_changerate() {
         return negative_operate_changerate;
@@ -457,7 +467,7 @@ public class Tag4properties implements MyProperties {
         }
         setHighlinepool(highline);
         setPointer_High(0);
-        setHigh_holdontime(0l);
+        setHigh_holdontime(0L);
 
 
         /**
@@ -488,7 +498,7 @@ public class Tag4properties implements MyProperties {
 
         setHighhighlinepool(hhighline);
         setPoniter_HighHigh(0);
-        setHighhigh_holdontime(0l);
+        setHighhigh_holdontime(0L);
 
 
         /**
@@ -519,7 +529,7 @@ public class Tag4properties implements MyProperties {
         }
         setLowlinepool(lowline);
         setPointer_Low(0);
-        setLow_holdontime(0l);
+        setLow_holdontime(0L);
 
 
         /**
@@ -548,7 +558,7 @@ public class Tag4properties implements MyProperties {
 
         setLowlowlinepool(lowlowlinepool);
         setPointer_LowLow(0);
-        setLowlow_holdontime(0l);
+        setLowlow_holdontime(0L);
 
 
     }
@@ -728,5 +738,29 @@ public class Tag4properties implements MyProperties {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIsrunvalide() {
+        return isrunvalide;
+    }
+
+    public void setIsrunvalide(int isrunvalide) {
+        this.isrunvalide = isrunvalide;
+    }
+
+    public Instant getStoptimestep() {
+        return stoptimestep;
+    }
+
+    public void setStoptimestep(Instant stoptimestep) {
+        this.stoptimestep = stoptimestep;
+    }
+
+    public Instant getRuntimestep() {
+        return runtimestep;
+    }
+
+    public void setRuntimestep(Instant runtimestep) {
+        this.runtimestep = runtimestep;
     }
 }

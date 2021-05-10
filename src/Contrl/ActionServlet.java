@@ -19,9 +19,7 @@ import org.json.JSONObject;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -62,7 +60,6 @@ public class ActionServlet extends HttpServlet {
 
             MysqlDB.getConnection(servletContext).close();
             Influxdb.getConnect(servletContext).close();
-            OracleMESDB.close(servletContext);
             MesUrl.CloseClient();
             JMS_Text_Service.get_MesService().close();
 
@@ -101,6 +98,8 @@ public class ActionServlet extends HttpServlet {
 
         exeThreadPool.execute(new Service_Save_OpeAndAlarm_MSG(servletContext, processMgr.getMessageQueue(), false));
 
+
+
         Data_Rawfineness dataRawfineness = new Data_Rawfineness(servletContext, 1 * 60 * 60 * 1000);
         Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(dataRawfineness.getPeriodtime(), dataRawfineness));
 
@@ -110,15 +109,15 @@ public class ActionServlet extends HttpServlet {
         Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firstdelay, dateRawyeild));
 
 
-        Quality_predict quality_predict = new Quality_predict(servletContext, 1 * 24 * 60 * 60 * 1000);
-        Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firstdelay, quality_predict));
+        //Quality_predict quality_predict = new Quality_predict(servletContext, 1 * 24 * 60 * 60 * 1000);
+        //Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firstdelay, quality_predict));
 
         FiredSystem_QulityData firedSystem_qulityData = new FiredSystem_QulityData(servletContext, 1 * 60 * 60 * 1000);
         Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firedSystem_qulityData.getPeriodtime(), firedSystem_qulityData));
 
-
+        int firedyieldfirstdelay = Tools.getfirstupdate(7, 40, 0);
         FiredSystem_output firedSystem_output = new FiredSystem_output(servletContext, 1 * 24 * 60 * 60 * 1000);
-        Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firstdelay, firedSystem_output));
+        Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firedyieldfirstdelay, firedSystem_output));
 
         firedSystem_qulityData.execute();
         firedSystem_output.execute();
@@ -140,15 +139,11 @@ public class ActionServlet extends HttpServlet {
         System.out.println("## System start!");
 
 
-
-
-
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         doGet(request, response);
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -735,6 +730,199 @@ public class ActionServlet extends HttpServlet {
 
 
         }
+        if(method.trim().equals("getSLharm")){
+
+            Action4GetFiredClAndCr action4GetClAndCr= new Action4GetFiredClAndCr(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4GetClAndCr);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        if(method.trim().equals("getCMharm")){
+
+            Action4GetCemntClAndCr action4GetClAndCr= new Action4GetCemntClAndCr(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4GetClAndCr);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if(method.trim().equals("getCCharm")){
+
+            Action4GetCemntPOutClAndCr action4GetClAndCr= new Action4GetCemntPOutClAndCr(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4GetClAndCr);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if(method.trim().equals("getrawfine")){
+
+            Action4GetRawFine action4GetRawFine= new Action4GetRawFine(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4GetRawFine);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
+
+        if(method.trim().equals("getraw3rate")){
+
+            Action4getraw3rate action4getraw3rate= new Action4getraw3rate(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4getraw3rate);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        if(method.trim().equals("getCMqua")){
+
+            Action4getCMqua action4getCMqua= new Action4getCMqua(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4getCMqua);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        if(method.trim().equals("getCMqua2")){
+
+            Action4getCMqua2 action4getCMqua= new Action4getCMqua2(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4getCMqua);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        //Action4getCoat
+        if(method.trim().equals("getcoat")){
+
+            Action4getCoat action4getCMqua= new Action4getCoat(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4getCMqua);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
+        if(method.trim().equals("getCCqua")){
+
+            Action4getCCqua action4getCMqua= new Action4getCCqua(request,servletContext);
+            Future<JSONArray> results = requestexec.submit(action4getCMqua);
+            response.setContentType("text/json; charset=UTF-8");
+            response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+            response.setHeader("Pragma", "no-cache"); //HTTP1.0
+            response.setDateHeader("Expires", 0);
+            PrintWriter out = response.getWriter();
+            try {
+                out.print(results.get().toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

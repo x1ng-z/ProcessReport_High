@@ -86,15 +86,19 @@ public class Mysql_Access_Data {
 
                 String productline = resultSet.getString("productline");
                 String ip = resultSet.getString("ip");
+                String mesip = resultSet.getString("mesip");
                 String region = resultSet.getString("region");
                 String regionfirm = resultSet.getString("regionfirm");
                 String productline_id = resultSet.getString("productline_id");
+                String productline_newid = resultSet.getString("productline_newid");
                 DefaultProductline productlineclazz = new DefaultProductline();
                 productlineclazz.setIp(ip);
                 productlineclazz.setProductline_cn(productline);
                 productlineclazz.setProductline_id(productline_id);
                 productlineclazz.setRegion(region);
                 productlineclazz.setRegionfirm(regionfirm);
+                productlineclazz.setProductline_newid(productline_newid);
+                productlineclazz.setMesip(mesip);
 
                 productlineclazz.setRawSystemmapping(getAllrawstem(productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz, servletContext));
                 productlineclazz.setFiredSystemmapping(getAllfiredsystem(servletContext, productlineclazz, MysqlDB.getConnection(servletContext), productline, productlineclazz));
@@ -343,6 +347,8 @@ public class Mysql_Access_Data {
                 boolean isalarm = resultSet.getBoolean("isalarm");
                 String topic = resultSet.getString("topic");
                 String alarm_mode = resultSet.getString("alarm_mode");
+                int isrunvalide = resultSet.getInt("isrunvalide");
+
                 Tag4properties tag4properties = new Tag4properties();
                 try {
                     Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
@@ -382,6 +388,7 @@ public class Mysql_Access_Data {
                 tag4properties.setProcesstype(processtype);
                 tag4properties.setTopic(topic);
                 tag4properties.setAlarm_mode(alarm_mode);
+                tag4properties.setIsrunvalide(isrunvalide);
                 tag4properties.init();
 
                 if (alarm_mode != null) {
@@ -401,9 +408,17 @@ public class Mysql_Access_Data {
                     Pattern pattern = Pattern.compile(regex);
                     Matcher m = pattern.matcher(tag4properties.getDevice());
                     if (m.find()) {
-                        if (m.group(3).equals("回转窑") && tag4properties.getCn().equals("电流1")) {
-                            productline.setFired_judgerelu(tag4properties);
+                        if (m.group(3).equals("回转窑")) {
+                            if (tag4properties.getCn().equals("台时")) {
+                                productline.addFired_judgerelu(tag4properties);
+                            }
+
+                            if (tag4properties.getCn().equals("电流1")) {
+                                productline.addFired_judgerelu(tag4properties);
+                            }
+
                         }
+
                     }
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
@@ -479,6 +494,7 @@ public class Mysql_Access_Data {
                 boolean isalarm = resultSet.getBoolean("isalarm");
                 String topic = resultSet.getString("topic");
                 String alarm_mode = resultSet.getString("alarm_mode");
+                int isrunvalide = resultSet.getInt("isrunvalide");
                 Tag4properties tag4properties = new Tag4properties();
                 try {
                     Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
@@ -515,6 +531,7 @@ public class Mysql_Access_Data {
                 tag4properties.setProcesstype(processtype);
                 tag4properties.setTopic(topic);
                 tag4properties.setAlarm_mode(alarm_mode);
+                tag4properties.setIsrunvalide(isrunvalide);
                 tag4properties.init();
 
                 if (alarm_mode != null) {
@@ -530,9 +547,9 @@ public class Mysql_Access_Data {
 
                 try {
 
-                        if (tag4properties.getDevice().contains("水泥磨") && tag4properties.getCn().equals("电流")) {
-                            productline.addCement_judgerelu(tag4properties.getDevice(),tag4properties);
-                        }
+                    if (tag4properties.getDevice().contains("水泥磨") && tag4properties.getCn().equals("电流")) {
+                        productline.addCement_judgerelu(tag4properties.getDevice(), tag4properties);
+                    }
 
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
@@ -609,6 +626,7 @@ public class Mysql_Access_Data {
                 boolean isalarm = resultSet.getBoolean("isalarm");
                 String topic = resultSet.getString("topic");
                 String alarm_mode = resultSet.getString("alarm_mode");
+                int isrunvalide = resultSet.getInt("isrunvalide");
                 Tag4properties tag4properties = new Tag4properties();
 
                 try {
@@ -650,7 +668,7 @@ public class Mysql_Access_Data {
                 tag4properties.setProcesstype(processtype);
                 tag4properties.setTopic(topic);
                 tag4properties.setAlarm_mode(alarm_mode);
-                ;
+                tag4properties.setIsrunvalide(isrunvalide);
                 tag4properties.init();
                 if (alarm_mode != null) {
 
@@ -664,7 +682,7 @@ public class Mysql_Access_Data {
                 }
 
                 if (tag4properties.getDevice().contains("生料磨") && tag4properties.getCn().equals("主电机电流1")) {
-                    productline.addRaw_judgerelu(tag4properties.getDevice(),tag4properties);
+                    productline.addRaw_judgerelu(tag4properties.getDevice(), tag4properties);
                 }
 
 
@@ -732,6 +750,7 @@ public class Mysql_Access_Data {
                 boolean isaudio = resultSet.getBoolean("isaudio");
                 boolean isalarm = resultSet.getBoolean("isalarm");
                 String topic = resultSet.getString("topic");
+                String device = resultSet.getString("device");
                 Tag4properties tag4properties = new Tag4properties();
                 try {
                     Integer deviceAlarmJudgmentSrc = resultSet.getInt("deviceAlarmJudgmentSrc");
@@ -754,7 +773,7 @@ public class Mysql_Access_Data {
                 tag4properties.setFix_changerate(changerate);
                 tag4properties.setType(type);
                 tag4properties.setProductlinename(productlineindex);
-
+                tag4properties.setDevice(device);
                 tag4properties.setIsalarm(isalarm);
                 tag4properties.setAlarmtmonitor(alarmmonitor);
                 tag4properties.setIsaudio(isaudio);
@@ -1434,7 +1453,7 @@ public class Mysql_Access_Data {
     }
 
 
-    public static List<String> get_nullreal28Strong(ServletContext servletContext, Connection mysql_connection) {
+    public static List<String> get_nullreal28Strong(Connection mysql_connection) {
 
         String sql = "select * from predict where compressive_pressure28=0 or compressive_pressure28 is null order by har_analy ASC limit 10";
         ResultSet resultSet = null;

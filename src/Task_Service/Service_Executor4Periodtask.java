@@ -11,8 +11,6 @@ public class Service_Executor4Periodtask implements Runnable {
     private DelayQueue<Carrior4periodtask> queue=new DelayQueue<Carrior4periodtask>();
     private ServletContext servletContext;
 
-
-
     private Service_Executor4Periodtask(ServletContext servletContext) {
         this.servletContext=servletContext;
 

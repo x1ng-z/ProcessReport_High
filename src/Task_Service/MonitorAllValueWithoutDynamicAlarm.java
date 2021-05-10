@@ -3,8 +3,10 @@ package Task_Service;
 import Model.DefaultProductline;
 import Model.Tag4properties;
 import ToolUnits.Tools;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
@@ -18,6 +20,7 @@ import static java.lang.Math.abs;
  * @date 2020/6/22 11:20
  */
 public class MonitorAllValueWithoutDynamicAlarm extends MonitorDefaultDymaticAlarm {
+    private static Logger logger = Logger.getLogger(MonitorAllValueWithoutDynamicAlarm.class);
 
     public MonitorAllValueWithoutDynamicAlarm(ServletContext servletContext, LinkedBlockingQueue<Object> audiomessage) {
         super(servletContext, audiomessage);
@@ -68,10 +71,12 @@ public class MonitorAllValueWithoutDynamicAlarm extends MonitorDefaultDymaticAla
             }
 
         }
+        if(needDynamicTag.getMinvalues().size()>=3){
+            Double[] toarray = new Double[needDynamicTag.getMinvalues().size()];
+            needDynamicTag.getMinvalues().toArray(toarray);
+            alarmjudgewithoutdynamic(Arrays.copyOfRange(toarray,0,3),needDynamicTag, defaultProductline);
+        }
 
-        Double[] pickalldatas = new Double[needDynamicTag.getMinvalues().size()];
-        needDynamicTag.getMinvalues().toArray(pickalldatas);
-        alarmjudgewithoutdynamic(pickalldatas,needDynamicTag, defaultProductline);
     }
 
 
@@ -80,22 +85,28 @@ public class MonitorAllValueWithoutDynamicAlarm extends MonitorDefaultDymaticAla
         if (compared(BIG, values, needDynamicTag.getHighhighbase())) {
             //高高报
             checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHHIGHALARM(), defaultProductline);
-
+            logger.info(""+needDynamicTag.getProductlinename()+needDynamicTag.getTag()+needDynamicTag.getProcesstype()
+                    +" datalength="+values.length+"contect="+(values.length>=3?values[0]+""+values[1]+""+values[2]:values[0]+""+values[1]));
         } else if (compared(SMALL, values, needDynamicTag.getHighhighbase())
                 &&
                 compared(BIG, values, needDynamicTag.getHighbase())) {
             //高报
+            logger.info(""+needDynamicTag.getProductlinename()+needDynamicTag.getTag()+needDynamicTag.getProcesstype()
+                    +" datalength="+values.length+"contect="+(values.length>=3?values[0]+""+values[1]+""+values[2]:values[0]+""));
+
             checkAndPut(values[0], needDynamicTag, needDynamicTag.getHIGHALARM(), defaultProductline);
         } else if (compared(SMALL, values, needDynamicTag.getLowbase())
                 && compared(BIG, values, needDynamicTag.getLowlowbase())
         ) {
             //低报
             checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWALARM(), defaultProductline);
-
+            logger.info(""+needDynamicTag.getProductlinename()+needDynamicTag.getTag()+needDynamicTag.getProcesstype()
+                    +" datalength="+values.length+"contect="+(values.length>=3?values[0]+""+values[1]+""+values[2]:values[0]+""+values[1]));
         } else if (compared(SMALL, values, needDynamicTag.getLowbase())) {
             //低低报
             checkAndPut(values[0], needDynamicTag, needDynamicTag.getLOWLOWALARM(), defaultProductline);
-
+            logger.info(""+needDynamicTag.getProductlinename()+needDynamicTag.getTag()+needDynamicTag.getProcesstype()
+                    +" datalength="+values.length+"contect="+(values.length>=3?values[0]+""+values[1]+""+values[2]:values[0]+""+values[1]));
         }
     }
 }

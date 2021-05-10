@@ -2,13 +2,16 @@ package Model;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 public class DefaultProductline implements Productline {
     private final static int MESSAGESIZE = 5;
     private String productline_cn;
     private String ip;
+    private String mesip;
     private String region;
     private String productline_id;
+    private String productline_newid;
     private String regionfirm;
     private ConcurrentLinkedQueue<Operate_Message> current_raw_operate = new ConcurrentLinkedQueue<Operate_Message>();
     private ConcurrentLinkedQueue<AlarmMessage> current_raw_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
@@ -21,9 +24,9 @@ public class DefaultProductline implements Productline {
     //质量报警
     private ConcurrentLinkedQueue<AlarmMessage> current_quality_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
     private ConcurrentLinkedQueue<AlarmMessage> current_envptc_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
-
+    //保存用于判断是否需要报警的依据位号，key=device名称
     private Map<String, Tag4properties> raw_judgerelu = new HashMap<>();//用于判定是否需要判断报警，生料磨机电流为0，不需要判断
-    private Tag4properties fired_judgerelu;//用于判定是否需要判断报警，回转窑电流为0，不需要判断
+    private Map<String,List<Tag4properties>> fired_judgerelu=new HashMap<>();//用于判定是否需要判断报警，回转窑电流为0，不需要判断
     private Map<String, Tag4properties> cement_judgerelu = new HashMap<>();
 
     /**
@@ -43,15 +46,15 @@ public class DefaultProductline implements Productline {
     //质量系统
     private Map<String, Tag4properties> qulityTags = new HashMap<>();
 
-
+    @Override
     public void addDeviceAlarmjudgeRsc(String deviceName, Tag4properties tag) {
         deviceAlarmjudgeRsc.put(deviceName, tag);
     }
-
+    @Override
     public void removeDeviceAlarmjudgeRsc(String deviceName) {
         deviceAlarmjudgeRsc.remove(deviceName);
     }
-
+    @Override
     public Double findDeviceAlarmjudgeRsc(String deviceName) {
         Tag4properties tag = deviceAlarmjudgeRsc.get(deviceName);
         if (tag == null) {
@@ -299,22 +302,49 @@ public class DefaultProductline implements Productline {
         current_envptc_alarm.add(alarmMessage);
     }
 
-
+    @Override
     public Map<String, Tag4properties> getRaw_judgerelu() {
         return raw_judgerelu;
     }
 
+    @Override
     public void addRaw_judgerelu(String device, Tag4properties raw_judgerelu) {
         this.raw_judgerelu.put(device, raw_judgerelu);
     }
 
-    public Tag4properties getFired_judgerelu() {
+    @Override
+    public Map<String,List<Tag4properties>> getFired_judgerelu() {
         return fired_judgerelu;
     }
 
-    public void setFired_judgerelu(Tag4properties fired_judgerelu) {
-        this.fired_judgerelu = fired_judgerelu;
+
+    public Tag4properties getFiredSepcielTag(String device,String cn){
+        List<Tag4properties> reluTags=fired_judgerelu.get(device);
+        if(reluTags!=null){
+           List<Tag4properties> rules= reluTags.stream().filter(tag->tag.getCn().equals(cn)).collect(Collectors.toList());
+           if(rules.size()==0){
+               return null;
+           }else {
+               return rules.get(0);
+           }
+        }
+        return null;
     }
+
+
+
+    @Override
+    public void addFired_judgerelu(Tag4properties fired_judgerelu) {
+        List<Tag4properties> list=this.fired_judgerelu.get(fired_judgerelu.getDevice());
+        if(null!=list){
+            list.add(fired_judgerelu);
+        }else {
+            list =new ArrayList<>();
+            list.add(fired_judgerelu);
+            this.fired_judgerelu .put(fired_judgerelu.getDevice(),list);
+        }
+    }
+
 
     public Map<String, Tag4properties> getQulityTags() {
         return qulityTags;
@@ -349,11 +379,29 @@ public class DefaultProductline implements Productline {
         return current_cement_alarm;
     }
 
+    @Override
     public Map<String, Tag4properties> getCement_judgerelu() {
         return cement_judgerelu;
     }
 
+    @Override
     public void addCement_judgerelu(String device, Tag4properties cement_judgerelu) {
         this.cement_judgerelu.put(device, cement_judgerelu);
+    }
+
+    public String getProductline_newid() {
+        return productline_newid;
+    }
+
+    public void setProductline_newid(String productline_newid) {
+        this.productline_newid = productline_newid;
+    }
+
+    public String getMesip() {
+        return mesip;
+    }
+
+    public void setMesip(String mesip) {
+        this.mesip = mesip;
     }
 }

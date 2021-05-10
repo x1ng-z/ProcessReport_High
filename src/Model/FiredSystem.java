@@ -29,7 +29,7 @@ public class FiredSystem {
     private Map<String,Tag4properties> envPtcSystemTags;
 
 
-    /**烧成系统位号：key:tagName;value object for Tag4properties*/
+    /**烧成系统位号：key:tag;value object for Tag4properties*/
     private Map<String,Tag4properties> TagMapping;
 
 

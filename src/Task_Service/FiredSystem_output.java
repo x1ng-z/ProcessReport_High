@@ -2,6 +2,7 @@ package Task_Service;
 
 import DAO.MesUrl;
 import DAO.MesUrl_AccessData;
+import Management.ProcessMgr;
 
 import javax.servlet.ServletContext;
 import java.util.concurrent.ExecutorService;
@@ -24,8 +25,8 @@ public class FiredSystem_output implements Periodtask {
 
     @Override
     public void execute() {
-        MesUrl_AccessData.getMesripe_output(MesUrl.getMESUrl_httpclient(),"run",servletContext);
-
+        ProcessMgr.getProcessMgr_instance(servletContext).fill_fired_yeild();
+//        MesUrl_AccessData.getMesripe_output(MesUrl.getMESUrl_httpclient(),"run",servletContext);
     }
 
     @Override

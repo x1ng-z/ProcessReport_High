@@ -51,11 +51,6 @@ public class Action4Get_AllqulityData implements Callable<JSONObject> {
 
             return jsonArray;
 
-
-
-
-
-
     }
 
 

@@ -52,6 +52,9 @@ public class MonitorAllValueAlarm extends MonitorDefaultDymaticAlarm {
         ;//台时1 台时2  台时给定  台时给定1  台时给定2
         Pattern pattern = Pattern.compile(".*(台时).*");
         Matcher matcher = pattern.matcher(tagname);
+
+        boolean isalreadalarm=false;
+
         if (matcher.find()) {
             //台时报警
             tempchangerate = (result.get(0) - result.get(1)) / (result.get(1) == 0 ? Tag4properties.P_INITIAL : result.get(1));
@@ -59,7 +62,11 @@ public class MonitorAllValueAlarm extends MonitorDefaultDymaticAlarm {
                 tempchangerate=abs(tempchangerate);
                 if (Tools.sub(tempchangerate, needDynamicTag.getFix_changerate()) > Tag4properties.P_INITIAL && (needDynamicTag.getFix_changerate() != 0)) {
                     //result.get(0) 是实时值
-                    checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), defaultProductline);
+                    if(!isalreadalarm){
+                        isalreadalarm=true;
+                        checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), defaultProductline);
+
+                    }
                 }
             }
 
@@ -69,13 +76,16 @@ public class MonitorAllValueAlarm extends MonitorDefaultDymaticAlarm {
             tempchangerate = abs((result.get(0) - result.get(1)) / (result.get(1) == 0 ? Tag4properties.P_INITIAL : result.get(1)));
             if (abs(Tools.sub(tempchangerate, needDynamicTag.getFix_changerate())) > Tag4properties.P_INITIAL && (needDynamicTag.getFix_changerate() != 0)) {
                 //result.get(0) 是实时值
-                checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), defaultProductline);
+                if(!isalreadalarm){
+                    isalreadalarm=true;
+                    checkAndPut(result.get(0), needDynamicTag, needDynamicTag.getCHANGERATEALARM(), defaultProductline);
+                }
             }
 
         }
 
         Double[] pickalldatas=new Double[needDynamicTag.getMinvalues().size()];
         needDynamicTag.getMinvalues().toArray(pickalldatas);
-        alarmjudgebydynamic(pickalldatas,needDynamicTag, defaultProductline);
+        alarmjudgebydynamic(pickalldatas,needDynamicTag, defaultProductline,isalreadalarm);
     }
 }

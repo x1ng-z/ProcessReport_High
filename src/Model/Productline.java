@@ -11,9 +11,9 @@ public interface Productline {
 
      void addRaw_judgerelu(String device,Tag4properties raw_judgerelu) ;
 
-     Tag4properties getFired_judgerelu() ;
+     Map<String,List<Tag4properties>> getFired_judgerelu() ;
 
-     void setFired_judgerelu(Tag4properties fired_judgerelu) ;
+     void addFired_judgerelu(Tag4properties fired_judgerelu) ;
      List<String> tagnamesInproductline();
 
     public void addDeviceAlarmjudgeRsc(String deviceName,Tag4properties tag);

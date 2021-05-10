@@ -1,34 +1,40 @@
 package Contrl;
 
-import DAO.Influxdb_Access_Data;
-import DAO.MysqlDB;
-import DAO.Mysql_Access_Data;
+import DAO.*;
 import Management.ProcessMgr;
 import Model.Firm;
-import Model.Tag4properties;
-import Task_Service.Service4get_realdata;
-import ToolUnits.Tools;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Connection;
 import java.text.DecimalFormat;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 public class test {
     private static ProcessMgr processMgr;
 
     public static void main(String[] args){
+
+
+        long aa=NANOSECONDS.convert(1000,MILLISECONDS);
+        processMgr = ProcessMgr.getProcessMgr_instance(null);
+
+        Firm firm=processMgr.getFirmmmaping().get("1002");
+
+
+
+
+        JSONObject  object=OracleMESdb_Access_Data.getCMqua2(firm,"2020-11-21 07:00:00","2020-11-23 07:00:00");
+//        List<Map<String, String>> plfiredyeildlist = OracleMESdb_Access_Data. get_process_yield(OracleMESDB.get211Connection(), "104");
+
+        System.out.println(object.toString());
 
         String device="回转窑";
 

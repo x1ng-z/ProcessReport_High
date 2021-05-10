@@ -18,7 +18,7 @@ public class Service4get_realdata {
     private static Logger logger=Logger.getLogger(Service4get_realdata.class);
     private static final int EXECTE_RATIO = 3;
     private ServletContext servletContext;
-    private Management.ProcessMgr ProcessMgr;
+    private Management.ProcessMgr processMgr;
     private ExecutorService realdate_service;
     private List<Updatetask> works=new LinkedList<Updatetask>();
 
@@ -27,21 +27,21 @@ public class Service4get_realdata {
         this.servletContext = servletContext;
         this.realdate_service=realdate_service;
         //Connection connection = MysqlDB.getConnection(servletContext);
-        ProcessMgr = Management.ProcessMgr.getProcessMgr_instance(servletContext);
+        processMgr = Management.ProcessMgr.getProcessMgr_instance(servletContext);
         inite_works();
 
     }
 
     private   void inite_works() {
 
-        Map<String, Firm> firmmaping = ProcessMgr.getFirmmmaping();
+        Map<String, Firm> firmmaping = processMgr.getFirmmmaping();
         for (Firm firm : firmmaping.values()) {
 
             Map<String, DefaultProductline> productlinemapping = firm.getProductlinemapping();
             for (DefaultProductline defaultProductline : productlinemapping.values()) {
                 works.add(new Updatetask(defaultProductline));//烧成、生料、粉磨实时数据更新
                 if((defaultProductline.getQulityTags()!=null)&&(defaultProductline.getQulityTags().size()!=0)){//质量数据获取
-                    works.add(new Updatetask(defaultProductline, defaultProductline.getQulityTags(),1*60*60,24*60*60,true,3));
+                    works.add(new Updatetask(defaultProductline, defaultProductline.getQulityTags(),1*60*60,24*60*60,false,0));
                 }
                 if(defaultProductline.getFiredSystemmapping()!=null){
                     for(FiredSystem firedSystem: defaultProductline.getFiredSystemmapping().values()){
@@ -68,7 +68,7 @@ public class Service4get_realdata {
 
 
 
-    private class Updatetask implements Runnable {
+    public class Updatetask implements Runnable {
         private String measuerName;
         private DefaultProductline defaultProductline;
         private int sampletimeinterval;//间隔多少时间判断一次

@@ -62,7 +62,6 @@ public class Influxdb_Access_Data {
             boolean first = true;
             for (QueryResult.Series serie : result.getSeries()) {
 //               System.out.println(serie.getColumns());
-
                 for (List<Object> list : serie.getValues()) {
 
                     for (int i = 1; i < serie.getColumns().size(); ++i) {
@@ -97,7 +96,7 @@ public class Influxdb_Access_Data {
                     if (tag4properties == null) {
                         continue;
                     }
-                    MyProperties proxytag = (MyProperties) DynamicProxyHandler.bind(tag4properties, "ToolUnits.RealDateInterceptorImp", "update", ProcessMgr.getProcessMgr_instance(servletContext).getService_alarmMonitor(), (DefaultProductline) defaultProductline);
+                    BaseProperties proxytag = (BaseProperties) DynamicProxyHandler.bind(tag4properties, "ToolUnits.RealDateInterceptorImp", "update", ProcessMgr.getProcessMgr_instance(servletContext).getService_alarmMonitor(), (DefaultProductline) defaultProductline);
                     proxytag.update();
 
 
@@ -128,9 +127,6 @@ public class Influxdb_Access_Data {
         for (QueryResult.Result result : resultlists) {
 
             for (QueryResult.Series serie : result.getSeries()) {
-
-
-//                System.out.println(serie.getColumns());
 
                 for (int i = 1; i < serie.getColumns().size(); i++) {
                     timeorderData.put(serie.getColumns().get(i), new ArrayList());

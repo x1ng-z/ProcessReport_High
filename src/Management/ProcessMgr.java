@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class ProcessMgr {
 
-    private static Logger logger= Logger.getLogger(Management.ProcessMgr.class);
+    private static Logger logger = Logger.getLogger(Management.ProcessMgr.class);
     private Map<String, Firm> firmmmaping = null;
     private volatile static ProcessMgr processMgr = null;
     private static ServletContext servletContext;
@@ -39,13 +39,13 @@ public class ProcessMgr {
         this.service_alarmMonitor = new Service_AlarmMonitor(servletContext);
         service_alarmMonitor.registerMonitor(Tag4properties.OPERATEMONITOR, new MonitorDefaultOperaterHistory(servletContext, messageQueue));
         service_alarmMonitor.registerMonitor(Tag4properties.ALARMMONITOR, new MonitorDefaultDymaticAlarm(servletContext, messageQueue));
-        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUEMONITOR,new MonitorAllValueAlarm(servletContext,messageQueue));
-        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUENODYNAMICMONITOR,new MonitorAllValueWithoutDynamicAlarm(servletContext,messageQueue));
+        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUEMONITOR, new MonitorAllValueAlarm(servletContext, messageQueue));
+        service_alarmMonitor.registerMonitor(Tag4properties.ALLVALUENODYNAMICMONITOR, new MonitorAllValueWithoutDynamicAlarm(servletContext, messageQueue));
 
     }
 
 
-    public List<Tag4properties> deviceData(String firmname, String device,String productlineno) {
+    public List<Tag4properties> deviceData(String firmname, String device, String productlineno) {
         List<Tag4properties> results = new ArrayList();
         for (Map.Entry<String, Firm> firmEntry : getFirmmmaping().entrySet()) {
 
@@ -55,8 +55,8 @@ public class ProcessMgr {
 
                 DefaultProductline defaultProductline = productlineEntry.getValue();
                 if (defaultProductline.getRegionfirm().equals(firmname)) {
-                    if(productlineno!=null){
-                        if(defaultProductline.getProductline_id().equals(productlineno)){
+                    if (productlineno != null) {
+                        if (defaultProductline.getProductline_id().equals(productlineno)) {
 
                             for (Map.Entry<String, Tag4properties> tag4propertiesEntry : defaultProductline.getTags().entrySet()) {
                                 Tag4properties tag4property = tag4propertiesEntry.getValue();
@@ -68,9 +68,9 @@ public class ProcessMgr {
                             break;
 
                         }
-                    }else{
+                    } else {
 
-                        if(defaultProductline.getProductline_id().equals("0001E110000000000EYU")){
+                        if (defaultProductline.getProductline_id().equals("0001E110000000000EYU")) {
                             for (Map.Entry<String, Tag4properties> tag4propertiesEntry : defaultProductline.getTags().entrySet()) {
                                 Tag4properties tag4property = tag4propertiesEntry.getValue();
                                 if (tag4property.getDevice().equals(device)) {
@@ -82,7 +82,6 @@ public class ProcessMgr {
                         }
 
                     }
-
 
 
                 }
@@ -123,34 +122,42 @@ public class ProcessMgr {
     }
 
 
-    public static void updateFiredSystem_output(List<String> content) {
+//    @Deprecated
+//    public static void updateFiredSystem_output(List<String> content) {
+//
+//        updateFiredSystem_output(content, servletContext, MysqlDB.getConnection(servletContext));
+//
+//
+//    }
 
-        updateFiredSystem_output(content, servletContext, MysqlDB.getConnection(servletContext));
-
-
-    }
-
-    public static void updateFiredSystem_output(List<String> content, ServletContext servletContext, Connection mysql_conn) {
-
-        Tools.ResolveJson_output(content.get(0).toString(), getProcessMgr_instance(servletContext).getFirmmmaping());
-
-
-    }
+//    @Deprecated
+//    public static void updateFiredSystem_output(List<String> content, ServletContext servletContext, Connection mysql_conn) {
+//
+//        Tools.ResolveJson_output(content.get(0).toString(), getProcessMgr_instance(servletContext).getFirmmmaping());
+//
+//
+//    }
 
 
     public void fill_raw_yeild_data() {
         Map<String, Firm> firmmaping = getFirmmmaping();
+        OracleMESdb_Access_Data.get_Raw_yield(firmmaping);
+    }
 
-        OracleMESdb_Access_Date.get_Raw_yield(servletContext, OracleMESDB.getConnection(servletContext), firmmaping);
+
+    public void fill_fired_yeild(){
+
+        Map<String, Firm> firmmaping=getFirmmmaping();
+        OracleMESdb_Access_Data.fill_Fired_yield(firmmaping);
+
+
 
     }
 
 
     public void fill_raw_02fineness_data() {
         Map<String, Firm> firmmaping = getFirmmmaping();
-
-        OracleMESdb_Access_Date.get_Raw_02Fineness(servletContext, OracleMESDB.getConnection(servletContext), firmmaping);
-
+        OracleMESdb_Access_Data.get_Raw_02Fineness(OracleMESDB.get212Connection(), firmmaping);
     }
 
 
@@ -217,12 +224,11 @@ public class ProcessMgr {
     }
 
 
-
     public Map<String, CementSystem> get_CementmapingClone() {
         try {
             Map<String, CementSystem> cementmapping = new HashMap<String, CementSystem>();
-            for(Firm firm:firmmmaping.values()){
-                for(DefaultProductline productline:firm.getProductlinemapping().values()){
+            for (Firm firm : firmmmaping.values()) {
+                for (DefaultProductline productline : firm.getProductlinemapping().values()) {
                     cementmapping.putAll(productline.getCementSystemmapping());
                 }
             }
@@ -318,7 +324,7 @@ public class ProcessMgr {
     }
 
 
-    public List<AlarmMessage> get_oldalarmhistory(Date start, Date end, String processtype,ServletContext servletContext) {
+    public List<AlarmMessage> get_oldalarmhistory(Date start, Date end, String processtype, ServletContext servletContext) {
         return Mysql_Access_Data.get_oldalarmhistory(servletContext, MysqlDB.getConnection(servletContext), new Timestamp(start.getTime()), new Timestamp(end.getTime()), processtype);
 
 
@@ -333,8 +339,8 @@ public class ProcessMgr {
 
         Quality_data simple_quality_data = new Quality_data();
         Quality_data predict_quality_data = new Quality_data();
-        OracleMESdb_Access_Date.get_simpledata_newst28daystrange(servletContext, OracleMESDB.getConnection(servletContext), simple_quality_data);
-        OracleMESdb_Access_Date.get_newstquality_Pending_prediction(servletContext, OracleMESDB.getConnection(servletContext), predict_quality_data);
+        OracleMESdb_Access_Data.get_simpledata_newst28daystrange(OracleMESDB.get212Connection(), simple_quality_data);
+        OracleMESdb_Access_Data.get_newstquality_Pending_prediction(OracleMESDB.get212Connection(), predict_quality_data);
 
 
         List<Double> predict = new ArrayList<Double>();
@@ -401,7 +407,7 @@ public class ProcessMgr {
 
         }
 
-       logger.info("predict resulit: " + result);
+        logger.info("predict resulit: " + result);
 
         Mysql_Access_Data.save_predict(servletContext, MysqlDB.getConnection(servletContext), predict_quality_data);
 
@@ -414,16 +420,16 @@ public class ProcessMgr {
     public void fill_into_mysqldb_real28Strong() {
         //mysql null 28strong har_produdate
 
-        List<String> list = Mysql_Access_Data.get_nullreal28Strong(servletContext, MysqlDB.getConnection(servletContext));
+        List<String> list = Mysql_Access_Data.get_nullreal28Strong(MysqlDB.getConnection(servletContext));
         //find har_produdate's28Strang
         Map<String, Double> pending_fillinto_mysql_28Strong = null;
         logger.info(list.toString());
-        if (list.size() ==10) {
-            pending_fillinto_mysql_28Strong = OracleMESdb_Access_Date.get_Pending_fillinto_Mysql_28Strong(servletContext, OracleMESDB.getConnection(servletContext), list);
+        if (list.size() == 10) {
+            pending_fillinto_mysql_28Strong = OracleMESdb_Access_Data.get_Pending_fillinto_Mysql_28Strong( OracleMESDB.get212Connection(), list);
         }
 
         //fill null 28 Strong
-        if (pending_fillinto_mysql_28Strong!=null&&pending_fillinto_mysql_28Strong.size() != 0) {
+        if (pending_fillinto_mysql_28Strong != null && pending_fillinto_mysql_28Strong.size() != 0) {
             Mysql_Access_Data.fill_nullreal28Strong(servletContext, MysqlDB.getConnection(servletContext), pending_fillinto_mysql_28Strong);
 
         }
@@ -455,13 +461,13 @@ public class ProcessMgr {
         Quality_data simple_quality_data = new Quality_data();
         Quality_data predict_quality_data = new Quality_data();
 
-        OracleMESdb_Access_Date.get_historyst_quality(servletContext, OracleMESDB.getConnection(servletContext), predict_quality_data, year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day));
+        OracleMESdb_Access_Data.get_historyst_quality(OracleMESDB.get212Connection(), predict_quality_data, year + "-" + (month < 10 ? ("0" + month) : month) + "-" + (day < 10 ? ("0" + day) : day));
 
         String[] delay = Tools.get_next_month_dateSE(year, month, day);
         String start = delay[0];
         String end = delay[1];
 
-        OracleMESdb_Access_Date.get_simple_historyst_quality(servletContext, OracleMESDB.getConnection(servletContext), simple_quality_data, start, end);
+        OracleMESdb_Access_Data.get_simple_historyst_quality(OracleMESDB.get212Connection(), simple_quality_data, start, end);
         List<Double> predict = new ArrayList<Double>();
 
         predict.addAll(predict_quality_data.getLoss());
