@@ -66,7 +66,7 @@ public class RealDateInterceptorImp implements Interceptor {
                         tag.setStoptimestep(Instant.now());
                         return true;
                     } else {
-                        if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getFired_judgerelu() != null) && (defaultProductline.getFiredSepcielTag("回转窑","台时").getValue() < 30)) {//回转窑电流小于30停机
+                        if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getFired_judgerelu() != null) && (defaultProductline.getFiredSepcielTag("回转窑","台时").getValue() < 30)) {
                             tag.setStoptimestep(Instant.now());
                             //这里还是要判断下是否存在从有数字变成0的情况，有，那么需要报警
                             List<Tag4properties> rules=defaultProductline.getFired_judgerelu().get("回转窑");
@@ -74,7 +74,7 @@ public class RealDateInterceptorImp implements Interceptor {
                                 Boolean isAnyConditionMatch=rules.stream().anyMatch(rule->{
                                     if(rule.getMinvalues()!=null&&rule.getMinvalues().size()>=2){
                                         //最新数据为0,且前一个数据不为0
-                                        if(0==rule.getMinvalues().get(0)&&0!=rule.getMinvalues().get(1)){
+                                        if(rule.getMinvalues().get(0)<30&&rule.getMinvalues().get(1)>=30){
                                             return true;
                                         }
                                     }
@@ -105,7 +105,7 @@ public class RealDateInterceptorImp implements Interceptor {
 
                                     if(rule.getMinvalues()!=null&&rule.getMinvalues().size()>=2){
                                         //最新数据为0,且前一个数据不为0
-                                        if(0==rule.getMinvalues().get(0)&&0!=rule.getMinvalues().get(1)){
+                                        if(rule.getMinvalues().get(0)<30&&rule.getMinvalues().get(1)>=30){
                                             return true;
                                         }
                                     }

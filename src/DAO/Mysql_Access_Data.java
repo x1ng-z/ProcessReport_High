@@ -412,11 +412,6 @@ public class Mysql_Access_Data {
                             if (tag4properties.getCn().equals("台时")) {
                                 productline.addFired_judgerelu(tag4properties);
                             }
-
-                            if (tag4properties.getCn().equals("电流1")) {
-                                productline.addFired_judgerelu(tag4properties);
-                            }
-
                         }
 
                     }

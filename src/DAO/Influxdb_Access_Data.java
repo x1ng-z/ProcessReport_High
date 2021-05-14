@@ -78,12 +78,9 @@ public class Influxdb_Access_Data {
                         }
 
                         if (list.get(i) != null) {
-
+//                            tag4properties.setValue((Double) list.get(i));
                             tag4properties.addMinvalues((Double) list.get(i));
-//                                      System.out.println((String)list.get(0)+"--"+(Double) list.get(i));
                             tag4properties.addMindates(Tools.adjustTimeZone((String) list.get(0)));
-//                            System.out.println((Tools.adjustTimeZone((String)list.get(0)))+"");
-
                         }
 
                     }
