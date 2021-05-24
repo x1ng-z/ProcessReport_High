@@ -630,6 +630,8 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                         defaultProductline.addCurrent_envptc_alarm(audioMessage);
                     } else if (needDynamicTag.getProcesstype().equals("cement")) {
                         defaultProductline.addCurrent_cement_alarm(audioMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("power")){
+                        defaultProductline.addCurrent_power_alarm(audioMessage);
                     }
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);
@@ -664,6 +666,8 @@ public class MonitorDefaultDymaticAlarm implements Monitor {
                         defaultProductline.addCurrent_envptc_alarm(alarmMessage);
                     } else if (needDynamicTag.getProcesstype().equals("cement")) {
                         defaultProductline.addCurrent_cement_alarm(alarmMessage);
+                    }else if(needDynamicTag.getProcesstype().equals("power")){
+                        defaultProductline.addCurrent_power_alarm(alarmMessage);
                     }
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);

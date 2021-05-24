@@ -56,26 +56,7 @@ public class Action4Get_RawRealData implements Callable<JSONObject> {
                     String rawsystemno=rawSystem.getRawsystemno();
                     Map<String, Tag4properties> tags=rawSystem.getTagMapping();
                     Map<String,Double> realdatamapping=new HashMap<String,Double>();
-
-//                double kwh=0.0d;
-//                double t=0.0d;
-//                String[] ckwhttag=new String[2];
                     for(Tag4properties tag4properties:tags.values()){
-
-//                    if(tag4properties.getCn().equals("合计功率kw")){
-//                        kwh=tag4properties.getValue();
-//                        ckwhttag[0]=tag4properties.getTag().replace(".","_").replace("-","_");
-//
-//
-//                    }
-//                    if(tag4properties.getCn().equals("喂料量T")){
-//
-//                        t=tag4properties.getValue();
-//                        ckwhttag[1]=tag4properties.getTag().replace(".","_").replace("-","_");
-//
-//
-//                    }
-
                         String tag=tag4properties.getTag();
                         realdatamapping.put(tag.replace(".","_").replace("-","_"),tag4properties.getValue());
 

@@ -70,7 +70,7 @@ public class Tag4properties implements BaseProperties {
     private List<Double> minvalues = new CopyOnWriteArrayList<Double>();
     private List<Date> mindates = new CopyOnWriteArrayList<Date>();
     private double tempchangerate;
-    private String processtype;
+    private String processtype;// cement fired power raw qulity env
     private Integer deviceAlarmJudgmentSrc;//设备的点号是否需要报警的判断点号，如回转窑的电流，没电流就回转窑上的位号都不需要报警了
 
     private int isrunvalide;//运行状态进行报警判断还是停机进行判断

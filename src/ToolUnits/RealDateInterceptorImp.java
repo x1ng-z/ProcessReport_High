@@ -168,8 +168,38 @@ public class RealDateInterceptorImp implements Interceptor {
                     }
                     tag.setRuntimestep(Instant.now());
                 }
-
                 break;
+
+            case "power"://余热发电
+            {
+                if (tag.getIsrunvalide() == 1) {
+                    //开机进行判定
+                    if (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null && (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == 0)) {
+                        tag.setStoptimestep(Instant.now());
+                        return true;
+                    } else {
+                        if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getPower_judgerelu().get(tag.getDevice()) != null) && (defaultProductline.getPower_judgerelu().get(tag.getDevice()).getValue() < 100)) {//汽轮机转速小于100
+                            tag.setStoptimestep(Instant.now());
+                            return true;
+                        }
+                    }
+                    tag.setRuntimestep(Instant.now());
+                } else {
+                    //停机报警判定
+                    if (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) != null && (defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) != 0)) {
+                        tag.setRuntimestep(Instant.now());
+                        return true;
+                    } else {
+                        if ((defaultProductline.findDeviceAlarmjudgeRsc(tag.getDevice()) == null) && (defaultProductline.getPower_judgerelu().get(tag.getDevice()) != null) && (defaultProductline.getPower_judgerelu().get(tag.getDevice()).getValue() > 100)) {//生料磨电流小于5停机
+                            tag.setRuntimestep(Instant.now());
+                            return true;
+                        }
+                    }
+                    tag.setStoptimestep(Instant.now());
+                }
+                break;
+            }
+
             default:
                 break;
         }

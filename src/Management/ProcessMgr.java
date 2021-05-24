@@ -145,11 +145,10 @@ public class ProcessMgr {
     }
 
 
-    public void fill_fired_yeild(){
+    public void fill_fired_yeild() {
 
-        Map<String, Firm> firmmaping=getFirmmmaping();
+        Map<String, Firm> firmmaping = getFirmmmaping();
         OracleMESdb_Access_Data.fill_Fired_yield(firmmaping);
-
 
 
     }
@@ -268,25 +267,26 @@ public class ProcessMgr {
 
 
     public List<AlarmMessage> getCurrent_raw_OAndA() {
-
-
         List<AlarmMessage> raw_operAndAlarm = new ArrayList<AlarmMessage>();
-
         for (Map.Entry<String, Firm> firmEntry : firmmmaping.entrySet()) {
-
 //            firmEntry.getKey();
             Firm firm = firmEntry.getValue();
             for (Map.Entry<String, DefaultProductline> productlineEntry : firm.getProductlinemapping().entrySet()) {
-
                 raw_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_raw_operate());
                 raw_operAndAlarm.addAll(productlineEntry.getValue().getCurrent_raw_alarm());
             }
-
-
         }
-
-
         return raw_operAndAlarm;
+    }
+
+    public List<AlarmMessage> getCurrentPowerOperateAndAlarm() {
+        List<AlarmMessage> power_operAndAlarm = new ArrayList<AlarmMessage>();
+        firmmmaping.values().forEach(f -> {
+            f.getProductlinemapping().values().forEach(p -> {
+                power_operAndAlarm.addAll(p.getCurrent_power_alarm());
+            });
+        });
+        return power_operAndAlarm;
     }
 
 
@@ -425,7 +425,7 @@ public class ProcessMgr {
         Map<String, Double> pending_fillinto_mysql_28Strong = null;
         logger.info(list.toString());
         if (list.size() == 10) {
-            pending_fillinto_mysql_28Strong = OracleMESdb_Access_Data.get_Pending_fillinto_Mysql_28Strong( OracleMESDB.get212Connection(), list);
+            pending_fillinto_mysql_28Strong = OracleMESdb_Access_Data.get_Pending_fillinto_Mysql_28Strong(OracleMESDB.get212Connection(), list);
         }
 
         //fill null 28 Strong

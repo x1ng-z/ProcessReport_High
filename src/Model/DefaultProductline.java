@@ -24,10 +24,16 @@ public class DefaultProductline implements Productline {
     //质量报警
     private ConcurrentLinkedQueue<AlarmMessage> current_quality_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
     private ConcurrentLinkedQueue<AlarmMessage> current_envptc_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
+
+    //余热发电
+    private ConcurrentLinkedQueue<AlarmMessage> current_power_alarm = new ConcurrentLinkedQueue<AlarmMessage>();
+
     //保存用于判断是否需要报警的依据位号，key=device名称
     private Map<String, Tag4properties> raw_judgerelu = new HashMap<>();//用于判定是否需要判断报警，生料磨机电流为0，不需要判断
-    private Map<String,List<Tag4properties>> fired_judgerelu=new HashMap<>();//用于判定是否需要判断报警，回转窑电流为0，不需要判断
+    private Map<String, List<Tag4properties>> fired_judgerelu = new HashMap<>();//用于判定是否需要判断报警，回转窑电流为0，不需要判断
     private Map<String, Tag4properties> cement_judgerelu = new HashMap<>();
+    private Map<String, Tag4properties> power_judgerelu = new HashMap<>();//余热发电
+
 
     /**
      * 用于保存设备是否需要报警判断位号、如：位号的设备名称：辊压机，且deviceAlarmJudgmentSrc是为1的，那么意思就是辊压机的位号
@@ -45,15 +51,19 @@ public class DefaultProductline implements Productline {
     private Map<String, CementSystem> cementSystemmapping;
     //质量系统
     private Map<String, Tag4properties> qulityTags = new HashMap<>();
+    //余热发电
+    private Map<String, PowerSystem> powerSystemmapping;
 
     @Override
     public void addDeviceAlarmjudgeRsc(String deviceName, Tag4properties tag) {
         deviceAlarmjudgeRsc.put(deviceName, tag);
     }
+
     @Override
     public void removeDeviceAlarmjudgeRsc(String deviceName) {
         deviceAlarmjudgeRsc.remove(deviceName);
     }
+
     @Override
     public Double findDeviceAlarmjudgeRsc(String deviceName) {
         Tag4properties tag = deviceAlarmjudgeRsc.get(deviceName);
@@ -150,6 +160,10 @@ public class DefaultProductline implements Productline {
             alltags.putAll(cementSystem.getTagMapping());//水泥磨
         }
 
+        for (PowerSystem powerSystem : powerSystemmapping.values()) {
+            alltags.putAll(powerSystem.getTagMapping());
+        }
+
 
         return alltags;
     }
@@ -171,6 +185,7 @@ public class DefaultProductline implements Productline {
 
         Map<String, RawSystem> temrawSystemMap = new HashMap<String, RawSystem>();
         Map<String, FiredSystem> temfiredSystem = new HashMap<String, FiredSystem>();
+        Map<String, PowerSystem> tempowerSystem = new HashMap<>();
 
         for (Map.Entry<String, RawSystem> stringRawSystemEntry : rawSystemmapping.entrySet()) {
 
@@ -187,7 +202,10 @@ public class DefaultProductline implements Productline {
         }
         tempproduct.setFiredSystemmapping(temfiredSystem);
 
-
+        powerSystemmapping.forEach((k, v) -> {
+            tempowerSystem.put(k, v.powerClone());
+        });
+        tempproduct.setPowerSystemmapping(tempowerSystem);
         return tempproduct;
 
     }
@@ -277,14 +295,21 @@ public class DefaultProductline implements Productline {
         current_cement_alarm.add(alarmMessage);
     }
 
+
+    public void addCurrent_power_alarm(AlarmMessage alarmMessage) {
+        while (current_power_alarm.size() > MESSAGESIZE) {
+            current_power_alarm.poll();
+        }
+        current_power_alarm.add(alarmMessage);
+    }
+
+
     public void addCurrent_cement_opt(Operate_Message alarmMessage) {
         while (current_cement_operate.size() > MESSAGESIZE) {
             current_cement_operate.poll();
         }
         current_cement_operate.add(alarmMessage);
     }
-
-
 
 
     public void addCurrent_quality_alarm(AlarmMessage alarmMessage) {
@@ -313,35 +338,34 @@ public class DefaultProductline implements Productline {
     }
 
     @Override
-    public Map<String,List<Tag4properties>> getFired_judgerelu() {
+    public Map<String, List<Tag4properties>> getFired_judgerelu() {
         return fired_judgerelu;
     }
 
 
-    public Tag4properties getFiredSepcielTag(String device,String cn){
-        List<Tag4properties> reluTags=fired_judgerelu.get(device);
-        if(reluTags!=null){
-           List<Tag4properties> rules= reluTags.stream().filter(tag->tag.getCn().equals(cn)).collect(Collectors.toList());
-           if(rules.size()==0){
-               return null;
-           }else {
-               return rules.get(0);
-           }
+    public Tag4properties getFiredSepcielTag(String device, String cn) {
+        List<Tag4properties> reluTags = fired_judgerelu.get(device);
+        if (reluTags != null) {
+            List<Tag4properties> rules = reluTags.stream().filter(tag -> tag.getCn().equals(cn)).collect(Collectors.toList());
+            if (rules.size() == 0) {
+                return null;
+            } else {
+                return rules.get(0);
+            }
         }
         return null;
     }
 
 
-
     @Override
     public void addFired_judgerelu(Tag4properties fired_judgerelu) {
-        List<Tag4properties> list=this.fired_judgerelu.get(fired_judgerelu.getDevice());
-        if(null!=list){
+        List<Tag4properties> list = this.fired_judgerelu.get(fired_judgerelu.getDevice());
+        if (null != list) {
             list.add(fired_judgerelu);
-        }else {
-            list =new ArrayList<>();
+        } else {
+            list = new ArrayList<>();
             list.add(fired_judgerelu);
-            this.fired_judgerelu .put(fired_judgerelu.getDevice(),list);
+            this.fired_judgerelu.put(fired_judgerelu.getDevice(), list);
         }
     }
 
@@ -403,5 +427,30 @@ public class DefaultProductline implements Productline {
 
     public void setMesip(String mesip) {
         this.mesip = mesip;
+    }
+
+    public Map<String, PowerSystem> getPowerSystemmapping() {
+        return powerSystemmapping;
+    }
+
+    public void setPowerSystemmapping(Map<String, PowerSystem> powerSystemmapping) {
+        this.powerSystemmapping = powerSystemmapping;
+    }
+
+    public Map<String, Tag4properties> getPower_judgerelu() {
+        return power_judgerelu;
+    }
+
+    @Override
+    public void addPower_judgerelu(String device, Tag4properties power_judgerelu) {
+        this.power_judgerelu.put(device,power_judgerelu) ;
+    }
+
+    public ConcurrentLinkedQueue<AlarmMessage> getCurrent_power_alarm() {
+        return current_power_alarm;
+    }
+
+    public void setCurrent_power_alarm(ConcurrentLinkedQueue<AlarmMessage> current_power_alarm) {
+        this.current_power_alarm = current_power_alarm;
     }
 }

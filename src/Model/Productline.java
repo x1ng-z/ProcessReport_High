@@ -25,4 +25,7 @@ public interface Productline {
      Map<String, Tag4properties> getCement_judgerelu() ;
 
      void addCement_judgerelu(String device, Tag4properties cement_judgerelu);
+
+    void addPower_judgerelu(String device, Tag4properties power_judgerelu);
+
 }
