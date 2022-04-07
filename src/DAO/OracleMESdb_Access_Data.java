@@ -194,7 +194,10 @@ public class OracleMESdb_Access_Data {
             Map<String, DefaultProductline> productlinemapping = firm.getProductlinemapping();
             for (DefaultProductline defaultProductline : productlinemapping.values()) {
                 for (RawSystem rawSystem : defaultProductline.getRawSystemmapping().values()) {
-                    get_Raw_monthyield(OracleMESDB.get212Connection(), rawSystem);
+                    Optional<Connection> oracleCnn=Optional.ofNullable(OracleMESDB.get212Connection());
+                    if(oracleCnn.isPresent()){
+                        get_Raw_monthyield(OracleMESDB.get212Connection(), rawSystem);
+                    }
                 }
             }
         }

@@ -156,7 +156,10 @@ public class ProcessMgr {
 
     public void fill_raw_02fineness_data() {
         Map<String, Firm> firmmaping = getFirmmmaping();
-        OracleMESdb_Access_Data.get_Raw_02Fineness(OracleMESDB.get212Connection(), firmmaping);
+        Optional<Connection> oraclCnn=Optional.ofNullable(OracleMESDB.get212Connection());
+        if(oraclCnn.isPresent()){
+            OracleMESdb_Access_Data.get_Raw_02Fineness(OracleMESDB.get212Connection(), firmmaping);
+        }
     }
 
 
@@ -339,10 +342,11 @@ public class ProcessMgr {
 
         Quality_data simple_quality_data = new Quality_data();
         Quality_data predict_quality_data = new Quality_data();
-        OracleMESdb_Access_Data.get_simpledata_newst28daystrange(OracleMESDB.get212Connection(), simple_quality_data);
-        OracleMESdb_Access_Data.get_newstquality_Pending_prediction(OracleMESDB.get212Connection(), predict_quality_data);
-
-
+        Optional<Connection> oracleCnn=Optional.ofNullable(OracleMESDB.get212Connection());
+        if(oracleCnn.isPresent()){
+            OracleMESdb_Access_Data.get_simpledata_newst28daystrange(OracleMESDB.get212Connection(), simple_quality_data);
+            OracleMESdb_Access_Data.get_newstquality_Pending_prediction(OracleMESDB.get212Connection(), predict_quality_data);
+        }
         List<Double> predict = new ArrayList<Double>();
 
         predict.addAll(predict_quality_data.getLoss());

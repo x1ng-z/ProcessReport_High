@@ -20,12 +20,14 @@ public class Action4Get_HistoryMoreRealdata implements Callable< JSONObject> {
     private String tagNames;
     private Long time_span;
     private ServletContext servletContext;
+    private Instant endTime;
 
-    public Action4Get_HistoryMoreRealdata(ServletContext servletContext, String measureName, String tagNames, Long time_span) {
+    public Action4Get_HistoryMoreRealdata(ServletContext servletContext, String measureName, String tagNames,Instant endTime, Long time_span) {
         this.measureName = measureName;
         this.tagNames = tagNames;
         this.time_span = time_span;
         this.servletContext=servletContext;
+        this.endTime=endTime;
     }
 
 
@@ -39,8 +41,8 @@ public class Action4Get_HistoryMoreRealdata implements Callable< JSONObject> {
         JSONObject jsonArray=new JSONObject();
         DecimalFormat df=new DecimalFormat("0.0");//设置保留位数
 
-
-        Map<String,List> results=Influxdb_Access_Data.get_sometime(servletContext,measureName,tagNames,Instant.now().minusSeconds(60*time_span),Instant.now());
+        //Instant.now().minusSeconds(60*time_span)
+        Map<String,List> results=Influxdb_Access_Data.get_sometime(servletContext,measureName,tagNames,endTime.minusSeconds(60*time_span),endTime);
 
 
         jsonArray.put("data",results);

@@ -29,6 +29,11 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -116,7 +121,7 @@ public class ActionServlet extends HttpServlet {
         FiredSystem_QulityData firedSystem_qulityData = new FiredSystem_QulityData(servletContext, 1 * 60 * 60 * 1000);
         Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firedSystem_qulityData.getPeriodtime(), firedSystem_qulityData));
 
-        int firedyieldfirstdelay = Tools.getfirstupdate(7, 40, 0);
+        int firedyieldfirstdelay = Tools.getfirstupdate(7, 30, 0);
         FiredSystem_output firedSystem_output = new FiredSystem_output(servletContext, 1 * 24 * 60 * 60 * 1000);
         Service_Executor4Periodtask.getExecutor_periodtask(servletContext).getQueue().put(new Carrior4periodtask(firedyieldfirstdelay, firedSystem_output));
 
@@ -546,17 +551,44 @@ public class ActionServlet extends HttpServlet {
 
 
         if (method.trim().equals("moredata")) {
-
-            String combox = "";
+            StringJoiner combox=new StringJoiner(",","\"","\"") ;
             for (String test : request.getParameterValues("tagName")) {
-                combox += test + ",";
+                combox.add(test) ;
             }
-
-//            System.out.println(combox.substring(0, combox.length() - 1));
+            Instant endTime=null;
+            DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
             String measurement = request.getParameter("measurement");
             Long timespan = Long.valueOf(request.getParameter("timespan"));
 
-            Future<JSONObject> results = requestexec.submit(new Action4Get_HistoryMoreRealdata(getServletContext(), measurement, combox.substring(0, combox.length() - 1), timespan));
+            String paraEndTime=Optional.ofNullable(request.getParameter("endTime")).orElseGet(()->{
+                LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC"));
+                return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            });
+
+            try {
+                endTime=LocalDateTime.parse(paraEndTime,dateTimeFormatter).toInstant(ZoneOffset.UTC);
+            } catch (Exception e) {
+                logger.error("time parse error.time context="+paraEndTime);
+
+                response.setContentType("text/json; charset=UTF-8");
+                response.setHeader("Cache-Control", "no-store"); //HTTP1.1
+                response.setHeader("Pragma", "no-cache"); //HTTP1.0
+                response.setDateHeader("Expires", 0);
+                PrintWriter out = response.getWriter();
+                JSONObject outContext=new JSONObject();
+                outContext.put("message","time parse error.time context="+paraEndTime);
+                outContext.put("status",500);
+                out.print(outContext.toString());
+                return;
+            }
+            Instant a=Instant.now();
+//            Future<JSONObject> results = requestexec.submit();
+            try {
+                new Action4Get_HistoryMoreRealdata(getServletContext(), measurement, combox.toString(), endTime,timespan).call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Future<JSONObject> results = requestexec.submit(new Action4Get_HistoryMoreRealdata(getServletContext(), measurement, combox.toString(), endTime,timespan));
             response.setContentType("text/json; charset=UTF-8");
             response.setHeader("Cache-Control", "no-store"); //HTTP1.1
             response.setHeader("Pragma", "no-cache"); //HTTP1.0
@@ -568,9 +600,11 @@ public class ActionServlet extends HttpServlet {
                     out.print(resjson.toString());
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("moredata 执行异常");
             } catch (ExecutionException e) {
-                e.printStackTrace();
+                logger.error("moredata 执行异常");
+            }catch (Exception e){
+                logger.error("moredata 执行异常");
             }
         }
 
