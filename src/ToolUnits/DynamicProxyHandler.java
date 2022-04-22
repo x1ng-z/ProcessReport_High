@@ -52,16 +52,10 @@ public class DynamicProxyHandler implements InvocationHandler {
 
             obj.after(proxy,target,method,args);
 
-        } catch (InstantiationException e) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NullPointerException e) {
             logger.error(e);
-        } catch (IllegalAccessException e) {
-            logger.error(e);
-        } catch (ClassNotFoundException e) {
-            logger.error(e);
-        }catch (NullPointerException e){
-            logger.error(e);
-//            System.out.println(((Tag4properties)target).getValue()+((Tag4properties)target).getTag()+((Tag4properties)target).getCn());
-        }
+        } //            System.out.println(((Tag4properties)target).getValue()+((Tag4properties)target).getTag()+((Tag4properties)target).getCn());
+
         return result;
 
     }

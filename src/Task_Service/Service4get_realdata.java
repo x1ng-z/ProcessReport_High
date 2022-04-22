@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 实时数据更新类
+ * */
 public class Service4get_realdata {
     private static Logger logger=Logger.getLogger(Service4get_realdata.class);
     private static final int EXECTE_RATIO = 3;
@@ -41,7 +44,8 @@ public class Service4get_realdata {
             for (DefaultProductline defaultProductline : productlinemapping.values()) {
                 works.add(new Updatetask(defaultProductline));//烧成、生料、粉磨实时数据更新
                 if((defaultProductline.getQulityTags()!=null)&&(defaultProductline.getQulityTags().size()!=0)){//质量数据获取
-                    works.add(new Updatetask(defaultProductline, defaultProductline.getQulityTags(),1*60*60,24*60*60,false,0));
+                    //质量数据实时更新。判断
+                    works.add(new Updatetask(defaultProductline, defaultProductline.getQulityTags(),3*60*60,24*60*60,false,0));
                 }
                 if(defaultProductline.getFiredSystemmapping()!=null){
                     for(FiredSystem firedSystem: defaultProductline.getFiredSystemmapping().values()){
